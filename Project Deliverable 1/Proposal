@@ -8,9 +8,13 @@ Elisabeth Vargas - Student # 66060229
 Muskaan Sandhu - Student # 19574540 
 Kevin Ruan - Student # 83066985
 
-##Project Description and Details:
+Project Description and Details:
 We are going to undertake the Grocery Price Tracker project. We hope to provide a resource to
 Canadians struggling with inflation, allowing them to maximize their purchasing power per dollar.
-At a minimum, we will be allowing users to register for an account, receive email updates for items of their choice, and comment on items. We will be using data from major grocery retailers across Canada, or if we cannot access real data, we will be simulating data for stores across the country. The website will have the functionality to compare similar items from different stores, and generate simple, easy-to-read charts that show a specific item’s price history. Items will be searchable by keyword and category. Users will be able to input their current location and see grocery stores near them. Unregistered users will have access to basic features of the website, excluding the ability to comment, receive alerts, or see item details.
+At a minimum, we will be allowing users to register for an account, receive email updates for items of their choice, and comment on items. 
+We will be using data from major grocery retailers across Canada, or if we cannot access real data, we will be simulating data for stores across the country. 
+The website will have the functionality to compare similar items from different stores, and generate simple, easy-to-read charts that show a specific item’s price history. 
+Items will be searchable by keyword and category. 
+Users will be able to input their current location and see grocery stores near them. Unregistered users will have access to basic features of the website, excluding the ability to comment, receive alerts, or see item details.
   
 Administrators will be able to manually change price data, search for users by name, email or post, enable or disable users and edit or remove user’s posts.
