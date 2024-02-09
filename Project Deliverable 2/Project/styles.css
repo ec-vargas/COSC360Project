@@ -1,0 +1,52 @@
+html, body, header, footer, hgroup, nav, article, section, figure, figcaption, h1, h2, h3, ul, li, body, div, p, img {
+    margin : 0;
+    padding : 0;
+    font-size : 100%;
+    vertical-align : baseline;
+    border : 0;
+}
+
+body {
+    background-color: rgb(96, 105, 92);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+header, footer{
+    background-color:rgb(171, 223, 117);
+}
+
+header {
+    padding: 1em;
+    padding-left: 2em;
+    font-size: 25px;
+}
+
+div {
+    background-color: rgb(214, 249, 221);
+    margin: 1em;
+    height: 30em;
+}
+
+p{
+    padding-top: 5em;
+    padding-left: 8em;
+
+}
+a{
+    background-color: rgb(96, 105, 92);
+    margin-top: 1em;
+    /* margin-bottom: 3em; */
+    margin-left: 8em;
+    padding: 0.7em;
+    color: white;
+    text-decoration: none;
+    float: left;
+    clear: left;
+}
+
+footer {
+    position: absolute;
+    width: 100%;
+    height: 3em;
+    bottom: 0em;
+}
