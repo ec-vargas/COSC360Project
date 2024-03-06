@@ -3,7 +3,7 @@
 
 <head lang="en">
     <meta charset="utf-8">
-    <title>Home Page</title>
+    <title>Login Page</title>
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/style.css" />
     <h1>GroceryPricer.ca</h1>
@@ -12,9 +12,15 @@
 
 <body>
     <h2>Welcome Back, Saver</h2>
-    <label for="email">Email Address: </label>
-    <input type="email" id="email" name="email" required>
-    <button class="homebutton" type="button">Sign In</button>
+
+    <form action="php/process.php" method="GET">
+        <!-- this will need to be changed to send info somewhere -->
+        <label for="email">Email Address: </label>
+        <input type="email" id="email" name="email" required>
+        <label for="password">Password: </label>
+        <input type="password" id="password" name="password" required>
+        <button class="homebutton" type="button">Sign In</button>
+    </form>
 </body>
 
 </html>
