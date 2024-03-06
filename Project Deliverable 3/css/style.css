@@ -1,3 +1,8 @@
+body {
+    font-family: Tahoma, Helvetica, sans-serif;
+    font-size: 0.9em;
+}
+
 .homebutton {
     border: 0;
     line-height: 2.5;
@@ -7,4 +12,8 @@
     color: #090909;
     border-radius: 10px;
     background-color: rgb(255, 246, 246);
+}
+
+.homebutton:hover {
+    background-color: #e67700;
 }
