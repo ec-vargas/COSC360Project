@@ -3,6 +3,13 @@ body {
     font-size: 0.9em;
 }
 
+h1,
+h2 {
+    color: #000;
+    font-style: thin;
+    font-size: 1.5 rem;
+}
+
 .homebutton {
     border: 0;
     line-height: 2.5;
@@ -16,5 +23,5 @@ body {
 }
 
 .homebutton:hover {
-    background-color: #e67700;
+    background-color: #1fe600;
 }

@@ -12,4 +12,27 @@
     <hr>
 </head>
 
+<body>
+    <h2> Sign Up</h2>
+
+    <form action="php/process.php" method="GET">
+        <!-- this will need to be changed to send info somewhere -->
+        <label for="name">First and Last Name: </label>
+        <input type="name" id="name" name="name" required>
+
+        <label for="email">Email: </label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="password">Password: </label>
+        <input type="password" id="password" name="password" required>
+
+        <label for="password">Confirm Password: </label>
+        <input type="password" id="password" name="password" required>
+        <!--Must match Password-->
+
+        <button class="homebutton" type="button">Sign Up</button>
+    </form>
+    <hr>
+</body>
+
 </html>
