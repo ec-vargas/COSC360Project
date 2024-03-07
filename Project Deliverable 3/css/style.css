@@ -20,6 +20,7 @@ h2 {
     color: #090909;
     border-radius: 10px;
     background-color: rgb(255, 246, 246);
+    display: block;
 }
 
 .homebutton:hover {
