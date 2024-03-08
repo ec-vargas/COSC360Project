@@ -21,8 +21,62 @@ h2 {
     border-radius: 10px;
     background-color: rgb(255, 246, 246);
     display: block;
+    /* display each button on a new line */
 }
 
 .homebutton:hover {
     background-color: #1fe600;
+}
+
+.signout {
+    border: 0;
+    line-height: 2.5;
+    padding: 0 10px;
+    font-size: 1.25rem;
+    text-align: center;
+    text-decoration: none;
+    color: #090909;
+    border-radius: 5px;
+    background-color: rgb(255, 246, 246);
+    display: block;
+}
+
+.signout:hover {
+    background-color: red;
+}
+
+#message {
+    display: none;
+    background: #f1f1f1;
+    color: #000;
+    position: relative;
+    padding: 20px;
+    margin-top: 10px;
+}
+
+#message p {
+    padding: 10px 35px;
+    font-size: 18px;
+}
+
+/* Add a green text color and a checkmark when the requirements are right */
+.valid {
+    color: green;
+}
+
+.valid:before {
+    position: relative;
+    left: -35px;
+    content: "&#10004;";
+}
+
+/* Add a red text color and an "x" icon when the requirements are wrong */
+.invalid {
+    color: red;
+}
+
+.invalid:before {
+    position: relative;
+    left: -35px;
+    content: "&#10006;";
 }
