@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Product Search Page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .search-bar {
+            margin-bottom: 10px;
+        }
+
+        .search-options {
+            margin-bottom: 10px;
+        }
+
+        .top-products-list {
+            margin-left: 10px;
+            width: 80%;
+            /* Set the width of the container */
+            overflow-x: auto;
+            /* Enable horizontal scrolling */
+            white-space: nowrap;
+            /* Prevent wrapping of child elements */
+            border: 1px solid #ccc;
+            /* Optional: Add border for visual clarity */
+        }
+
+        .item {
+            display: inline-block;
+            /* Display child elements in a row */
+            width: 100px;
+            /* Set the width of each item */
+            height: 100px;
+            /* Set the height of each item */
+            background-color: #f0f0f0;
+            /* Optional: Add background color for visual clarity */
+            margin: 5px;
+            /* Optional: Add margin between items */
+        }
+    </style>
+</head>
+
+<body>
+    <h1>GroceryPricer.ca</h1>
+    <hr>
+    <h2>Welcome to GroceryPrice Tracker</h2>
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search...">
+        <button onclick="searchItems()">Search</button>
+    </div>
+
+    <div class="search-options">
+        <input type="radio" id="keywordOption" name="searchOption" value="keyword" checked>
+        <label for="keywordOption">Search by Keyword</label>
+        <input type="radio" id="categoryOption" name="searchOption" value="category">
+        <label for="categoryOption">Search by Category</label>
+    </div>
+
+    <div>
+        <h2>Top Products Today</h2>
+        <div class="top-products-list">
+            <!--???-->
+            <p>Item 1</p>
+            <p>Item 2</p>
+        </div>
+    </div>
+    <hr>
+    <footer>
+        <p><i>Copyright &#169; 2024 Sandhu, Ruan and Vargas </i></p>
+    </footer>
+
+    <script>
+        $(document).ready(function () {
+            // Make AJAX request to fetch top products
+            $.ajax({
+                url: '/api/top-products',
+                //THIS NEEDS TO BE CHANGED to our server-side-logic page
+
+                type: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    // Process response and update HTML
+                    displayTopProducts(response);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching top products:', error);
+                }
+            });
+
+            function displayTopProducts(products) {
+                // Clear existing content
+                $('#top-products-list').empty();
+
+                // Iterate over products and create HTML elements to display them
+                for (var i = 0; i < products.length; i++) {
+                    var product = products[i];
+                    var listItem = '<div>' + product.name + ' (Searched ' + product.searchCount + ' times)</div>';
+                    $('#top-products-list').append(listItem);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
