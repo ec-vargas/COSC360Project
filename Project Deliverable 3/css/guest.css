@@ -1,0 +1,29 @@
+/* body {
+    font-family: Tahoma, Helvetica, sans-serif;
+    font-size: 0.9em;
+} */
+h1 {
+    font-family: Tahoma, Helvetica, sans-serif;
+}
+body h2 {
+    color: #000;
+    font-style: thin;
+    font-size: 1.5em;
+}
+
+.homebutton {
+    border: 0;
+    line-height: 2.5;
+    padding: 0 20px;
+    font-size: 1.25rem;
+    text-align: center;
+    text-decoration: none;
+    color: #090909;
+    border-radius: 10px;
+    background-color: rgb(255, 246, 246);
+    display: block;
+}
+
+.homebutton:hover {
+    background-color: #1fe600;
+}

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="utf-8">
+    <title>Find User - Admin Panel</title>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+
+        /* Left align the headings starting from h2 */
+        h2 {
+            text-align: left;
+            margin-bottom: 10px; /* Adjust margin as needed */
+            color: #3CB371; /* Green color */
+        }
+        
+        #home {
+            position: absolute; /* Position relative to the body */
+            top: 10px; /* Distance from top */
+            right: 10px; /* Distance from right */
+            padding: 10px 20px; /* Adjust padding */
+            background-color: #3CB371; /* Green color */
+            border: none; /* Remove border */
+            border-radius: 5px; /* Rounded corners */
+            font-size: 16px; /* Font size */
+            cursor: pointer; /* Cursor style */
+            color: white; /* Text color */
+        }
+
+        /* Style for the "Admin Home" button text */
+        #home span {
+            vertical-align: middle; /* Align text vertically */
+        }
+        
+        hr {
+            border-color: #3CB371; /* Green color */
+        }
+        
+        footer {
+            color: #3CB371; /* Green color */
+            background-color: rgb(171, 223, 117); /* Green color */
+            padding: 1em;
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+        }
+        
+        body {
+            background-color: rgb(96, 105, 92);
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+    
+        h1, h2, section {
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        
+        button:hover {
+            background-color: #1fe600;
+        }
+
+        section {
+            height: 200px;
+            width: 600px;
+            background-color: rgb(171, 223, 117);
+        }
+        .UserActions {
+            display: inline;
+            margin-left: 15px;
+            margin-top: 10px;
+            padding: 0 20px;
+            border-radius: 5px;
+        }
+        button {
+            border: 0;
+            line-height: 1.65;
+            padding: 0 20px;
+            font-size: 1rem;
+            text-align: center;
+            text-decoration: none;
+            color: #090909;
+            border-radius: 10px;
+            background-color: rgb(255, 246, 246);
+            display: block;
+            /* display each button on a new line */
+        }
+        #saveChanges {
+            display: block;
+            margin-left: 15px;
+            margin-top: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="home" class="homebutton" onclick="location.href='adminOptions.html'"><span>Admin Home</span></button>
+    <h1>GroceryPricer.ca</h1>
+    <hr>
+    <h2>User Info</h2>
+    <section>
+
+    </section>
+    <button id="RestrictUser" class="UserActions">Restrict User</button>
+    <button id="DeleteUser" class="UserActions">Delete User</button>
+    <button id="ReauthorizeUser" class="UserActions">Reauthorize User</button>
+    <button id="saveChanges">Save Changes</button>
+    <footer>
+        <p><i>Copyright &#169; 2024 Sandhu, Ruan and Vargas </i></p>
+    </footer>
+</body>
+
+</html>
