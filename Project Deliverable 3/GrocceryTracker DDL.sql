@@ -520,6 +520,17 @@ CREATE TABLE `Users` (
   `ProfilePicture` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--Default Admin: ID - 1, Username - Admin, Password - Admin, Email - Admin@ubc.ca 
+CREATE TABLE `Admin` (
+  `AdminID` int(11) NOT NULL,
+  `AdminUserType` varchar(50) DEFAULT NULL,
+  `AdminUsername` varchar(50) NOT NULL,
+  `AdminPassword` varchar(100) NOT NULL,
+  `AdminEmail` varchar(100) NOT NULL,
+  `RegistrationDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `ProfilePicture` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Indexes for dumped tables
 --
