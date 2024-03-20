@@ -508,7 +508,7 @@ INSERT INTO `Stores` (`StoreID`, `StoreName`, `Location`, `StorePhoto`) VALUES
 
 --
 -- Table structure for table `Users`
---
+-- DEFAULT USER: USERID - 1, Username - COSC360, Password - COSC360, Email - COSC360@ubc.ca
 
 CREATE TABLE `Users` (
   `UserID` int(11) NOT NULL,
