@@ -5,96 +5,14 @@
     <meta charset="utf-8">
     <title>Find User - Admin Panel</title>
     <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/AdminStyleSheets.css" />
     <style>
-        /* Center the sections */
-        section {
-            text-align: center;
-            margin: 20px auto; /* Adjust margin for centering */
-            max-width: 600px; /* Limit the maximum width */
-        }
-
-        /* Style for the search button */
-        #search-button {
-            margin-top: 20px; /* Adjust margin as needed */
-            display: block; /* Make button display as block to occupy full width */
-            margin-left: auto; /* Move button to right */
-            margin-right: auto; /* Move button to left */
-            background-color: #3CB371; /* Green color */
-            color: white; /* Text color */
-            border: none; /* Remove border */
-            padding: 10px 20px; /* Adjust padding */
-            border-radius: 5px; /* Rounded corners */
-            font-size: 16px; /* Font size */
-            cursor: pointer; /* Cursor style */
-        }
-
-        /* Style for the text input boxes */
-        .search-form-container input[type="text"] {
-            width: 80%; /* Adjust width as needed */
-            padding: 10px; /* Adjust padding as needed */
-            margin-bottom: 10px; /* Adjust margin as needed */
-            border: 1px solid #3CB371; /* Green border */
-            border-radius: 5px; /* Rounded corners */
-        }
-
-        /* Left align the headings starting from h2 */
-        h2 {
-            text-align: left;
-            margin-bottom: 10px; /* Adjust margin as needed */
-            color: #3CB371; /* Green color */
-        }
-        
-        #home {
-            position: absolute; /* Position relative to the body */
-            top: 10px; /* Distance from top */
-            right: 10px; /* Distance from right */
-            padding: 10px 20px; /* Adjust padding */
-            background-color: #3CB371; /* Green color */
-            border: none; /* Remove border */
-            border-radius: 5px; /* Rounded corners */
-            font-size: 16px; /* Font size */
-            cursor: pointer; /* Cursor style */
-            color: white; /* Text color */
-        }
-
-        /* Style for the "Admin Home" button text */
-        #home span {
-            vertical-align: middle; /* Align text vertically */
-        }
-        
-        hr {
-            border-color: #3CB371; /* Green color */
-        }
-        
-        footer {
-            color: #3CB371; /* Green color */
-            background-color: rgb(171, 223, 117); /* Green color */
-            padding: 1em;
-            position: relative;
-            width: 100%;
-            bottom: 0;
-            margin-bottom: 0px;
-        }
-        
-        body {
-            background-color: rgb(96, 105, 92);
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-        }
         
         h1,h2,button {
             margin-left: 20px;
         }
-        a {
-            background-color: rgb(96, 105, 92);
-            margin-top: 1em;
-            margin-left: 8em;
-            padding: 0.7em;
-            color: white;
-            text-decoration: none;
-            float: left;
-            clear: left;
-        }
-        button {
+
+        #button {
             border: 0;
             line-height: 1.65;
             padding: 0 20px;
@@ -105,10 +23,9 @@
             border-radius: 10px;
             background-color: rgb(255, 246, 246);
             display: block;
-            /* display each button on a new line */
         }
         
-        button:hover {
+        #button:hover {
             background-color: #1fe600;
         }
 
@@ -119,27 +36,15 @@
             width: 200px;
             display: inline-block;
         }
-        #button {
-            margin-bottom: 10px;
-        }
-        h1 {
-            margin-left: 20px;
-            margin-top: 10px;
-        }
-
-        h1, h2 {
-            font-size: 25px;
-        }
     </style>
 </head>
 
 <body>
     <button id="home" class="homebutton" onclick="location.href='adminOptions.html'"><span>Admin Home</span></button>
     <h1>GroceryPricer.ca</h1>
-    <hr>
+    <hr id="tophr">
 
-    <h2>Results for Advanced Search</h2>
-    <Button id ="button" onclick="location.href='adminFindItems.html'">Back to Search</Button>
+    
 
     <?php
         $contains;
@@ -149,6 +54,8 @@
         if (isset($_POST["contains"])) {
             $contains = $_POST["contains"];
         }
+        echo "<h2>Results for Advanced Search '".$contains."'</h2>";
+        echo "<Button id ='button' onclick=\"location.href='adminFindItems.html'\">Back to Search</Button>";
         if (isset($_POST["does-not-contain"])) {
             $doesnotcontain = $_POST["does-not-contain"];
         }
@@ -195,7 +102,7 @@
                         if (!empty($_POST["store-name"])) {
                             if (!(strpos(strtoupper($row['StoreName']), strtoupper($store)) !== false)) {continue;}
                         }
-                        echo "<div><img src='".$row['Photo']."' width = 200px height = 200px><br>".$row['ProductName']."</div>";
+                        echo "<div><a href='adminChangePriceData.html'><img src='".$row['Photo']."' width = 200px height = 200px></a><br>".$row['ProductName']."</div>";
                     }
             }
             } else {
@@ -218,7 +125,7 @@
                         if (!empty($_POST["store-name"])) {
                             if (!(strpos(strtoupper($row['StoreName']), strtoupper($store)) !== false)) {continue;}
                         }
-                        echo "<div><img src='".$row['Photo']."' width = 200px height = 200px><br>".$row['ProductName']."</div>";
+                        echo "<div><a href='adminChangePriceData.php?ProductID=".$row['ProductID']."'><img src='".$row['Photo']."' width = 200px height = 200px></a><br>".$row['ProductName']."</div>";
                     }
             }
         }
