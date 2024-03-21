@@ -8,6 +8,7 @@ h2 {
     color: #000;
     font-style: thin;
     font-size: 1.5 rem;
+    margin-left: 20% !important;
 }
 
 .homebutton {
@@ -15,13 +16,13 @@ h2 {
     line-height: 2.5;
     padding: 0 10px;
     font-size: 1.25rem;
-    text-align: center;
     text-decoration: none;
     color: #090909;
     border-radius: 10px;
     background-color: rgb(255, 246, 246);
-    display: block;
-    /* display each button on a new line */
+    display: inline-block;
+    margin: 10px auto;
+    /* Center the buttons horizontally */
 }
 
 .homebutton:hover {

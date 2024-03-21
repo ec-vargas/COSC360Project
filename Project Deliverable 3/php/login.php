@@ -1,5 +1,7 @@
 <?php
 session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -27,22 +29,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        // Inside the if condition where password_verify() is called
-        if (password_verify($password, $row['password'])) {
+
+        if (password_verify($password, $row['Password'])) {
             // Password is correct, set up session
             $_SESSION['username'] = $username;
-            header("Location:../login.html"); // Redirect to welcome page after successful login
-            //exit();
+
+            header("Location:../main.html");
+            $conn->close();
+            exit();
         } else {
-            // Debugging: Echo or log the hashed passwords for comparison
-            echo "Hash from DB: " . $row['password'] . "<br>";
-            echo "Hash from input: " . password_hash($password, PASSWORD_DEFAULT) . "<br>";
-            // Invalid password
-            header("Location: ../login.html?error=Invalid password");
+            // Redirect to login page with error message
+            header("Location: login.php?error=Invalid password");
+            $conn->close();
             exit();
         }
+    } else {
+        // Redirect to login page with error message
+        header("Location: login.php?error=User not found");
+        $conn->close();
+        exit();
     }
-
-    $conn->close();
-
 }

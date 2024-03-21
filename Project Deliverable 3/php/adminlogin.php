@@ -27,7 +27,7 @@
 
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
-            // Compare plaintext passwords
+
             if ($password === $row['AdminPassword']) {
                 // Password is correct, set up session
                 $_SESSION['AdminUsername'] = $username;
