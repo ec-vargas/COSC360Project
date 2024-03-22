@@ -44,6 +44,7 @@
             float: left;
             margin-right: 10px;
         }
+
     </style>
 </head>
 
@@ -52,24 +53,39 @@
     <h1>GroceryPricer.ca</h1>
     <hr id="tophr">
 
-    <h2>Results for Advanced Search</h2>
-    <Button id ="button" onclick="location.href='adminFindUser.html'">Back to Search</Button>
-
     <?php
+        $contains;
+        $doesnotcontain;
+        $category;
+        $email;
         $firstname;
         $lastname;
-        $email;
-        $location;
         $start;
         $end;
-        if (isset($_POST["First"])) {
-            $firstname = $_POST["First"];
+        if (isset($_POST["contains"])) {
+            $contains = $_POST["contains"];
         }
-        if (isset($_POST["Last"])) {
-            $lastname = $_POST["Last"];
+        if (empty($_POST["contains"])) {
+            echo "<h2>Results for Advanced Search ''</h2>";
+        } else {
+            echo "<h2>Results for Advanced Search '".$contains."'</h2>";
+        }
+        
+        echo "<Button id ='button' onclick=\"location.href='adminFindPost.html'\">Back to Search</Button>";
+        if (isset($_POST["does-not-contain"])) {
+            $doesnotcontain = $_POST["does-not-contain"];
+        }
+        if (isset($_POST["tags"])) {
+            $category = $_POST["tags"];
         }
         if (isset($_POST["Email"])) {
             $email = $_POST["Email"];
+        }
+        if (isset($_POST["firstname"])) {
+            $firstname = $_POST["firstname"];
+        }
+        if (isset($_POST["lastname"])) {
+            $lastname = $_POST["lastname"];
         }
         if (isset($_POST["start"])) {
             $start = $_POST["start"];
@@ -77,10 +93,6 @@
         if (isset($_POST["end"])) {
             $end = $_POST["end"];
         }
-        if (isset($_POST["location"])) {
-            $location = $_POST["location"];
-        }
-        
         $host = "localhost";
         $database = "cosc360";
         $user = "83066985";
@@ -96,37 +108,43 @@
         }
         else
         {
-            $sql = "SELECT * FROM users;";
+            $sql = "SELECT * FROM users JOIN comments on users.UserID = comments.UserID;";
 
             $results = mysqli_query($connection, $sql);
             while ($row = mysqli_fetch_assoc($results))
             {
+                if (!empty($_POST["contains"])) {
+                    if (!(strpos(strtoupper($row['Comment']), strtoupper($contains)) !== false)) {continue;}
+                }
+                if (!empty($_POST["doesnotcontain"])) {
+                    if (strpos(strtoupper($row['Comment']), strtoupper($doesnotcontain)) !== false) {continue;}
+                }
                 if (!empty($_POST["firstname"])) {
-                    if (!(strpos(strtoupper($row['FirstName']), strtoupper($first)) !== false)) {continue;}
+                    if (!(strpos(strtoupper($row['FirstName']), strtoupper($firstname)) !== false)) {continue;}
                 }
                 if (!empty($_POST["lastname"])) {
-                    if (!(strpos(strtoupper($row['LastName']), strtoupper($last)) !== false)) {continue;}
+                    if (!(strpos(strtoupper($row['LastName']), strtoupper($lastname)) !== false)) {continue;}
                 }
                 if (!empty($_POST["Email"])) {
-                    if (!(strpos(strtoupper($row['Email']), strtoupper($email)) !== false)) {continue;}
+                    if (!(strpos(strtoupper($row['email']), strtoupper($email)) !== false)) {continue;}
                 }
-                if (!empty($_POST["location"])) {
-                    if (!(strpos(strtoupper($row['location']), strtoupper($location)) !== false)) {continue;}
+                if (!empty($_POST["tags"])) {
+                    if (!(strpos(strtoupper($row['tags']), strtoupper($category)) !== false)) {continue;}
                 }
                 if (!empty($_POST["start"])) {
-                    if (strtotime($row['RegistrationDate']) < strtotime($start)) {continue;}
+                    if (strtotime($row['commentDate']) < strtotime($start)) {continue;}
                 }
                 if (!empty($_POST["end"])) {
-                    if (strtotime($row['RegistrationDate']) > strtotime($end)) {continue;}
+                    if (strtotime($row['commentDate']) > strtotime($end)) {continue;}
                 }
-                echo "<div><img src='".$row['ProfilePicture']."' width = 150px height = 150px/><p><a href='adminEnableDisableUser.php?email=".$row['Email']."'>".$row['Username']."</a></p><br>";
-                echo "Email: ".$row['Email']."<br><br>";
-                echo "Location: <br><br>";
-                echo "Date joined: ".$row['RegistrationDate']."</div>";
+                echo "<div>Username: <a href='adminEditRemovePost.php?Comment=".$row['Comment']."&UserId=".$row['UserID']."'>".$row['Username']."</a><br>ProductId: ".$row['ProductID']."<br>";
+                echo "Comment: ".$row['Comment']."<br><br>";
+                echo "Comment Date: ".$row['CommentDate']."</div>";
             }
+        
             mysqli_free_result($results);
             mysqli_close($connection);
-        } ?>
+        }?>
 
     <hr>
     <footer>
