@@ -8,25 +8,31 @@ h2 {
     color: #000;
     font-style: thin;
     font-size: 1.5 rem;
-    margin-left: 20% !important;
+    margin-left: 5%;
+}
+
+footer {
+    margin-left: 5%;
 }
 
 .homebutton {
     border: 0;
-    line-height: 2.5;
-    padding: 0 10px;
+    line-height: 3.5;
+    padding: 100 10px;
     font-size: 1.25rem;
-    text-decoration: none;
     color: #090909;
-    border-radius: 10px;
+    border-radius: 5px;
     background-color: rgb(255, 246, 246);
-    display: inline-block;
-    margin: 10px auto;
-    /* Center the buttons horizontally */
+    display: block;
+    margin: 1em;
 }
 
 .homebutton:hover {
-    background-color: #e67300;
+    background-color: #204ae2;
+}
+
+.form-group {
+    margin-left: 5%;
 }
 
 .signout {
@@ -35,7 +41,7 @@ h2 {
     padding: 0 10px;
     font-size: 1.25rem;
     text-align: center;
-    text-decoration: none;
+    margin: 1em;
     color: #090909;
     border-radius: 5px;
     background-color: rgb(255, 246, 246);
@@ -60,7 +66,6 @@ h2 {
     font-size: 18px;
 }
 
-/* Add a green text color and a checkmark when the requirements are right */
 .valid {
     color: green;
 }
@@ -71,7 +76,6 @@ h2 {
     content: "&#10004;";
 }
 
-/* Add a red text color and an "x" icon when the requirements are wrong */
 .invalid {
     color: red;
 }
