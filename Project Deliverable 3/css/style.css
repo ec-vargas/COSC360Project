@@ -6,19 +6,28 @@ body {
 h1,
 h2 {
     color: #000;
-    font-style: thin;
-    font-size: 1.5 rem;
     margin-left: 5%;
+}
+
+h3 {
+    margin-left: 5%;
+    color: darkblue;
 }
 
 footer {
     margin-left: 5%;
 }
 
+head {
+    background-color: grey !important;
+    color: grey;
+}
+
 .homebutton {
     border: 0;
     line-height: 3.5;
     padding: 100 10px;
+    width: 50%;
     font-size: 1.25rem;
     color: #090909;
     border-radius: 5px;
@@ -48,8 +57,18 @@ footer {
     display: block;
 }
 
+.search {
+    border-radius: 5px;
+    width: 70%;
+    margin-left: 1.5%;
+}
+
 .signout:hover {
     background-color: red;
+}
+
+.item {
+    display: inline;
 }
 
 #message {
