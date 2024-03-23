@@ -62,11 +62,8 @@
         $location;
         $start;
         $end;
-        if (isset($_POST["First"])) {
-            $firstname = $_POST["First"];
-        }
-        if (isset($_POST["Last"])) {
-            $lastname = $_POST["Last"];
+        if (isset($_POST["username"])) {
+            $username = $_POST["username"];
         }
         if (isset($_POST["Email"])) {
             $email = $_POST["Email"];
@@ -101,11 +98,8 @@
             $results = mysqli_query($connection, $sql);
             while ($row = mysqli_fetch_assoc($results))
             {
-                if (!empty($_POST["firstname"])) {
-                    if (!(strpos(strtoupper($row['FirstName']), strtoupper($first)) !== false)) {continue;}
-                }
-                if (!empty($_POST["lastname"])) {
-                    if (!(strpos(strtoupper($row['LastName']), strtoupper($last)) !== false)) {continue;}
+                if (!empty($_POST["username"])) {
+                    if (!(strpos(strtoupper($row['Username']), strtoupper($username)) !== false)) {continue;}
                 }
                 if (!empty($_POST["Email"])) {
                     if (!(strpos(strtoupper($row['Email']), strtoupper($email)) !== false)) {continue;}

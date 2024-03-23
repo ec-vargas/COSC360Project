@@ -54,7 +54,6 @@
     <hr id="tophr">
 
     <?php
-<<<<<<< HEAD
         $contains;
         $doesnotcontain;
         $category;
@@ -94,24 +93,6 @@
         $database = "cosc360";
         $user = "83066985";
         $password = "83066985";
-=======
-    $contains;
-    $doesnotcontain;
-    $category;
-    $email;
-    $firstname;
-    $lastname;
-    $start;
-    $end;
-    if (isset ($_POST["contains"])) {
-        $contains = $_POST["contains"];
-    }
-    if (empty ($_POST["contains"])) {
-        echo "<h2>Results for Advanced Search ''</h2>";
-    } else {
-        echo "<h2>Results for Advanced Search '" . $contains . "'</h2>";
-    }
->>>>>>> 394221b678ef2584a9b9c5dfa3cfb3f8b5ef7527
 
     echo "<Button id ='button' onclick=\"location.href='adminFindPost.html'\">Back to Search</Button>";
     if (isset ($_POST["does-not-contain"])) {
@@ -155,7 +136,6 @@
                 if (!(strpos(strtoupper($row['Comment']), strtoupper($contains)) !== false)) {
                     continue;
                 }
-<<<<<<< HEAD
                 if (!empty($_POST["doesnotcontain"])) {
                     if (strpos(strtoupper($row['Comment']), strtoupper($doesnotcontain)) !== false) {continue;}
                 }
@@ -177,8 +157,6 @@
                 echo "<div>Username: <a href='adminEditRemovePost.php?Comment=".$row['Comment']."&UserId=".$row['UserID']."'>".$row['Username']."</a><br>ProductId: ".$row['ProductID']."<br>";
                 echo "Comment: ".$row['Comment']."<br><br>";
                 echo "Comment Date: ".$row['CommentDate']."</div>";
-=======
->>>>>>> 394221b678ef2584a9b9c5dfa3cfb3f8b5ef7527
             }
             if (!empty ($_POST["doesnotcontain"])) {
                 if (strpos(strtoupper($row['Comment']), strtoupper($doesnotcontain)) !== false) {
