@@ -74,9 +74,6 @@
         if (isset($_POST["end"])) {
             $end = $_POST["end"];
         }
-        if (isset($_POST["location"])) {
-            $location = $_POST["location"];
-        }
         
         $host = "localhost";
         $database = "cosc360";
@@ -104,9 +101,6 @@
                 if (!empty($_POST["Email"])) {
                     if (!(strpos(strtoupper($row['Email']), strtoupper($email)) !== false)) {continue;}
                 }
-                if (!empty($_POST["location"])) {
-                    if (!(strpos(strtoupper($row['location']), strtoupper($location)) !== false)) {continue;}
-                }
                 if (!empty($_POST["start"])) {
                     if (strtotime($row['RegistrationDate']) < strtotime($start)) {continue;}
                 }
@@ -115,7 +109,6 @@
                 }
                 echo "<div><img src='".$row['ProfilePicture']."' width = 150px height = 150px/><p><a href='adminEnableDisableUser.php?email=".$row['Email']."'>".$row['Username']."</a></p><br>";
                 echo "Email: ".$row['Email']."<br><br>";
-                echo "Location: <br><br>";
                 echo "Date joined: ".$row['RegistrationDate']."</div>";
             }
             mysqli_free_result($results);

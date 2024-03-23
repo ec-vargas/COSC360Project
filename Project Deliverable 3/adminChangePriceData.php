@@ -1,3 +1,9 @@
+<?php
+$ProductID;
+if (isset($_GET['ProductID'])) {
+    $ProductID = $_GET['ProductID'];
+}
+?>  
 <!DOCTYPE html>
 <html>
 
@@ -8,10 +14,13 @@
     <link rel="stylesheet" href="css/AdminStyleSheets.css" />
     <style>
         section {
-            margin: 20px;
-            padding: 5px;
+            margin: 30px;
+            margin-top: 10px;
+            padding: 10px;
             height: 250px;
             background-color: rgb(171, 223, 117);
+            width: 800px;
+            float: left;
         }
 
         h1,
@@ -31,14 +40,13 @@
             color: #090909;
             border-radius: 10px;
             background-color: rgb(255, 246, 246);
-            display: block;
             margin-top: 10px;
-            margin-left: 340px;
+            margin-left: 10px;
         }
 
         input {
             height: 32px;
-            font-size: 15px;
+            font-size: 20px;
         }
 
         .inline {
@@ -50,16 +58,54 @@
             margin-bottom: 0px;
         }
 
-        #button:hover {
+        #button:hover,#post:hover {
             background-color: #1fe600;
         }
 
         #location {
-            padding-bottom: 3em;
+            padding-bottom: 2em;
         }
 
         footer {
             margin-top: 40px;
+            clear: left;
+        }
+
+        img {
+            float: right;
+            margin-top: 20px;
+            margin-right: 20px;
+        }
+        
+        div {
+            height: 270px;
+            background-color: rgb(171, 223, 117);
+            margin-left:880px;
+            margin-top: 10px;
+            margin-right: 30px;
+        }
+
+        textarea {
+            margin: 25px;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            resize: none;
+        }
+
+        #comments {
+            padding-top: 20px;
+        }
+
+        #post {
+            border: 0;
+            line-height: 1.65;
+            padding: 0 15px;
+            font-size: 1rem;
+            text-align: center;
+            text-decoration: none;
+            color: #090909;
+            border-radius: 10px;
+            background-color: rgb(255, 246, 246);
         }
     </style>
 </head>
@@ -71,10 +117,7 @@
     <h2 class="sheaders">Item Details</h2>
     <section>
         <?php
-
-            $ProductID = $_GET['ProductID'];
             
-
             $host = "localhost";
             $database = "cosc360";
             $user = "83066985";
@@ -102,20 +145,47 @@
                 while ($row = mysqli_fetch_assoc($results))
                     {
                         if ($row['ProductID'] === $ProductID && strtotime($row['PriceDate']) > strtotime(date("Y/m/d"))) {
+                            echo "<img src='".$row['Photo']."' width=200px height=200px>";
                             echo "<h2>Name: ".$row['ProductName']."</h2>";
                             echo "<h2 id='location'>Store Location: ".$row['Location']."</h2>";
-                            echo "<h2>Current Price: ".$previousrow['Price']."</h2>";
+                            echo "<h2>Current Price: $".$previousrow['Price']."</h2>";
                             break;
                         }
                         $previousrow = $row;
                     }
         ?>
-    </section>
     <h2 class="sheaders">Update Price: </h2>
-    <input type="text" class="inline" placeholder="Old Price">
-    <h2 class="inline"> to </h2>
-    <input type="text" class="inline" placeholder="New Price">
-    <Button id="button" onclick="location.href='adminFIndItems.html'">Save Changes</Button>
+    <input type="number" step=".01" class="inline" placeholder="New Price">
+    <Button id="button" >Save Changes</Button>
+    </section>
+    
+    <div>
+        <h2 id="comments">Tell us what you think?</h2>
+        <textarea id="usercomment" rows="8"  placeholder="Add a comment!"></textarea>
+        <Button id="post">Post</Button>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function() {
+
+            $("#post").click(function() {
+                var newcomment = $("#usercomment").val();
+                var ProductId = "<?php echo $ProductID; ?>";
+                $.post("php/createpost.php", { Comment: newcomment , UserId: UserId, ProductId: ProductId}, function() {
+                    alert("Comment added.");
+                });
+            });
+
+            $("#button").click(function() {
+                var newprice = $(".inline").val();
+                var ProductId = "<?php echo $ProductID; ?>";
+                $.post("php/changeprice.php", {ProductId: ProductId, Price: newprice}, function(response) {
+                    alert(response);
+                });
+            });
+
+            });
+        </script>
+    </div>
     <footer>
         <p><i>Copyright &#169; 2024 Sandhu, Ruan and Vargas </i></p>
     </footer>
