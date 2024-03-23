@@ -3,7 +3,7 @@
 
 <head lang="en">
     <meta charset="utf-8">
-    <title>Find User - Admin Panel</title>
+    <title>User Results - Admin Panel</title>
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/AdminStyleSheets.css" />
     <style>

@@ -3,7 +3,7 @@
 
 <head lang="en">
     <meta charset="utf-8">
-    <title>Find Items - Admin Panel</title>
+    <title>Edit Post - Admin Panel</title>
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/AdminStyleSheets.css" />
     <style>
