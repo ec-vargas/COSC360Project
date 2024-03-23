@@ -37,9 +37,9 @@
 <body>
     <div class="container">
         <h2>Search for Stores:</h2>
-        <form method="GET" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-            <label for="searchInput">Search by Store Name:</label>
-            <input type="text" id="searchInput" name="search" placeholder="Enter store name...">
+        <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+            <label for="searchStore">Search by Store Name:</label>
+            <input type="text" id="searchStore" name="searchStore" placeholder="Enter store name...">
             <button type="submit">Search</button>
         </form>
 
@@ -49,51 +49,39 @@
         $user = "root";
         $password = "";
 
-        if(isset($_GET['search'])) {
-            $search = $_GET['search'];
+        $connection = mysqli_connect($host, $user, $password, $database);
 
-            if(!empty($search)) {
-                $connection = mysqli_connect($host, $user, $password, $database);
+        $error = mysqli_connect_error();
+        if($error != null) {
+            $output = "<p>Unable to connect to database!</p>";
+            exit($output);
+        }
 
-                $error = mysqli_connect_error();
-                if($error != null) {
-                    $output = "<p>Unable to connect to database!</p>";
-                    exit($output);
-                } else {
+        if(isset($_POST['searchStore'])) {
+            $searchStore = $_POST['searchStore'];
 
-                    $sql = "SELECT * FROM Stores WHERE StoreName LIKE ?";
+            $sql = "SELECT * FROM Stores WHERE StoreName LIKE '%$searchStore%'";
 
-         
-                    if ($statement = mysqli_prepare($connection, $sql)) {
-                        mysqli_stmt_bind_param($statement, "s", $search);
-                    
-                        mysqli_stmt_execute($statement);
+            $results = mysqli_query($connection, $sql);
 
-                        $results = mysqli_stmt_get_result($statement);
-
-
-                        if (mysqli_num_rows($results) > 0) {
-                            while ($row = mysqli_fetch_assoc($results)) {
-                                echo "<div class='store-info'>";
-                                echo "<h3>Store Name: " . $row["StoreName"] . "</h3>";
-                                echo "<img src='" . $row["StorePhoto"] . "' alt='Store Photo'>";
-                                echo "<p><strong>Location:</strong> " . $row["Location"] . "</p>";
-                                echo "</div>";
-                            }
-                        } else {
-                            echo "No stores found";
-                        }
-
-                        mysqli_free_result($results);
-                        mysqli_close($connection);
-                    } else {
-                        echo "Error in preparing SQL statement";
-                    }
+            if (mysqli_num_rows($results) > 0) {
+                while ($row = mysqli_fetch_assoc($results)) {
+                    echo "<div class='store-info'>";
+                    echo "<h3>Store Name: " . $row["StoreName"] . "</h3>";
+                    echo "<img src='" . $row["StorePhoto"] . "' alt='Store Photo'>";
+                    echo "<p><strong>Location:</strong> " . $row["Location"] . "</p>";
+                    echo "<form method='post' action='price_data_page.php'>";
+                    echo "<input type='hidden' name='storeName' value='" . $row["StoreName"] . "'>";
+                    echo "<button type='submit'>View Prices</button>";
+                    echo "</form>";
+                    echo "</div>";
                 }
             } else {
-                echo "Please enter a store name to search.";
+                echo "No stores found matching the search.";
             }
         }
+
+        mysqli_close($connection);
         ?>
     </div>
 </body>
