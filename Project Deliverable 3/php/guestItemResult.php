@@ -68,9 +68,9 @@
         $store = $_POST["store-name"];
     }
     $host = "localhost";
-    $database = "GPT";
-    $user = "root";
-    $password = "66060229";
+    $database = "cosc360";
+    $user = "83066985";
+    $password = "83066985";
 
     $connection = mysqli_connect($host, $user, $password, $database);
 
@@ -104,7 +104,7 @@
                             continue;
                         }
                     }
-                    echo "<div><a href='guest.html'><img src='" . $row['Photo'] . "' width = 200px height = 200px></a><br>" . $row['ProductName'] . "</div>";
+                    echo "<div><a href='guest.html'><img src='" . $row['Photo'] . "' width = 200px height = 200px></a><br>" . $row['Photo'] . "</div>";
                 }
             }
         } else {
@@ -130,7 +130,7 @@
                             continue;
                         }
                     }
-                    echo "<div><a href='guestItemResult.php?ProductID=" . $row['ProductID'] . "'><img src='" . $row['Photo'] . "' width = 200px height = 200px></a><br>" . $row['ProductName'] . "</div>";
+                    echo "<div><a href='guestItemResult.php?ProductID=" . $row['ProductID'] . "'><img src='../" . $row['Photo'] . "' width = 200px height = 200px></a><br>" . $row['ProductName'] . "</div>";
                     //a page needs to be addec here to prompt users to signup when they try to view item details
                 }
             }

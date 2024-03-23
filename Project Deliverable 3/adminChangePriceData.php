@@ -77,7 +77,7 @@ if (isset($_GET['ProductID'])) {
             margin-right: 20px;
         }
         
-        div {
+        #commentbox {
             height: 270px;
             background-color: rgb(171, 223, 117);
             margin-left:880px;
@@ -107,6 +107,26 @@ if (isset($_GET['ProductID'])) {
             border-radius: 10px;
             background-color: rgb(255, 246, 246);
         }
+
+        #productcomments {
+            padding: 10px;
+            margin: 5px 5px 5px 65px;
+            width: 200px;
+            background-color: rgb(171, 223, 117);
+            /* margin: 30px;
+            padding: 20px; */
+            display: inline-block;
+        }
+
+        #BacktoSearch {
+            display: block;
+            margin-left: 15px;
+            margin-top: 100px;
+            margin-bottom: 20px;
+            border: 0;
+            line-height: 1.65;
+        }
+
     </style>
 </head>
 
@@ -159,9 +179,9 @@ if (isset($_GET['ProductID'])) {
     <Button id="button" >Save Changes</Button>
     </section>
     
-    <div>
+    <div id="commentbox">
         <h2 id="comments">Tell us what you think?</h2>
-        <textarea id="usercomment" rows="8"  placeholder="Add a comment!"></textarea>
+        <textarea id="usercomment" rows="8" cols="40" placeholder="Add a comment!"></textarea>
         <Button id="post">Post</Button>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script>
@@ -186,6 +206,16 @@ if (isset($_GET['ProductID'])) {
             });
         </script>
     </div>
+        <?php 
+        $sql = "SELECT * FROM comments JOIN users on comments.UserID = users.UserID WHERE ProductId = '$ProductID'";
+        $results = mysqli_query($connection, $sql);
+        while($row = mysqli_fetch_assoc($results)) {
+            echo "<div id='productcomments'>".$row['Comment']."<br> - ".$row['Username']."</div>";
+        }
+        mysqli_free_result($results);
+        mysqli_close($connection);
+        ?>
+    <button id="BacktoSearch" class="post" onclick="location.href='adminPostResult.php'">Back to Results</button>
     <footer>
         <p><i>Copyright &#169; 2024 Sandhu, Ruan and Vargas </i></p>
     </footer>
