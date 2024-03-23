@@ -58,8 +58,7 @@
         $doesnotcontain;
         $category;
         $email;
-        $firstname;
-        $lastname;
+        $username;
         $start;
         $end;
         if (isset($_POST["contains"])) {
@@ -81,11 +80,8 @@
         if (isset($_POST["Email"])) {
             $email = $_POST["Email"];
         }
-        if (isset($_POST["firstname"])) {
-            $firstname = $_POST["firstname"];
-        }
-        if (isset($_POST["lastname"])) {
-            $lastname = $_POST["lastname"];
+        if (isset($_POST["username"])) {
+            $lastname = $_POST["username"];
         }
         if (isset($_POST["start"])) {
             $start = $_POST["start"];
@@ -119,11 +115,8 @@
                 if (!empty($_POST["doesnotcontain"])) {
                     if (strpos(strtoupper($row['Comment']), strtoupper($doesnotcontain)) !== false) {continue;}
                 }
-                if (!empty($_POST["firstname"])) {
-                    if (!(strpos(strtoupper($row['FirstName']), strtoupper($firstname)) !== false)) {continue;}
-                }
-                if (!empty($_POST["lastname"])) {
-                    if (!(strpos(strtoupper($row['LastName']), strtoupper($lastname)) !== false)) {continue;}
+                if (!empty($_POST["username"])) {
+                    if (!(strpos(strtoupper($row['Username']), strtoupper($lastname)) !== false)) {continue;}
                 }
                 if (!empty($_POST["Email"])) {
                     if (!(strpos(strtoupper($row['email']), strtoupper($email)) !== false)) {continue;}
