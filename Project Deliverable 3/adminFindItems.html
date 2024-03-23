@@ -9,30 +9,30 @@
     <style>
         section {
             text-align: center;
-            margin: 20px auto; 
-            max-width: 600px; 
+            margin: 20px auto;
+            max-width: 600px;
         }
 
         #search-button {
-            margin-top: 20px; 
-            display: block; 
-            margin-left: auto; 
-            margin-right: auto; 
-            background-color: #3CB371; 
-            color: white; 
-            border: none; 
-            padding: 10px 20px; 
-            border-radius: 5px; 
-            font-size: 16px; 
-            cursor: pointer; 
+            margin-top: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #3CB371;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
         }
-        
+
         .search-form-container input[type="text"] {
-            width: 80%; 
-            padding: 10px; 
-            margin-bottom: 10px; 
-            border: 1px solid #3CB371; 
-            border-radius: 5px; 
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #3CB371;
+            border-radius: 5px;
         }
 
         #secondarytitle {
@@ -43,36 +43,39 @@
 
 <body>
     <button id="home" class="homebutton" onclick="location.href='adminOptions.html'"><span>Admin Home</span></button>
-    <h1>GroceryPricer.ca</h1>
-    
+    <h1><a href="home.html">GroceryPricer.ca</a></h1>
+
     <hr id="tophr">
 
 
     <h2 id="secondarytitle">Find Items</h2>
     <hr>
     <form id="find-items-form" method="POST" action="adminItemResult.php">
-    <section>
-        <h2>Find Items</h2>
-        <div class="search-form-container">
-            <input type="text" id="contains" name="contains" placeholder="Enter keyword to search" autocomplete="off"><br>
-            <input type="text" id="does-not-contain" name="does-not-contain" placeholder="Enter keyword to exclude" autocomplete="off"><br>
-        </div>
-    </section>
+        <section>
+            <h2>Find Items</h2>
+            <div class="search-form-container">
+                <input type="text" id="contains" name="contains" placeholder="Enter keyword to search"
+                    autocomplete="off"><br>
+                <input type="text" id="does-not-contain" name="does-not-contain" placeholder="Enter keyword to exclude"
+                    autocomplete="off"><br>
+            </div>
+        </section>
 
-    <section>
-        <h2>Filter by Category</h2>
-        <div class="search-form-container">
-            <input type="text" id="category" name="category" placeholder="Enter tags" autocomplete="off"><br>
-        </div>
-    </section>
+        <section>
+            <h2>Filter by Category</h2>
+            <div class="search-form-container">
+                <input type="text" id="category" name="category" placeholder="Enter tags" autocomplete="off"><br>
+            </div>
+        </section>
 
-    <section>
-        <h2>Filter by Store</h2>
-        <div class="search-form-container">
-            <input type="text" id="store-name" name="store-name" placeholder="Enter store name" autocomplete="off"><br>
-            <button id="search-button" type="submit">Search</button>
-        </div>
-    </section>
+        <section>
+            <h2>Filter by Store</h2>
+            <div class="search-form-container">
+                <input type="text" id="store-name" name="store-name" placeholder="Enter store name"
+                    autocomplete="off"><br>
+                <button id="search-button" type="submit">Search</button>
+            </div>
+        </section>
     </form>
 
     <hr>
