@@ -147,7 +147,8 @@ hr {
     align-items: center;
 }
 
-.col-6 {
+.col-6,
+.col-8 {
     margin-top: 30px;
     background-color: rgba(245, 245, 220, 0.5);
     text-align: center;
@@ -155,6 +156,15 @@ hr {
     align-items: center;
 }
 
+.col-10 {
+    margin-top: 30px;
+    background-color: rgba(245, 245, 220, 0.5);
+    text-align: center;
+    padding-top: 20px;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 .adminButton {
     border: 0;

@@ -39,7 +39,8 @@
         </div>
         <hr>
     </div>
-    <div class="col-6 mx-auto">
+
+    <div class="col-10 mx-auto">
         <?php
         $contains;
         $doesnotcontain;

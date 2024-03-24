@@ -3,11 +3,16 @@
 
 <head lang="en">
     <meta charset="utf-8">
-    <title>Edit Post - Admin Panel</title>
-    <link rel="stylesheet" href="css/reset.css" />
-    <link rel="stylesheet" href="css/AdminStyleSheets.css" />
-    <style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title> Edit Post - Admin </title>
+    <link rel="stylesheet" href="css/style.css" />
 
+    <style>
         h1,
         h2,
         section,
@@ -26,12 +31,15 @@
             margin-top: 10px;
         }
 
+        .textarea {
+            display: flex;
+        }
 
         .post {
             border: 0;
             margin-left: 20px;
             line-height: 1.65;
-            padding: 0 20px;
+            padding: 10px 20px;
             font-size: 1rem;
             text-align: center;
             text-decoration: none;
@@ -53,8 +61,8 @@
         }
 
         footer {
-            position:absolute;
-            bottom:0;
+            position: absolute;
+            bottom: 0;
         }
 
         #BacktoSearch {
@@ -65,54 +73,73 @@
             border: 0;
             line-height: 1.65;
         }
-
     </style>
-    
+
 </head>
 
 <body>
-    <button id="home" class="homebutton" onclick="location.href='adminOptions.html'"><span>Admin Home</span></button>
-    <h1><a href="home.html">GroceryPricer.ca</a></h1>
-    <hr id="tophr">
+    <div class="container-fluid-2">
+        <div class="row align-items-center">
+            <div class="col">
+                <h1><a href="home.html">GroceryPricer.ca</a></h1>
+            </div>
+            <div class="col text-end">
+                <button id="home" class="adminButton" onclick="location.href='adminOptions.html'">
+                    <span>Admin Home</span>
+                </button>
+            </div>
+        </div>
+        <hr>
+    </div>
 
-
-    <h2>Edit Post</h2>
-    <?php
+    <div class="col-8 mx-auto" style="background-color: rgba(245, 245, 220, 0.5);">
+        <h2 style="text-align: center;">Edit Post</h2>
+        <?php
         $comment;
-        if (isset($_GET["Comment"])) {
+        if (isset ($_GET["Comment"])) {
             $comment = $_GET["Comment"];
         }
         $UserId;
-        if (isset($_GET["UserId"])) {
+        if (isset ($_GET["UserId"])) {
             $UserId = $_GET["UserId"];
         }
-        echo "<textarea id='comments'>".$comment."</textarea>";
+        echo "<div style='text-align: center;'><textarea id='comments'>" . $comment . "</textarea></div>";
         echo "<script>var UserId = " . json_encode($UserId) . ";</script>";
-        
-    ?>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function() {
 
-        $("#savechanges").click(function() {
-            var newcomment = $("#comments").val();
-            $.post("changePost.php", { Comment: newcomment , UserId: UserId}, function() {
-                alert("Comment changed.");
-            });
-        });
+        ?>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function () {
 
-        $("#removepost").click(function() {
-            $.post("removePost.php", {UserId: UserId}, function() {
-                alert("Comment removed.");
+                $("#savechanges").click(function () {
+                    var newcomment = $("#comments").val();
+                    $.post("changePost.php", { Comment: newcomment, UserId: UserId }, function () {
+                        alert("Comment changed.");
+                    });
+                });
+
+                $("#removepost").click(function () {
+                    $.post("removePost.php", { UserId: UserId }, function () {
+                        alert("Comment removed.");
+                    });
+                });
             });
-        });
-    });
-    </script>
-    <button id="savechanges" class="post">Save Changes</button>
-    <button id="removepost" class="post">Remove Post</button>
-    <button id="BacktoSearch" class="post" onclick="location.href='adminPostResult.php'">Back to Results</button>
+        </script>
+        <div style="display: flex; justify-content: center; margin-bottom: 10px;">
+            <button id="savechanges" class="post" style="margin-right: 10px;">Save Changes</button>
+            <button id="removepost" class="post" style="margin-left: 10px;">Remove Post</button>
+        </div>
+        <div style="text-align: center;">
+            <button id="BacktoSearch" class="post" onclick="location.href='adminPostResult.php'"
+                style="margin-top: 5px; display: block; margin-left: auto; margin-right: auto;">Back to Results</button>
+        </div>
+    </div>
+
     <footer>
-        <p><i>Copyright &#169; 2024 Sandhu, Ruan and Vargas </i></p>
+        <div class="col-flex">
+            <hr>
+            <p><i>Copyright &#169; 2024 Sandhu, Ruan and Vargas </i></p>
+        </div>
     </footer>
 </body>
 

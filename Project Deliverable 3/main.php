@@ -114,6 +114,9 @@
         </div>
     </div>
 
+    <h3 style="margin-left: 4%; margin-bottom: 5px;"><a href="searchStores.php">Search For Stores</a></h3>
+
+
     <hr>
     <footer>
         <p><i>Copyright &#169; 2024 Sandhu, Ruan and Vargas </i></p>
