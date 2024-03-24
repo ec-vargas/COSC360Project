@@ -51,6 +51,15 @@
             line-height: 1.65;
         }
 
+        div {
+            padding: 10px;
+            margin-left: 10px;
+            margin-bottom: 10px;
+            background-color: rgb(171, 223, 117);
+            width: 50%;
+            display: block;
+            height: 160px;
+        }
 
         img {
             display: inline;
@@ -58,10 +67,6 @@
             margin-right: 10px;
         }
 
-        #RestrictUser {
-            margin-left: 400px;
-            margin-top: 50px;
-        }
     </style>
 </head>
 
@@ -105,36 +110,65 @@
             $results = mysqli_query($connection, $sql);
             while ($row = mysqli_fetch_assoc($results)) {
                 if ($row['Email'] === $email) {
-                    echo "<div><img src='" . $row['ProfilePicture'] . "' width = 150px height = 150px/><p><a href='adminEnableDisableUser.html'>" . $row['Username'] . "</a></p><br>";
-                    echo "Email: " . $row['Email'] . "<br><br>";
-                    echo "Location: <br><br>";
-                    echo "Date joined: " . $row['RegistrationDate'] . "</div>";
+                    echo "<div><img src='".$row['ProfilePicture']."' width = 150px height = 150px/><p id='user'>".$row['Username']."</p><br>";
+                    echo "Email: ".$row['Email']."<br><br>";
+                    echo "Date joined: ".$row['RegistrationDate']."</div>";
                     echo "<script>var userId = " . json_encode($row['UserID']) . ";</script>";
+                    echo "<script>var username = " . json_encode($row['Username']) . ";</script>";
                 }
             }
             mysqli_free_result($results);
             mysqli_close($connection);
 
         } ?>
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                $("#DeleteUser").click(function () {
-                    var userToDelete = userId;
-
-                    $.post("deleteUser.php", { userId: userToDelete }, function () {
-                        alert("User has been deleted.");
-                    });
-                });
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        $("#DeleteUser").click(function() {
+            var userToDelete = userId;
+            
+            $.post("php/deleteUser.php", { userId: userToDelete }, function() {
+                alert("User has been deleted.");
             });
-        </script>
-        <button id="RestrictUser" class="UserActions">Restrict User</button>
-        <button id="DeleteUser" class="UserActions">Delete User</button>
-        <button id="ReauthorizeUser" class="UserActions">Reauthorize User</button>
-        <button id="BacktoSearch" onclick="location.href='adminUserResult.php'">Back to Results</button>
-    </div>
-    <hr>
+        });
+
+        $("#EditUsername").click(function() {
+            var textContent = $("#user").text(); 
+            var textBox = $("<input type='text' placeholder='Enter new username'>").val(textContent);
+            $("#user").replaceWith(textBox);
+
+            $(this).text("Save");
+
+            var editingMode = true;
+            
+            // Define the saveUsername function to handle saving the changes
+            var saveUsername = function() {
+                if (editingMode) {
+                    var newUsername = textBox.val();
+                    var userToEdit = userId;
+
+                    $.post("php/editUser.php", { userId: userToEdit, newUsername: newUsername }, function(response) {
+                        textBox.replaceWith("<p id='user'>" + newUsername + "</p>");
+                        $("#EditUsername").text("Edit Username");
+                        editingMode = false;
+                    });
+                } else {
+                    textBox.replaceWith($("<input type='text' placeholder='Enter new username'>").val(textContent));
+                    $("#EditUsername").text("Save");
+                    editingMode = true;
+                }
+            };
+
+            // Bind the saveUsername function to the click event of the button
+            $(this).off("click").click(saveUsername);
+        });
+
+    });
+    </script>
+    <button id="EditUsername" class="UserActions">Edit Username</button>
+    <button id="DeleteUser" class="UserActions">Delete User</button>
+    <button id="BacktoSearch" onclick="location.href='adminUserResult.php'">Back to Results</button>
     <footer>
         <p><i>Copyright &#169; 2024 Sandhu, Ruan and Vargas </i></p>
     </footer>

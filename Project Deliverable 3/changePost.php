@@ -14,10 +14,10 @@
         }
         else
         {
-            $newcomment = $_POST['Comment'];
+            $newUsername = $_POST['newUsername'];
             $userId = $_POST['UserId'];
 
-            $sql = "UPDATE comments SET Comment='$newcomment' WHERE UserID = '$userId';";
+            $sql = "UPDATE comments SET Comment='$newUsername' WHERE UserID = '$userId';";
 
             mysqli_query($connection, $sql);
 
