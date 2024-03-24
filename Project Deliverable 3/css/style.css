@@ -13,6 +13,7 @@ h3 {
 
 footer {
     margin-left: 5%;
+    margin-top: 3%;
 }
 
 p {
@@ -27,14 +28,14 @@ p {
 .homebutton {
     border: 0;
     line-height: 3.5;
-    padding: 7px 70px;
     font-size: 1.5rem;
     color: #090909;
     border-radius: 5px;
     background-color: #6E9075;
     display: flex;
-    margin: 2em;
+    margin: 1em;
     justify-content: center;
+    width: 50%;
 }
 
 .homebutton:hover {
@@ -43,20 +44,21 @@ p {
 
 .form-group {
     margin-left: 5%;
-    padding-top: 20px;
+    padding-top: 10px;
 }
 
 .signout {
     border: 0;
     line-height: 2.5;
-    padding: 0 10px;
+    padding: 10px 30px;
     font-size: 1.25rem;
     text-align: center;
-    margin: 1em;
     color: #090909;
     border-radius: 5px;
     background-color: rgb(255, 246, 246);
-    display: block;
+    display: flex;
+    margin: 2em;
+    justify-content: center;
 }
 
 .search {
@@ -107,19 +109,6 @@ p {
     content: "&#10006;";
 }
 
-.scroll-container {
-    background-color: lightblue;
-    width: 500px;
-    height: 200px;
-    overflow: scroll;
-}
-
-.container-fluid-1 {
-    background-color: #6874E8;
-    padding: 30px;
-    text-align: center;
-}
-
 .container-fluid-2 {
     background-color: #6874E8;
     padding: 30px;
@@ -158,6 +147,15 @@ hr {
     align-items: center;
 }
 
+.col-6 {
+    margin-top: 30px;
+    background-color: rgba(245, 245, 220, 0.5);
+    text-align: center;
+    padding-top: 20px;
+    align-items: center;
+}
+
+
 .adminButton {
     border: 0;
     padding: 5px 30px;
@@ -166,6 +164,7 @@ hr {
     border-radius: 5px;
     background-color: #6E9075;
     margin: 1em;
+    display: inline;
 }
 
 .search-form-container input[type="text"] {
@@ -176,10 +175,18 @@ hr {
     border-radius: 5px;
 }
 
+.search-form-container input[type="submit"] {
+    width: 40%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
 #secondarytitle {
     text-align: center;
 }
 
 #find-items-form {
-    padding: 20px;
+    padding: 10px;
 }

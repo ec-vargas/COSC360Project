@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Password is correct, set up session
             $_SESSION['username'] = $username;
 
-            header("Location:../main.html");
+            header("Location:../main.php");
             $conn->close();
             exit();
         } else {
