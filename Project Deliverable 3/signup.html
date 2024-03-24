@@ -12,42 +12,57 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css" />
-    <h1><a href="home.html">GroceryPricer.ca</a></h1>
-    <br>
-    <p><a href="home.html">Home/</a></p>
-    <p><a href="signup.html">Signup</a></p>
-    <hr>
 </head>
 
 <body>
-    <h2> Sign Up</h2>
-    <div class="container">
-        <div class="row">
-            <div class="col-10">
-                <form action="php/signup.php" method="POST">
+    <div class="container-fluid-2">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1><a href="home.html">GroceryPricer.ca</a></h1>
+            <div class="header2">
+                <a href="login.html" class="btn btn-link" style="font-size: 2em;">Login</a>
+                <a href="adminLogin.html" class="btn btn-link" style="font-size: 2em;">Admin Login</a>
+            </div>
+        </div>
+        <hr>
+    </div>
 
-                    <label for="email">Email: </label>
-                    <input type="email" id="email" name="email" required>
-                    <br>
-                    <label for="username">Username: </label>
-                    <input type="name" id="username" name="username" required>
-                    <br>
-                    <label for="password">Password: </label>
-                    <input type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                        title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
-                        required>
-                    <br>
-                    <label for="confirm_password">Confirm Password: </label>
-                    <input type="password" id="confirm_password" name="confirm_password"
-                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                        title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
-                        required>
-                    <br>
-                    <input type="submit" id="submit">
-                </form>
+    <div class="col-6 mx-auto">
+        <h2> Sign Up</h2>
+        <div class="container">
+            <div class="row">
+                <div class="col-10">
+                    <form action="php/signup.php" method="POST">
+
+                        <label for="email">Email: </label>
+                        <input type="email" id="email" style="margin: 5px 0;" name="email" required>
+                        <br>
+                        <label for="username">Username: </label>
+                        <input type="name" id="username" style="margin: 5px 0;" name="username" required>
+                        <br>
+                        <label for="password">Password: </label>
+                        <input type="password" id="password" style="margin: 5px 0;" name="password"
+                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                            title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+                            required>
+                        <br>
+                        <label for="confirm_password">Confirm Password: </label>
+                        <input type="password" id="confirm_password" style="margin: 5px 0;" name="confirm_password"
+                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                            title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+                            required>
+                        <br>
+                        <br>
+                        <label for="profile_picture">Profile Picture: </label>
+                        <input type="file" id="profile_picture" style="margin: 5px 0;" name="profile_picture"
+                            accept="image/*">
+                        <br>
+                        <input type="submit" style="margin: 5px 0;" id="submit">
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+
     <hr>
 
     <footer>
