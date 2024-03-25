@@ -3,7 +3,7 @@
 
 <head lang="en">
     <meta charset="utf-8">
-    <title>Item Results - Admin Page</title>
+    <title>Find Items - Guest Panel</title>
     <link rel="stylesheet" href="css/reset.css" />
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
@@ -11,109 +11,66 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css" />
-
     <style>
-        #button {
-            border: 0;
-            line-height: 1.65;
-            padding: 0 20px;
-            font-size: 1rem;
-            text-align: center;
-            text-decoration: none;
-            color: #090909;
-            border-radius: 10px;
-            background-color: rgb(255, 246, 246);
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
+        h2 {
+            margin-left: 2%;
         }
 
-        #button:hover {
-            background-color: #1fe600;
-        }
-
-        .col-8 {
-            background-color: rgba(245, 245, 220, 0.5);
-            float: left;
+        img {
+            width: 200px;
+            height: 200px;
         }
     </style>
 </head>
 
 <body>
     <div class="container-fluid-2">
-        <div class="row align-items-center">
+        <div class="row">
             <div class="col">
                 <h1><a href="home.html">GroceryPricer.ca</a></h1>
             </div>
-            <div class="col text-end">
-                <button id="home" class="adminButton" onclick="location.href='adminOptions.html'">
-                    <span>Admin Home</span>
-                </button>
+            <div class="col">
+                <div class="header2">
+                    <a href="login.html" class="btn btn-link" style="font-size: 2em;">Login</a>
+                    <a href="adminLogin.html" class="btn btn-link" style="font-size: 2em;">Admin Login</a>
+                </div>
             </div>
         </div>
+        <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="adminOptions.html">Home</a></li>
+            <li class="breadcrumb-item"><a href="adminFindItems.html">Find Items</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Item Results</li>
+        </ol>
+        </nav>
         <hr>
     </div>
 
-    <div class="col-8">
+    <div class="container text-center">
         <?php
         require_once "php/dbconnection.php";
         $contains;
-        $doesnotcontain;
-        $category;
-        $store;
         if (isset ($_POST["contains"])) {
             $contains = $_POST["contains"];
         }
-        echo "<h2>Results for Advanced Search '" . $contains . "'</h2>";
-        echo "<Button id ='button' onclick=\"location.href='adminFindItems.html'\">Back to Search</Button>";
-        if (isset ($_POST["does-not-contain"])) {
-            $doesnotcontain = $_POST["does-not-contain"];
-        }
-        if (isset ($_POST["category"])) {
-            $category = $_POST["category"];
-        }
-        if (isset ($_POST["store-name"])) {
-            $store = $_POST["store-name"];
-        }
-            $sql;
-            if (!empty ($_POST["does-not-contain"])) {
-                $sql = "SELECT * 
-                        FROM products JOIN categories on products.categoryID = categories.categoryID 
-                        JOIN productstores on products.productID = productStores.productID 
-                        JOIN stores on productstores.StoreID = stores.StoreID
-                        WHERE ProductName LIKE CONCAT('%', ?, '%') AND ProductName NOT LIKE CONCAT('%', ?, '%');";
+        echo "<h2>Results for Keyword Search '" . $contains . "'</h2>";
+        echo "<Button id='button' onclick=\"location.href='main.php'\">Back to Search</Button>";
 
-                if ($statement = mysqli_prepare($connection, $sql)) {
-                    mysqli_stmt_bind_param($statement, "ss", $contains, $doesnotcontain);
-                    mysqli_stmt_execute($statement);
-
-                    $results = mysqli_stmt_get_result($statement);
-                    while ($row = mysqli_fetch_assoc($results)) {
-                        if (!empty ($_POST["category"])) {
-                            if (!(strpos(strtoupper($row['CategoryName']), strtoupper($category)) !== false)) {
-                                continue;
-                            }
-                        }
-                        if (!empty ($_POST["store-name"])) {
-                            if (!(strpos(strtoupper($row['StoreName']), strtoupper($store)) !== false)) {
-                                continue;
-                            }
-                        }
-                        echo "<div><a href='adminChangePriceData.html'><img src='" . $row['Photo'] . "' width = 200px height = 200px></a><br>" . $row['ProductName'] . "</div>";
-                    }
-                }
-            } else {
-                $sql = "SELECT * FROM products 
-                JOIN categories on products.categoryID = categories.categoryID 
-                JOIN productstores on products.productID = productStores.productID 
-                JOIN stores on productstores.StoreID = stores.StoreID 
-                WHERE ProductName LIKE CONCAT('%', ?, '%')";
+                $sql = "SELECT p.*, pr.Price, s.StoreName
+                FROM products p 
+                JOIN categories c ON p.categoryID = c.categoryID 
+                JOIN productstores ps ON p.productID = ps.productID 
+                JOIN stores s ON ps.StoreID = s.StoreID
+                LEFT JOIN prices pr ON p.ProductID = pr.ProductID
+                WHERE p.ProductName LIKE CONCAT('%', ?, '%') AND PriceDate IN (SELECT MAX(PriceDate) FROM products JOIN prices on products.ProductID = prices.ProductID)";
 
                 if ($statement = mysqli_prepare($connection, $sql)) {
                     mysqli_stmt_bind_param($statement, "s", $contains);
                     mysqli_stmt_execute($statement);
 
                     $results = mysqli_stmt_get_result($statement);
+                    $resultsperrow = 0;
+                    echo "<div class='row align-items-start'>";
                     while ($row = mysqli_fetch_assoc($results)) {
                         if (!empty ($_POST["category"])) {
                             if (!(strpos(strtoupper($row['CategoryName']), strtoupper($category)) !== false)) {
@@ -125,12 +82,22 @@
                                 continue;
                             }
                         }
-                        echo "<div><a href='adminChangePriceData.php?ProductID=" . $row['ProductID'] . "'><img src='" . $row['Photo'] . "' width = 200px height = 200px></a><br>" . $row['ProductName'] . "</div>";
+                        // Output product details inline with the image, name, price, and store name
+                        
+                        if ($resultsperrow == 4) {
+                            echo "</div><div class='row row-cols-2 row-cols-lg-4 g-2 g-lg-3'>";
+                            echo "<div class='col'><a href='adminChangePriceData.php?ProductID=" . $row['ProductID'] . "&Contains=".$contains."'><img src='" . $row['Photo'] . "' width='200px' height='200px'></a><br>" . $row['ProductName'] . " - $" . $row['Price'] . " at " . $row['StoreName'] . "</div>";
+                            $resultsperrow = 1;
+                        } else {
+                            echo "<div class='col'><a href='adminChangePriceData.php?ProductID=" . $row['ProductID'] . "&Contains=".$contains."'><img src='" . $row['Photo'] . "' width='200px' height='200px'></a><br>" . $row['ProductName'] . " - $" . $row['Price'] . " at " . $row['StoreName'] . "</div>";
+                            $resultsperrow++;
+                        }
+                        
                     }
                 }
-            }
             mysqli_free_result($results);
-            mysqli_close($connection); ?>
+            mysqli_close($connection);
+        ?>
     </div>
     <hr>
     <footer>
@@ -139,3 +106,5 @@
 </body>
 
 </html>
+
+<!-- echo "<div><a href='adminChangePriceData.php?ProductID=" . $row['ProductID'] . "'><img src='" . $row['Photo'] . "' width = 200px height = 200px></a><br>" . $row['ProductName'] . "</div>"; -->

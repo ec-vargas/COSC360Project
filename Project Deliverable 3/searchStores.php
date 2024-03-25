@@ -53,6 +53,12 @@
                 <a href="adminLogin.html" class="btn btn-link" style="font-size: 2em;">Admin Login</a>
             </div>
         </div>
+        <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="main.php">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Store Search</li>
+        </ol>
+        </nav>
         <hr>
     </div>
     <div class="col-10 mx-auto">
@@ -72,7 +78,7 @@
 
             if (!empty ($search)) {
 
-                    $sql = "SELECT * FROM Stores WHERE StoreName LIKE ?";
+                    $sql = "SELECT * FROM Stores WHERE StoreName LIKE CONCAT('%', ?, '%')";
 
 
                     if ($statement = mysqli_prepare($connection, $sql)) {
@@ -105,7 +111,8 @@
                     }
                 }
             } else {
-                echo "Please enter a store name to search.";
+                echo "Please enter a store name to search.<br>";
+                echo "<Button id ='button' onclick=\"location.href='main.php'\">Back to Home</Button>";
             }
         ?>
     </div>

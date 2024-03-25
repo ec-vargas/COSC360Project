@@ -40,6 +40,7 @@ if (isset ($_GET['ProductID'])) {
         <section>
             <?php
             $ProductID = $_GET['ProductID'];
+            $contains = $_GET['Contains'];
 
             $sql = "SELECT * FROM products 
             JOIN productstores on products.productID = productStores.productID 
@@ -74,8 +75,8 @@ if (isset ($_GET['ProductID'])) {
                     $("#post").click(function () {
                         var newcomment = $("#usercomment").val();
                         var ProductId = "<?php echo $ProductID; ?>";
-                        $.post("php/createpost.php", { Comment: newcomment, UserId: UserId, ProductId: ProductId }, function () {
-                            alert("Comment added.");
+                        $.post("php/createpost.php", { Comment: newcomment, UserId: UserId, ProductId: ProductId }, function (response) {
+                            alert(response);
                         });
                     });
 
@@ -99,7 +100,10 @@ if (isset ($_GET['ProductID'])) {
         mysqli_free_result($results);
         mysqli_close($connection);
         ?>
-        <button id="BacktoSearch" class="post" onclick="location.href='adminItemResult.php'">Back to Results</button>
+        <form id="find-items-form" method="POST" action="adminItemResult.php">
+            <input type="hidden" name="contains" value="<?php echo $contains; ?>">
+            <button id="BacktoSearch" type="submit onclick="location.href='adminItemResult.php'">Back to Results</button>
+        </form>
         <hr>
     </div>
 

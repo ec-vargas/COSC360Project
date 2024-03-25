@@ -17,9 +17,8 @@
         }
 
         img {
-            width: 60%;
-            height: 60%;
-            display: inline;
+            width: 200px;
+            height: 200px;
         }
     </style>
 </head>
@@ -37,75 +36,40 @@
                 </div>
             </div>
         </div>
+        <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="main.php">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Results</li>
+        </ol>
+        </nav>
         <hr>
     </div>
 
-    <div class="col-10 mx-auto">
+    <div class="container text-center">
         <?php
         require_once "php/dbconnection.php";
         $contains;
-        $doesnotcontain;
-        $category;
-        $store;
         if (isset ($_POST["contains"])) {
             $contains = $_POST["contains"];
         }
         echo "<h2>Results for Keyword Search '" . $contains . "'</h2>";
         echo "<Button id='button' onclick=\"location.href='main.php'\">Back to Search</Button>";
-        if (isset ($_POST["does-not-contain"])) {
-            $doesnotcontain = $_POST["does-not-contain"];
-        }
-        if (isset ($_POST["category"])) {
-            $category = $_POST["category"];
-        }
-        if (isset ($_POST["store-name"])) {
-            $store = $_POST["store-name"];
-        }
-            $sql;
-            if (!empty ($_POST["does-not-contain"])) {
+
                 $sql = "SELECT p.*, pr.Price, s.StoreName
                 FROM products p 
                 JOIN categories c ON p.categoryID = c.categoryID 
                 JOIN productstores ps ON p.productID = ps.productID 
                 JOIN stores s ON ps.StoreID = s.StoreID
                 LEFT JOIN prices pr ON p.ProductID = pr.ProductID
-                WHERE p.ProductName LIKE CONCAT('%', ?, '%') 
-                AND p.ProductName NOT LIKE CONCAT('%', ?, '%');";
-
-                if ($statement = mysqli_prepare($connection, $sql)) {
-                    mysqli_stmt_bind_param($statement, "ss", $contains, $doesnotcontain);
-                    mysqli_stmt_execute($statement);
-
-                    $results = mysqli_stmt_get_result($statement);
-                    while ($row = mysqli_fetch_assoc($results)) {
-                        if (!empty ($_POST["category"])) {
-                            if (!(strpos(strtoupper($row['CategoryName']), strtoupper($category)) !== false)) {
-                                continue;
-                            }
-                        }
-                        if (!empty ($_POST["store-name"])) {
-                            if (!(strpos(strtoupper($row['StoreName']), strtoupper($store)) !== false)) {
-                                continue;
-                            }
-                        }
-                        // Output product details inline with the image, name, price, and store name
-                        echo "<div><a href='guest.php'><img src='" . $row['Photo'] . "' width='200px' height='200px'></a><br>" . $row['ProductName'] . " - $" . $row['Price'] . " at " . $row['StoreName'] . "</div>";
-                    }
-                }
-            } else {
-                $sql = "SELECT p.*, pr.Price, s.StoreName
-                FROM products p 
-                JOIN categories c ON p.categoryID = c.categoryID 
-                JOIN productstores ps ON p.productID = ps.productID 
-                JOIN stores s ON ps.StoreID = s.StoreID
-                LEFT JOIN prices pr ON p.ProductID = pr.ProductID
-                WHERE p.ProductName LIKE CONCAT('%', ?, '%')";
+                WHERE p.ProductName LIKE CONCAT('%', ?, '%') AND PriceDate IN (SELECT MAX(PriceDate) FROM products JOIN prices on products.ProductID = prices.ProductID)";
 
                 if ($statement = mysqli_prepare($connection, $sql)) {
                     mysqli_stmt_bind_param($statement, "s", $contains);
                     mysqli_stmt_execute($statement);
 
                     $results = mysqli_stmt_get_result($statement);
+                    $resultsperrow = 0;
+                    echo "<div class='row align-items-start'>";
                     while ($row = mysqli_fetch_assoc($results)) {
                         if (!empty ($_POST["category"])) {
                             if (!(strpos(strtoupper($row['CategoryName']), strtoupper($category)) !== false)) {
@@ -118,15 +82,21 @@
                             }
                         }
                         // Output product details inline with the image, name, price, and store name
-                        echo "<div><a href='itemResult.php?ProductID=" . $row['ProductID'] . "'><img src='" . $row['Photo'] . "' width='200px' height='200px'></a><br>" . $row['ProductName'] . " - $" . $row['Price'] . " at " . $row['StoreName'] . "</div>";
+                        
+                        if ($resultsperrow == 4) {
+                            echo "</div><div class='row row-cols-2 row-cols-lg-4 g-2 g-lg-3'>";
+                            echo "<div class='col'><a href='itemResult.php?ProductID=" . $row['ProductID'] . "'><img src='" . $row['Photo'] . "' width='200px' height='200px'></a><br>" . $row['ProductName'] . " - $" . $row['Price'] . " at " . $row['StoreName'] . "</div>";
+                            $resultsperrow = 1;
+                        } else {
+                            echo "<div class='col'><a href='itemResult.php?ProductID=" . $row['ProductID'] . "'><img src='" . $row['Photo'] . "' width='200px' height='200px'></a><br>" . $row['ProductName'] . " - $" . $row['Price'] . " at " . $row['StoreName'] . "</div>";
+                            $resultsperrow++;
+                        }
+                        
                     }
                 }
-            }
             mysqli_free_result($results);
             mysqli_close($connection);
         ?>
-
-
     </div>
     <hr>
     <footer>

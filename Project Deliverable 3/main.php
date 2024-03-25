@@ -48,6 +48,11 @@
                 <a href="adminLogin.html" class="btn btn-link" style="font-size: 2em;">Admin Login</a>
             </div>
         </div>
+        <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Home</li>
+        </ol>
+        </nav>
         <hr>
     </div>
     <h2 style="margin-left: 4%; margin-bottom: 0;">Welcome to GroceryPrice Tracker</h2>
@@ -60,7 +65,7 @@
                         <input type="text" class="search" id="contains" name="contains"
                             placeholder="Enter keyword to search" autocomplete="off"
                             style="margin-top: 10px; padding: 5px 20px;">
-                        <input type="submit">
+                        <input type="submit" value="Search">
                     </div>
                 </div>
             </div>
@@ -79,7 +84,7 @@
                     $sql = "SELECT p.ProductName, pr.Price, p.Photo
                     FROM Products p
                     INNER JOIN Prices pr ON p.ProductID = pr.ProductID
-                    ORDER BY pr.Price DESC
+                    ORDER BY pr.Price 
                     LIMIT 10";
                     $result = mysqli_query($connection, $sql);
 

@@ -2,10 +2,10 @@
 // Connect to the database
 require_once "dbconnection.php";
 
-$userId = $_POST['UserId'];
+$CommentID = $_POST['CommentID'];
 
 // Delete the record from the database
-$sql = "DELETE FROM comments WHERE UserID = $userId";
+$sql = "DELETE FROM comments WHERE CommentID = '$CommentID'";
 
 mysqli_query($connection, $sql);
 

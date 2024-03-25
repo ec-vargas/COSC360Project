@@ -60,11 +60,6 @@
             margin-left: 20px;
         }
 
-        footer {
-            position: absolute;
-            bottom: 0;
-        }
-
         #BacktoSearch {
             display: block;
             margin-left: 15px;
@@ -100,12 +95,12 @@
         if (isset ($_GET["Comment"])) {
             $comment = $_GET["Comment"];
         }
-        $UserId;
-        if (isset ($_GET["UserId"])) {
-            $UserId = $_GET["UserId"];
+        $CommentID;
+        if (isset ($_GET["CommentID"])) {
+            $CommentID = $_GET["CommentID"];
         }
         echo "<div style='text-align: center;'><textarea id='comments'>" . $comment . "</textarea></div>";
-        echo "<script>var UserId = " . json_encode($UserId) . ";</script>";
+        echo "<script>var CommentID = " . json_encode($CommentID) . ";</script>";
 
         ?>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -114,13 +109,13 @@
 
                 $("#savechanges").click(function () {
                     var newcomment = $("#comments").val();
-                    $.post("php/changePost.php", { Comment: newcomment, UserId: UserId }, function () {
+                    $.post("php/changePost.php", { Comment: newcomment, CommentID: CommentID }, function () {
                         alert("Comment changed.");
                     });
                 });
 
                 $("#removepost").click(function () {
-                    $.post("php/removePost.php", { UserId: UserId }, function () {
+                    $.post("php/removePost.php", { CommentID: CommentID }, function () {
                         alert("Comment removed.");
                     });
                 });
@@ -136,11 +131,9 @@
         </div>
     </div>
 
+    <hr>
     <footer>
-        <div class="col-flex">
-            <hr>
-            <p><i>Copyright &#169; 2024 Sandhu, Ruan and Vargas </i></p>
-        </div>
+        <p><i>Copyright &#169; 2024 Sandhu, Ruan and Vargas </i></p>
     </footer>
 </body>
 

@@ -1,12 +1,12 @@
 <?php
     require_once "dbconnection.php";
-    $newUsername = $_POST['newUsername'];
-    $userId = $_POST['UserId'];
+    $newComment = $_POST['Comment'];
+    $CommentID = $_POST['CommentID'];
 
-    $sql = "UPDATE comments SET Comment='$newUsername' WHERE UserID = '$userId';";
+    $sql = "UPDATE comments SET Comment='$newComment' WHERE CommentID = '$CommentID';";
 
     mysqli_query($connection, $sql);
-
+    
     mysqli_free_result($results);
     mysqli_close($connection);
     ?>

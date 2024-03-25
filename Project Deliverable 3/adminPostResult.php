@@ -53,6 +53,13 @@
                 </button>
             </div>
         </div>
+        <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="adminOptions.html">Home</a></li>
+            <li class="breadcrumb-item"><a href="adminFindPost.html">Find Post</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Post Results</li>
+        </ol>
+        </nav>
         <hr>
     </div>
 
@@ -132,9 +139,9 @@
                         continue;
                     }
                 }
-                echo "<div>Username: <a href='adminEditRemovePost.php?Comment=" . $row['Comment'] . "&UserId=" . $row['UserID'] . "'>" . $row['Username'] . "</a><br>ProductId: " . $row['ProductID'] . "<br>";
-                echo "Comment: " . $row['Comment'] . "<br><br>";
-                echo "Comment Date: " . $row['CommentDate'] . "</div>";
+                echo "<div>Username: <a href='adminEditRemovePost.php?Comment=" . $row['Comment'] . "&CommentID=" . $row['CommentID'] . "'>" . $row['Username'] . "</a><br>ProductId: " . $row['ProductID'] . "<br>";
+                echo "Comment: " . $row['Comment'] . "<br>";
+                echo "Comment Date: " . $row['CommentDate'] . "</div><br>";
             }
             if (!empty ($_POST["doesnotcontain"])) {
                 if (strpos(strtoupper($row['Comment']), strtoupper($doesnotcontain)) !== false) {
@@ -171,9 +178,9 @@
                     continue;
                 }
             }
-            echo "<div>Username: <a href='adminEditRemovePost.php?Comment=" . $row['Comment'] . "&UserId=" . $row['UserID'] . "'>" . $row['Username'] . "</a><br>ProductId: " . $row['ProductID'] . "<br>";
-            echo "Comment: " . $row['Comment'] . "<br><br>";
-            echo "Comment Date: " . $row['CommentDate'] . "</div>";
+            echo "<div>Username: <a href='adminEditRemovePost.php?Comment=" . $row['Comment'] . "&CommentID=" . $row['CommentID'] . "'>" . $row['Username'] . "</a><br>ProductId: " . $row['ProductID'] . "<br>";
+            echo "Comment: " . $row['Comment'] . "<br>";
+            echo "Comment Date: " . $row['CommentDate'] . "</div><br>";
         }
 
         mysqli_free_result($results);
