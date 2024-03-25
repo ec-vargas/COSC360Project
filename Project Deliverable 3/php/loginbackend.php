@@ -27,13 +27,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         } else {
             // Redirect to login page with error message
-            header("Location: login.php?error=Invalid password");
+            header("Location: ../login.php?error=Invalid password");
+            echo "Invalid password.";
             $connection->close();
             exit();
         }
     } else {
         // Redirect to login page with error message
-        header("Location: login.php?error=User not found");
+        header("Location: ../login.php?error=User not found");
+        echo "User not found.";
         $connection->close();
         exit();
     }

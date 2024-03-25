@@ -23,7 +23,7 @@
     <div class="col-6 mx-auto">
         <h2>Welcome Back, Saver</h2>
         <div class="login-container">
-            <form action="php/login.php" method="post">
+            <form action="php/loginbackend.php" method="post">
                 <div class="form-group">
                     <label for="username">Username:</label>
                     <input type="name" id="username" name="username" required>
@@ -39,6 +39,12 @@
         </div>
     </div>
     <hr>
+    <?php
+        if (isset($_GET['error'])) {
+            $error = $_GET['error'];
+            echo "<script>alert('$error')</script>";
+        }
+        ?>
     <footer>
         <p><i>Copyright &#169; 2024 Sandhu, Ruan and Vargas </i></p>
     </footer>

@@ -85,10 +85,10 @@
                         
                         if ($resultsperrow == 4) {
                             echo "</div><div class='row row-cols-2 row-cols-lg-4 g-2 g-lg-3'>";
-                            echo "<div class='col'><a href='itemResult.php?ProductID=" . $row['ProductID'] . "'><img src='" . $row['Photo'] . "' width='200px' height='200px'></a><br>" . $row['ProductName'] . " - $" . $row['Price'] . " at " . $row['StoreName'] . "</div>";
+                            echo "<div class='col'><a href='UserItem.php?ProductID=" . $row['ProductID'] . "&Contains=".$contains."'><img src='" . $row['Photo'] . "' width='200px' height='200px'></a><br>" . $row['ProductName'] . " - $" . $row['Price'] . " at " . $row['StoreName'] . "</div>";
                             $resultsperrow = 1;
                         } else {
-                            echo "<div class='col'><a href='itemResult.php?ProductID=" . $row['ProductID'] . "'><img src='" . $row['Photo'] . "' width='200px' height='200px'></a><br>" . $row['ProductName'] . " - $" . $row['Price'] . " at " . $row['StoreName'] . "</div>";
+                            echo "<div class='col'><a href='UserItem.php?ProductID=" . $row['ProductID'] . "&Contains=".$contains."'><img src='" . $row['Photo'] . "' width='200px' height='200px'></a><br>" . $row['ProductName'] . " - $" . $row['Price'] . " at " . $row['StoreName'] . "</div>";
                             $resultsperrow++;
                         }
                         
