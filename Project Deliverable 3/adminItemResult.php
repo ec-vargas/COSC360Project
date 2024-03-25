@@ -56,6 +56,7 @@
 
     <div class="col-8">
         <?php
+        require_once "php/dbconnection.php";
         $contains;
         $doesnotcontain;
         $category;
@@ -74,19 +75,6 @@
         if (isset ($_POST["store-name"])) {
             $store = $_POST["store-name"];
         }
-        $host = "localhost";
-        $database = "cosc360";
-        $user = "83066985";
-        $password = "83066985";
-
-        $connection = mysqli_connect($host, $user, $password, $database);
-
-        $error = mysqli_connect_error();
-        if ($error != null) {
-            $output = "<p>Unable to connect to database!</p>";
-            exit ($output);
-        } else {
-            //and fetch results
             $sql;
             if (!empty ($_POST["does-not-contain"])) {
                 $sql = "SELECT * 
@@ -142,8 +130,7 @@
                 }
             }
             mysqli_free_result($results);
-            mysqli_close($connection);
-        } ?>
+            mysqli_close($connection); ?>
     </div>
     <hr>
     <footer>

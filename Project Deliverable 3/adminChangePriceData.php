@@ -1,4 +1,5 @@
 <?php
+require_once "php/dbconnection.php";
 $ProductID;
 if (isset ($_GET['ProductID'])) {
     $ProductID = $_GET['ProductID'];
@@ -38,28 +39,12 @@ if (isset ($_GET['ProductID'])) {
         <h2 class="sheaders">Item Details</h2>
         <section>
             <?php
-
             $ProductID = $_GET['ProductID'];
 
-
-            $host = "localhost";
-            $database = "cosc360";
-            $user = "83066985";
-            $password = "83066985";
-
-            $connection = mysqli_connect($host, $user, $password, $database);
-
-            $error = mysqli_connect_error();
-            if ($error != null) {
-                $output = "<p>Unable to connect to database!</p>";
-                exit ($output);
-            } else {
-                //and fetch results
-                $sql = "SELECT * FROM products 
+            $sql = "SELECT * FROM products 
             JOIN productstores on products.productID = productStores.productID 
             JOIN stores on productstores.StoreID = stores.StoreID
             JOIN prices on products.productID = prices.productID";
-            }
 
             $previousrow;
             $results = mysqli_query($connection, $sql);
@@ -114,7 +99,7 @@ if (isset ($_GET['ProductID'])) {
         mysqli_free_result($results);
         mysqli_close($connection);
         ?>
-        <button id="BacktoSearch" class="post" onclick="location.href='adminPostResult.php'">Back to Results</button>
+        <button id="BacktoSearch" class="post" onclick="location.href='adminItemResult.php'">Back to Results</button>
         <hr>
     </div>
 

@@ -95,6 +95,7 @@
     <div class="col-8 mx-auto" style="background-color: rgba(245, 245, 220, 0.5);">
         <h2 style="text-align: center;">Edit Post</h2>
         <?php
+        require_once "php/dbconnection.php";
         $comment;
         if (isset ($_GET["Comment"])) {
             $comment = $_GET["Comment"];
@@ -113,13 +114,13 @@
 
                 $("#savechanges").click(function () {
                     var newcomment = $("#comments").val();
-                    $.post("changePost.php", { Comment: newcomment, UserId: UserId }, function () {
+                    $.post("php/changePost.php", { Comment: newcomment, UserId: UserId }, function () {
                         alert("Comment changed.");
                     });
                 });
 
                 $("#removepost").click(function () {
-                    $.post("removePost.php", { UserId: UserId }, function () {
+                    $.post("php/removePost.php", { UserId: UserId }, function () {
                         alert("Comment removed.");
                     });
                 });

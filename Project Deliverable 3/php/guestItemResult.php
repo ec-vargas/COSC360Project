@@ -3,7 +3,7 @@
 
 <head lang="en">
     <meta charset="utf-8">
-    <title>Find Items - Guest Panel</title>
+    <title>Items Result - Guest Panel</title>
     <link rel="stylesheet" href="css/reset.css" />
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
@@ -33,6 +33,7 @@
 
     <div class="col-6 mx-auto">
         <?php
+        require_once "dbconnection.php";
         $contains;
         $doesnotcontain;
         $category;
@@ -51,18 +52,6 @@
         if (isset ($_POST["store-name"])) {
             $store = $_POST["store-name"];
         }
-        $host = "localhost";
-        $database = "GPT";
-        $user = "root";
-        $password = "66060229";
-
-        $connection = mysqli_connect($host, $user, $password, $database);
-
-        $error = mysqli_connect_error();
-        if ($error != null) {
-            $output = "<p>Unable to connect to database!</p>";
-            exit ($output);
-        } else {
             //and fetch results
             $sql;
             if (!empty ($_POST["does-not-contain"])) {
@@ -124,10 +113,7 @@
             }
             mysqli_free_result($results);
             mysqli_close($connection);
-        }
         ?>
-
-
     </div>
     <hr>
     <h3 style="margin-bottom: 0;"><a href=" ../signup.html">Sign Up</a></h3>

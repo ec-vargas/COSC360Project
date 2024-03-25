@@ -1,21 +1,9 @@
 <?php {
     session_start();
+    require_once "dbconnection.php";
 
     // Check if form is submitted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Database connection
-        $servername = "localhost";
-        $username = "root";
-        $password = "66060229";
-        $dbname = "GPT";
-
-        // Create connection
-        $conn = new mysqli($servername, $username, $password, $dbname);
-
-        // Check connection
-        if ($conn->connect_error) {
-            die ("Connection failed: " . $conn->connect_error);
-        }
 
         // Get username and password from the form
         $username = $_POST['AdminUsername'];
@@ -23,7 +11,7 @@
 
         // SQL query to fetch user from database
         $sql = "SELECT * FROM Admin WHERE AdminUsername='$username'";
-        $result = $conn->query($sql);
+        $result = $connection->query($sql);
 
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
@@ -44,5 +32,5 @@
         }
 
     }
-    $conn->close();
+    $connection->close();
 }

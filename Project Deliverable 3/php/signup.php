@@ -7,26 +7,11 @@
 
     // Check if form is submitted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Database connection
-        $servername = "localhost";
-        $username = "root";
-        $password = "66060229";
-        $dbname = "GPT";
-
-        // Create connection
-        $conn = new mysqli($servername, $username, $password, $dbname);
-
-        // Check connection
-        if ($conn->connect_error) {
-            die ("Connection failed: " . $conn->connect_error);
-        }
-
         // Get values from the form
         $email = $_POST['email'];
         $username = $_POST['username'];
         $password = $_POST['password'];
         $confirm_password = $_POST['confirm_password'];
-
 
         // Check if passwords match
         if ($_POST['password'] !== $_POST['confirm_password']) {
@@ -40,7 +25,7 @@
         // SQL query to insert user into database
         $sql = "INSERT INTO Users (email, username, password) VALUES ('$email', '$username', '$hashed_password')";
 
-        if ($conn->query($sql) === TRUE) {
+        if ($connection->query($sql) === TRUE) {
             // Registration successful
             $_SESSION['username'] = $username;
             header("Location: ../home.html");
@@ -53,6 +38,6 @@
 
         // Close the database connection
     }
-    $conn->close();
+    $connection->close();
 
 }

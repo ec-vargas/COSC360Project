@@ -60,6 +60,7 @@
         <Button id="button" onclick="location.href='adminFindUser.html'">Back to Search</Button>
 
         <?php
+        require_once "php/dbconnection.php";
         $firstname;
         $lastname;
         $email;
@@ -78,19 +79,6 @@
         if (isset ($_POST["end"])) {
             $end = $_POST["end"];
         }
-
-        $host = "localhost";
-        $database = "cosc360";
-        $user = "83066985";
-        $password = "83066985";
-
-        $connection = mysqli_connect($host, $user, $password, $database);
-
-        $error = mysqli_connect_error();
-        if ($error != null) {
-            $output = "<p>Unable to connect to database!</p>";
-            exit ($output);
-        } else {
             $sql = "SELECT * FROM users;";
 
             $results = mysqli_query($connection, $sql);
@@ -120,8 +108,7 @@
                 echo "Date joined: " . $row['RegistrationDate'] . "</div>";
             }
             mysqli_free_result($results);
-            mysqli_close($connection);
-        } ?>
+            mysqli_close($connection);?>
     </div>
     <hr>
     <footer>

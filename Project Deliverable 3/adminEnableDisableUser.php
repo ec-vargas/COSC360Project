@@ -88,23 +88,12 @@
     <div class="col-6 mx-auto">
         <h2>User Info</h2>
         <?php
+        require_once "php/dbconnection.php";
         $email;
         if (isset ($_GET["email"])) {
             $email = $_GET["email"];
         }
 
-        $host = "localhost";
-        $database = "cosc360";
-        $user = "83066985";
-        $password = "83066985";
-
-        $connection = mysqli_connect($host, $user, $password, $database);
-
-        $error = mysqli_connect_error();
-        if ($error != null) {
-            $output = "<p>Unable to connect to database!</p>";
-            exit ($output);
-        } else {
             $sql = "SELECT * FROM users;";
 
             $results = mysqli_query($connection, $sql);
@@ -118,9 +107,7 @@
                 }
             }
             mysqli_free_result($results);
-            mysqli_close($connection);
-
-        } ?>
+            mysqli_close($connection); ?>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>

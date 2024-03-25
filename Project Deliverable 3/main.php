@@ -73,18 +73,7 @@
                 <div class="scroll-container">
                     <?php
                     // Connect to your database
-                    $host = "localhost";
-                    $database = "GPT";
-                    $user = "root";
-                    $password = "66060229";
-
-                    $connection = mysqli_connect($host, $user, $password, $database);
-
-                    // Check connection
-                    if (mysqli_connect_errno()) {
-                        echo "Failed to connect to MySQL: " . mysqli_connect_error();
-                        exit();
-                    }
+                    require_once "php/dbconnection.php";
 
                     // Fetch lowest prices for products with photos
                     $sql = "SELECT p.ProductName, pr.Price, p.Photo
