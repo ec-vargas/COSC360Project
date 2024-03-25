@@ -54,10 +54,10 @@
             </div>
         </div>
         <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="main.php">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Store Search</li>
-        </ol>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="main.php">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Store Search</li>
+            </ol>
         </nav>
         <hr>
     </div>
@@ -78,42 +78,42 @@
 
             if (!empty ($search)) {
 
-                    $sql = "SELECT * FROM Stores WHERE StoreName LIKE CONCAT('%', ?, '%')";
+                $sql = "SELECT * FROM Stores WHERE StoreName LIKE CONCAT('%', ?, '%')";
 
 
-                    if ($statement = mysqli_prepare($connection, $sql)) {
-                        mysqli_stmt_bind_param($statement, "s", $search);
+                if ($statement = mysqli_prepare($connection, $sql)) {
+                    mysqli_stmt_bind_param($statement, "s", $search);
 
-                        mysqli_stmt_execute($statement);
+                    mysqli_stmt_execute($statement);
 
-                        $results = mysqli_stmt_get_result($statement);
+                    $results = mysqli_stmt_get_result($statement);
 
 
-                        if (mysqli_num_rows($results) > 0) {
-                            while ($row = mysqli_fetch_assoc($results)) {
-                                echo "<div class='store-info'>";
-                                echo "<h3>Store Name: " . $row["StoreName"] . "</h3>";
-                                echo "<img src='" . $row["StorePhoto"] . "' alt='Store Photo'>";
-                                echo "<br";
-                                echo "<p><strong>Location:</strong> " . $row["Location"] . "</p>";
-                                echo "</div>";
+                    if (mysqli_num_rows($results) > 0) {
+                        while ($row = mysqli_fetch_assoc($results)) {
+                            echo "<div class='store-info'>";
+                            echo "<h3>Store Name: " . $row["StoreName"] . "</h3>";
+                            echo "<img src='" . $row["StorePhoto"] . "' alt='Store Photo'>";
+                            echo "<br";
+                            echo "<p><strong>Location:</strong> " . $row["Location"] . "</p>";
+                            echo "</div>";
 
-                                echo "<Button id ='button' onclick=\"location.href='searchStores.php'\">Back to Search</Button>";
-                            }
-                        } else {
-                            echo "No stores found";
+                            echo "<Button id ='button' onclick=\"location.href='searchStores.php'\">Back to Search</Button>";
                         }
-
-                        mysqli_free_result($results);
-                        mysqli_close($connection);
                     } else {
-                        echo "Error in preparing SQL statement";
+                        echo "No stores found";
                     }
+
+                    mysqli_free_result($results);
+                    mysqli_close($connection);
+                } else {
+                    echo "Error in preparing SQL statement";
                 }
-            } else {
-                echo "Please enter a store name to search.<br>";
-                echo "<Button id ='button' onclick=\"location.href='main.php'\">Back to Home</Button>";
             }
+        } else {
+            echo "Please enter a store name to search.<br>";
+            echo "<br><Button id ='button' onclick=\"location.href='main.php'\">Back to Home</Button>";
+        }
         ?>
     </div>
     <hr>

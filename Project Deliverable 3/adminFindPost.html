@@ -27,45 +27,49 @@
         </div>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="adminOptions.html">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Find Post</li>
+                <li class="breadcrumb-item"><a href="adminOptions.html">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Find Post</li>
             </ol>
-          </nav>
+        </nav>
         <hr>
     </div>
     <h2 id="secondarytitle">Find Posts</h2>
     <hr>
-    <form id="date-range-form" method="POST" action="adminPostResult.php">
-        <section>
-            <h2>Words</h2>
-            <div class="search-form-container">
-                <input type="text" id="contains" name="contains" placeholder="Contains:" autocomplete="off"><br>
-                <input type="text" id="does-not-contain" name="does-not-contain" placeholder="Does Not Contain:"
-                    autocomplete="off"><br>
-                <input type="text" id="tags" name="tags" placeholder="Enter tags" autocomplete="off"><br>
-            </div>
-        </section>
 
-        <section>
-            <h2>People</h2>
-            <div class="search-form-container">
-                <input type="text" id="Email" name="Email" placeholder="Email Address" autocomplete="off"><br>
-                <input type="text" id="username" name="username" placeholder="Username:" autocomplete="off"><br>
-            </div>
-        </section>
+    <div class="col-8 mx-auto">
+        <form id="date-range-form" method="POST" action="adminPostResult.php">
+            <section>
+                <h2>Words</h2>
+                <div class="search-form-container">
+                    <input type="text" id="contains" name="contains" placeholder="Contains:" autocomplete="off"><br>
+                    <input type="text" id="does-not-contain" name="does-not-contain" placeholder="Does Not Contain:"
+                        autocomplete="off"><br>
+                    <input type="text" id="tags" name="tags" placeholder="Enter tags" autocomplete="off"><br>
+                </div>
+            </section>
 
-        <section>
-            <h2>Date Range:</h2>
-            <div class="search-form-container">
-                <label for="category">Start</label><br>
-                <input type="date" id="start" name="start" placeholder="Start:" autocomplete="off"><br>
-                <label for="category">End</label><br>
-                <input type="date" id="end" name="end" placeholder="End:" autocomplete="off"><br>
+            <section>
+                <h2>People</h2>
+                <div class="search-form-container">
+                    <input type="text" id="Email" name="Email" placeholder="Email Address" autocomplete="off"><br>
+                    <input type="text" id="username" name="username" placeholder="Username:" autocomplete="off"><br>
+                </div>
+            </section>
 
-                <button id="search-button" type="submit">Search</button>
-            </div>
-        </section>
-    </form>
+            <section>
+                <h2>Date Range:</h2>
+                <div class="search-form-container">
+                    <label for="category">Start</label><br>
+                    <input type="date" id="start" name="start" placeholder="Start:" autocomplete="off"><br>
+                    <label for="category">End</label><br>
+                    <input type="date" id="end" name="end" placeholder="End:" autocomplete="off"><br>
+                    <br>
+                    <button id="search-button" type="submit">Search</button>
+                </div>
+            </section>
+        </form>
+    </div>
+
     <hr>
     <footer>
         <p><i>Copyright &#169; 2024 Sandhu, Ruan and Vargas </i></p>

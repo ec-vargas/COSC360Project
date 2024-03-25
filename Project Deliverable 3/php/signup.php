@@ -20,16 +20,33 @@
             header("Location: signup.html?error=Passwords do not match");
             exit();
         }
+
+        $profile_picture = '';
+        if (isset ($_FILES['profilePicture']) && $_FILES['profilePicture']['error'] === UPLOAD_ERR_OK) {
+            $upload_dir = '../uploads/'; // Directory to upload profile pictures
+            $file_name = $_FILES['profilePicture']['name'];
+            $file_tmp = $_FILES['profilePicture']['tmp_name'];
+            $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+            $allowed_ext = array('jpg', 'jpeg', 'png', 'gif');
+            if (in_array($file_ext, $allowed_ext)) {
+                $profile_picture = $upload_dir . uniqid() . '.' . $file_ext;
+                move_uploaded_file($file_tmp, $profile_picture);
+            } else {
+
+                header("Location: ../signup.html?error=Invalid file type for profile picture");
+                exit();
+            }
+        }
         // Hash the password
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
         // SQL query to insert user into database
-        $sql = "INSERT INTO Users (email, username, password) VALUES ('$email', '$username', '$hashed_password')";
+        $sql = "INSERT INTO Users (email, username, password, ProfilePicture) VALUES ('$email', '$username', '$hashed_password', '$profile_picture')";
 
         if ($connection->query($sql) === TRUE) {
             // Registration successful
             $_SESSION['username'] = $username;
-            header("Location: ../home.html");
+            header("Location: ../main.php");
             exit();
         } else {
             // Registration failed
