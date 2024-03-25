@@ -44,14 +44,14 @@
         <div class="d-flex justify-content-between align-items-center">
             <h1><a href="home.html">GroceryPricer.ca</a></h1>
             <div class="header2">
-                <a href="login.html" class="btn btn-link" style="font-size: 2em;">Login</a>
+                <a href="php/logout.php" class="btn btn-link" style="font-size: 2em;">LogOut</a>
                 <a href="adminLogin.html" class="btn btn-link" style="font-size: 2em;">Admin Login</a>
             </div>
         </div>
         <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item active" aria-current="page">Home</li>
-        </ol>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">Home</li>
+            </ol>
         </nav>
         <hr>
     </div>
@@ -108,7 +108,8 @@
         </div>
     </div>
 
-    <h3 style="margin-left: 4%; margin-bottom: 5px;"><a href="searchStores.php">Search For Stores</a></h3>
+    <h3 class="btn-link" style=" margin-left: 4%; margin-bottom: 5px;"><a href="searchStores.php">Search For
+            Stores</a></h3>
 
 
     <hr>

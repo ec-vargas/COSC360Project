@@ -23,6 +23,11 @@
                 <a href="adminLogin.html" class="btn btn-link" style="font-size: 2em;">Admin Login</a>
             </div>
         </div>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">Home</li>
+            </ol>
+        </nav>
         <hr>
     </div>
 
@@ -50,6 +55,11 @@
                             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                             title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
                             required>
+                        <br>
+                        <br>
+                        <label for="profile_picture">Profile Picture: </label>
+                        <input type="file" id="profile_picture" style="margin: 5px 0;" name="profile_picture"
+                            accept="image/*">
                         <br>
                         <input type="submit" style="margin: 5px 0;" id="submit">
                     </form>
