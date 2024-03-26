@@ -39,6 +39,22 @@
     </style>
 </head>
 <body>
+<div class="container-fluid-2">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1><a href="home.html">GroceryPricer.ca</a></h1>
+            <div class="header2">
+                <a href="php/logout.php" class="btn btn-link" style="font-size: 2em;">LogOut</a>
+                <a href="adminLogin.html" class="btn btn-link" style="font-size: 2em;">Admin Login</a>
+            </div>
+        </div>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="home.html">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Search for Stores</li>
+            </ol>
+        </nav>
+        <hr>
+    </div>
     <div class="container">
         <h2>Search for Stores:</h2>
         <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
@@ -76,5 +92,9 @@
         mysqli_close($connection);
         ?>
     </div>
+    <hr>
+    <footer>
+        <p><i>Copyright &#169; 2024 Sandhu, Ruan and Vargas </i></p>
+    </footer>
 </body>
 </html>

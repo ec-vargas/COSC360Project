@@ -1,48 +1,5 @@
 <?php include 'dbconnection.php'; ?>
 
-<?php
-$storesData = [];
-if (isset($_POST['search'])) {
-    $searchKeyword = $_POST['searchKeyword'];
-    $startDate = $_POST['startDate'];
-    $endDate = $_POST['endDate'];
-
-    $query = "SELECT P.ProductID, Pr.PriceID, Pr.StoreID, Pr.Price, Pr.PriceDate, S.StoreName
-            FROM Prices Pr
-            INNER JOIN Products P ON Pr.ProductID = P.ProductID
-            INNER JOIN Stores S ON Pr.StoreID = S.StoreID
-            WHERE P.ProductName = ?
-            AND Pr.PriceDate BETWEEN ? AND ?";
-
-    $statement = mysqli_prepare($connection, $query);
-    mysqli_stmt_bind_param($statement, "sss", $searchKeyword, $startDate, $endDate);
-    mysqli_stmt_execute($statement);
-    $result = mysqli_stmt_get_result($statement);
-    $prices = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-    
-    foreach ($prices as $price) {
-        $storeID = $price['StoreID'];
-        $storeName = $price['StoreName'];
-        $storesData[$storeID]['labels'][] = $price['PriceDate'];
-        $storesData[$storeID]['data'][] = $price['Price'];
-        $storesData[$storeID]['name'] = $storeName;
-    }
-
-    if (count($prices) > 0) {
-        echo "<h2>Price Data for Product '$searchKeyword' from $startDate to $endDate</h2>";
-
-        foreach ($storesData as $storeID => $storeData) {
-            echo "<div class='store-price-info'>";
-            echo "<h3>Store Name: {$storeData['name']}</h3>";
-            echo "<canvas id='priceChart$storeID'></canvas>";
-            echo "</div>";
-        }
-    } else {
-        echo "No price data found for Product '$searchKeyword' within the specified date range.";
-    }
-}
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -50,6 +7,14 @@ if (isset($_POST['search'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Price Data Page</title>
+    <link rel="stylesheet" href="../css/reset.css" />
+
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/style.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
@@ -105,6 +70,24 @@ if (isset($_POST['search'])) {
     </style>
 </head>
 <body>
+<div class="container-fluid-2">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1><a href="../home.html">GroceryPricer.ca</a></h1>
+            <div class="header2">
+                <a href="logout.php" class="btn btn-link" style="font-size: 2em;">LogOut</a>
+                <a href="adminLogin.html" class="btn btn-link" style="font-size: 2em;">Admin Login</a>
+            </div>
+        </div>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../home.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="../searchStores.php">Search for Prices</a></li>
+                <li class="breadcrumb-item"><a href="price_data_page.php">Price Data</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Compare Prices</li>
+            </ol>
+        </nav>
+        <hr>
+    </div>
 <form method="post" action="">
     <label for="searchKeyword">Search for item:</label>
     <input type="text" name="searchKeyword" id="searchKeyword" required>
@@ -114,7 +97,49 @@ if (isset($_POST['search'])) {
     <input type="date" name="endDate" id="endDate" value="2024-03-20" required>
     <button type="submit" name="search">Search</button>
 </form>
+<?php
+$storesData = [];
+if (isset($_POST['search'])) {
+    $searchKeyword = $_POST['searchKeyword'];
+    $startDate = $_POST['startDate'];
+    $endDate = $_POST['endDate'];
 
+    $query = "SELECT P.ProductID, Pr.PriceID, Pr.StoreID, Pr.Price, Pr.PriceDate, S.StoreName
+            FROM Prices Pr
+            INNER JOIN Products P ON Pr.ProductID = P.ProductID
+            INNER JOIN Stores S ON Pr.StoreID = S.StoreID
+            WHERE P.ProductName = ?
+            AND Pr.PriceDate BETWEEN ? AND ?";
+
+    $statement = mysqli_prepare($connection, $query);
+    mysqli_stmt_bind_param($statement, "sss", $searchKeyword, $startDate, $endDate);
+    mysqli_stmt_execute($statement);
+    $result = mysqli_stmt_get_result($statement);
+    $prices = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    
+    foreach ($prices as $price) {
+        $storeID = $price['StoreID'];
+        $storeName = $price['StoreName'];
+        $storesData[$storeID]['labels'][] = $price['PriceDate'];
+        $storesData[$storeID]['data'][] = $price['Price'];
+        $storesData[$storeID]['name'] = $storeName;
+    }
+
+    if (count($prices) > 0) {
+        echo "<h2>Price Data for Product '$searchKeyword' from $startDate to $endDate</h2>";
+
+        foreach ($storesData as $storeID => $storeData) {
+            echo "<div class='store-price-info'>";
+            echo "<h3>Store Name: {$storeData['name']}</h3>";
+            echo "<canvas id='priceChart$storeID'></canvas>";
+            echo "</div>";
+        }
+    } else {
+        echo "No price data found for Product '$searchKeyword' within the specified date range.";
+    }
+}
+?>
 <?php
 foreach ($storesData as $storeID => $storeData) {
     echo "<script>
@@ -144,5 +169,9 @@ foreach ($storesData as $storeID => $storeData) {
     </script>";
 }
 ?>
+    <hr>
+    <footer>
+        <p><i>Copyright &#169; 2024 Sandhu, Ruan and Vargas </i></p>
+    </footer>
 </body>
 </html>
