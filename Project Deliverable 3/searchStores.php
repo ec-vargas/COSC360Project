@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,7 +31,7 @@
             max-width: 100%;
             height: auto;
             margin-bottom: 10px;
-            
+
         }
 
         .store-info p {
@@ -38,8 +39,25 @@
         }
     </style>
 </head>
+
 <body>
-    <div class="container">
+    <div class="container-fluid-2">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1><a href="home.html">GroceryPricer.ca</a></h1>
+            <div class="header2">
+                <a href="login.html" style="font-size: 2em;">Login&nbsp;</a>
+                <a href="adminLogin.html" style="font-size: 2em;">&nbsp;Admin Login</a>
+            </div>
+        </div>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="main.php">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Store Search</li>
+            </ol>
+        </nav>
+        <hr>
+    </div>
+    <div class="col-10 mx-auto">
         <h2>Search for Stores:</h2>
         <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
             <label for="searchStore">Search by Store Name:</label>
@@ -48,8 +66,8 @@
         </form>
         <?php include 'php/dbconnection.php'; ?>
         <?php
-       
-        if(isset($_POST['searchStore'])) {
+
+        if (isset ($_POST['searchStore'])) {
             $searchStore = $_POST['searchStore'];
 
             $sql = "SELECT * FROM Stores WHERE StoreName LIKE '%$searchStore%'";
@@ -77,4 +95,5 @@
         ?>
     </div>
 </body>
+
 </html>

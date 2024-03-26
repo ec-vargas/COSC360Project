@@ -200,3 +200,7 @@ hr {
 #find-items-form {
     padding: 10px;
 }
+
+.breadcrumb-item {
+    margin-left: 1%;
+}

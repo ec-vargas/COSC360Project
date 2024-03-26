@@ -27,21 +27,21 @@
     <div class="container-fluid-2">
         <div class="row">
             <div class="col">
-                <h1><a href="home.html">GroceryPricer.ca</a></h1>
+                <h1><a href=" ../home.html">GroceryPricer.ca</a></h1>
             </div>
             <div class="col">
                 <div class="header2">
-                    <a href="login.html" class="btn btn-link" style="font-size: 2em;">Login</a>
-                    <a href="adminLogin.html" class="btn btn-link" style="font-size: 2em;">Admin Login</a>
+                    <a href="loginbackend.php" style="font-size: 2em;">Login&nbsp;</a>
+                    <a href="adminLogin.html" style="font-size: 2em;">&nbsp;Admin Login</a>
                 </div>
             </div>
         </div>
         <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="../home.html">Home</a></li>
-            <li class="breadcrumb-item"><a href="../guest.php">Main</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Product Results</li>
-        </ol>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="../home.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="../guest.php">Main</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Product Results</li>
+            </ol>
         </nav>
         <hr>
     </div>
@@ -56,7 +56,7 @@
         echo "<h2>Results for Keyword Search '" . $contains . "'</h2>";
         echo "<Button id='button' onclick=\"location.href='../guest.php'\">Back to Search</Button>";
 
-                $sql = "SELECT p.*, pr.Price, s.StoreName
+        $sql = "SELECT p.*, pr.Price, s.StoreName
                 FROM products p 
                 JOIN categories c ON p.categoryID = c.categoryID 
                 JOIN productstores ps ON p.productID = ps.productID 
@@ -64,38 +64,38 @@
                 LEFT JOIN prices pr ON p.ProductID = pr.ProductID
                 WHERE p.ProductName LIKE CONCAT('%', ?, '%') AND PriceDate IN (SELECT MAX(PriceDate) FROM products JOIN prices on products.ProductID = prices.ProductID)";
 
-                if ($statement = mysqli_prepare($connection, $sql)) {
-                    mysqli_stmt_bind_param($statement, "s", $contains);
-                    mysqli_stmt_execute($statement);
+        if ($statement = mysqli_prepare($connection, $sql)) {
+            mysqli_stmt_bind_param($statement, "s", $contains);
+            mysqli_stmt_execute($statement);
 
-                    $results = mysqli_stmt_get_result($statement);
-                    $resultsperrow = 0;
-                    echo "<div class='row align-items-start'>";
-                    while ($row = mysqli_fetch_assoc($results)) {
-                        if (!empty ($_POST["category"])) {
-                            if (!(strpos(strtoupper($row['CategoryName']), strtoupper($category)) !== false)) {
-                                continue;
-                            }
-                        }
-                        if (!empty ($_POST["store-name"])) {
-                            if (!(strpos(strtoupper($row['StoreName']), strtoupper($store)) !== false)) {
-                                continue;
-                            }
-                        }
-                        // Output product details inline with the image, name, price, and store name
-                        
-                        if ($resultsperrow == 4) {
-                            echo "</div><div class='row row-cols-2 row-cols-lg-4 g-2 g-lg-3'>";
-                            echo "<div class='col'><a href='../signup.html'><img src='../" . $row['Photo'] . "' width='200px' height='200px'></a><br>" . $row['ProductName'] . " - $" . $row['Price'] . " at " . $row['StoreName'] . "</div>";
-                            $resultsperrow = 1;
-                        } else {
-                            echo "<div class='col'><a href='../signup.html'><img src='../" . $row['Photo'] . "' width='200px' height='200px'></a><br>" . $row['ProductName'] . " - $" . $row['Price'] . " at " . $row['StoreName'] . "</div>";
-                            $resultsperrow++;
-                        }
+            $results = mysqli_stmt_get_result($statement);
+            $resultsperrow = 0;
+            echo "<div class='row align-items-start'>";
+            while ($row = mysqli_fetch_assoc($results)) {
+                if (!empty ($_POST["category"])) {
+                    if (!(strpos(strtoupper($row['CategoryName']), strtoupper($category)) !== false)) {
+                        continue;
                     }
                 }
-            mysqli_free_result($results);
-            mysqli_close($connection);
+                if (!empty ($_POST["store-name"])) {
+                    if (!(strpos(strtoupper($row['StoreName']), strtoupper($store)) !== false)) {
+                        continue;
+                    }
+                }
+                // Output product details inline with the image, name, price, and store name
+        
+                if ($resultsperrow == 4) {
+                    echo "</div><div class='row row-cols-2 row-cols-lg-4 g-2 g-lg-3'>";
+                    echo "<div class='col'><a href='../signup.html'><img src='../" . $row['Photo'] . "' width='200px' height='200px'></a><br>" . $row['ProductName'] . " - $" . $row['Price'] . " at " . $row['StoreName'] . "</div>";
+                    $resultsperrow = 1;
+                } else {
+                    echo "<div class='col'><a href='../signup.html'><img src='../" . $row['Photo'] . "' width='200px' height='200px'></a><br>" . $row['ProductName'] . " - $" . $row['Price'] . " at " . $row['StoreName'] . "</div>";
+                    $resultsperrow++;
+                }
+            }
+        }
+        mysqli_free_result($results);
+        mysqli_close($connection);
         ?>
     </div>
     <hr>
@@ -105,4 +105,3 @@
 </body>
 
 </html>
-
