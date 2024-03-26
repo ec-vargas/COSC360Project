@@ -22,6 +22,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Password is correct, set up session
             $_SESSION['username'] = $username;
 
+            // Fetch profile photo for the signed-in user
+            $profile_sql = "SELECT ProfilePicture FROM Users WHERE Username = '$username'";
+            $profile_result = $connection->query($profile_sql);
+
+            if ($profile_result->num_rows > 0) {
+                $profile_row = $profile_result->fetch_assoc();
+                $_SESSION['profile_photo'] = $profile_row['ProfilePicture'];
+            }
+
+            // Redirect to main page
             header("Location:../main.php");
             $connection->close();
             exit();

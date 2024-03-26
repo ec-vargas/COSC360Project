@@ -44,8 +44,11 @@
         <div class="d-flex justify-content-between align-items-center">
             <h1><a href="home.html">GroceryPricer.ca</a></h1>
             <div class="header2">
-                <a href="php/logout.php" class="btn btn-link" style="font-size: 2em;">LogOut</a>
-                <a href="adminLogin.html" class="btn btn-link" style="font-size: 2em;">Admin Login</a>
+                <?php if (isset ($_SESSION['profile_photo'])): ?>
+                    <img src="<?php echo $_SESSION['profile_photo']; ?>" alt="User Profile Photo" class="img-thumbnail">
+                <?php endif; ?>
+                <a href="php/logout.php" style="font-size: 2em;">LogOut&nbsp;</a>
+                <a href="adminLogin.html" style="font-size: 2em;">&nbsp;Admin Login</a>
             </div>
         </div>
         <nav aria-label="breadcrumb">
@@ -77,9 +80,9 @@
             <div class="col">
                 <div class="scroll-container">
                     <?php
+                    session_start();
                     // Connect to your database
                     require_once "php/dbconnection.php";
-
                     // Fetch lowest prices for products with photos
                     $sql = "SELECT p.ProductName, pr.Price, p.Photo
                     FROM Products p

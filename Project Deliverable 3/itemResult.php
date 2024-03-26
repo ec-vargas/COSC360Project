@@ -31,8 +31,8 @@
             </div>
             <div class="col">
                 <div class="header2">
-                    <a href="login.php" class="btn btn-link" style="font-size: 2em;">Login</a>
-                    <a href="adminLogin.html" class="btn btn-link" style="font-size: 2em;">Admin Login</a>
+                    <a href="login.html" style="font-size: 2em;">Login&nbsp;</a>
+                    <a href="adminLogin.html" style="font-size: 2em;">&nbsp;Admin Login</a>
                 </div>
             </div>
         </div>

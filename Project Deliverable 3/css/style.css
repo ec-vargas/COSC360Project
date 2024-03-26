@@ -201,6 +201,6 @@ hr {
     padding: 10px;
 }
 
-btn-link {
-    color: black;
+.breadcrumb-item {
+    margin-left: 1%;
 }
