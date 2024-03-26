@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 
@@ -20,14 +23,15 @@
                 <h1><a href="home.html">GroceryPricer.ca</a></h1>
             </div>
             <div class="col text-end">
-                <button id="home" class="adminButton" onclick="location.href='adminOptions.html'">
+                <button style="margin-right: 2%;"><?php echo $_SESSION['AdminUsername'];?></button>
+                <button id="home" class="adminButton" onclick="location.href='adminOptions.php'">
                     <span>Admin Home</span>
                 </button>
             </div>
         </div>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item active" aria-current="page">Home</li>
+              <li class="breadcrumb-item active" aria-current="page">Home</li>
             </ol>
         </nav>
         <hr>
@@ -36,15 +40,15 @@
     <div class="col-6 mx-auto" style="display: flex; flex-direction: column; align-items: center;">
         <h2 id="secondarytitle">Welcome, Admin.</h2>
         <button id="finduser" class="homebutton" style="margin: 5px 0;"
-            onclick="location.href='adminFindUser.html'">Find a
+            onclick="location.href='adminFindUser.php'">Find a
             user by name, <br> email or post.</button>
         <button id="finditems" class="homebutton" style="margin: 5px 0;"
-            onclick="location.href='adminFindItems.html'">Find
+            onclick="location.href='adminFindItems.php'">Find
             Items</button>
         <button id="findpost" class="homebutton" style="margin: 5px 0;"
-            onclick="location.href='adminFindPost.html'">Find a
+            onclick="location.href='adminFindPost.php'">Find a
             Post</button>
-        <button id="adminLogout" class="signout" style="margin: 5px 0;" onclick="location.href='php/logout.php'">Logout
+        <button id="adminLogout" class="signout" style="margin: 5px 0;" onclick="location.href='adminLogin.html'">Logout
             as
             Admin</button>
     </div>

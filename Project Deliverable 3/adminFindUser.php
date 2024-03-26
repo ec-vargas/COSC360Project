@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 
@@ -20,14 +23,15 @@
                 <h1><a href="home.html">GroceryPricer.ca</a></h1>
             </div>
             <div class="col text-end">
-                <button id="home" class="adminButton" onclick="location.href='adminOptions.html'">
+            <button style="margin-right: 2%;"><?php if (isset($_SESSION['AdminUsername'])) {echo $_SESSION['AdminUsername'];}?></button>
+                <button id="home" class="adminButton" onclick="location.href='adminOptions.php'">
                     <span>Admin Home</span>
                 </button>
             </div>
         </div>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="adminOptions.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="adminOptions.php">Home</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Find User</li>
             </ol>
         </nav>

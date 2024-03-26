@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once "php/dbconnection.php";
 $ProductID;
 if (isset ($_GET['ProductID'])) {
@@ -27,7 +28,8 @@ if (isset ($_GET['ProductID'])) {
                 <h1><a href="home.html">GroceryPricer.ca</a></h1>
             </div>
             <div class="col text-end">
-                <button id="home" class="adminButton" onclick="location.href='adminOptions.html'">
+            <button style="margin-right: 2%;"><?php if (isset($_SESSION['AdminUsername'])) {echo $_SESSION['AdminUsername'];}?></button>
+                <button id="home" class="adminButton" onclick="location.href='adminOptions.php'">
                     <span>Admin Home</span>
                 </button>
             </div>

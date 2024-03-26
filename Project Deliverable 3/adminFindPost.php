@@ -1,9 +1,12 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 
 <head lang="en">
     <meta charset="utf-8">
-    <title>Find Items - Admin Panel</title>
+    <title>Find Post - Admin Panel</title>
     <link rel="stylesheet" href="css/reset.css" />
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
@@ -20,43 +23,51 @@
                 <h1><a href="home.html">GroceryPricer.ca</a></h1>
             </div>
             <div class="col text-end">
-                <button id="home" class="adminButton" onclick="location.href='adminOptions.html'">
+                <button style="margin-right: 2%;"><?php if (isset($_SESSION['AdminUsername'])) {echo $_SESSION['AdminUsername'];}?></button>
+                <button id="home" class="adminButton" onclick="location.href='adminOptions.php'">
                     <span>Admin Home</span>
                 </button>
             </div>
         </div>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="adminOptions.html">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Find Items</li>
+                <li class="breadcrumb-item"><a href="adminOptions.php">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Find Post</li>
             </ol>
         </nav>
         <hr>
     </div>
+    <h2 id="secondarytitle">Find Posts</h2>
+    <hr>
+
     <div class="col-8 mx-auto">
-        <form id="find-items-form" method="POST" action="adminItemResult.php">
+        <form id="date-range-form" method="POST" action="adminPostResult.php">
             <section>
-                <h2>Find Items</h2>
+                <h2>Words</h2>
                 <div class="search-form-container">
-                    <input type="text" id="contains" name="contains" placeholder="Enter keyword to search"
+                    <input type="text" id="contains" name="contains" placeholder="Contains:" autocomplete="off"><br>
+                    <input type="text" id="does-not-contain" name="does-not-contain" placeholder="Does Not Contain:"
                         autocomplete="off"><br>
-                    <input type="text" id="does-not-contain" name="does-not-contain"
-                        placeholder="Enter keyword to exclude" autocomplete="off"><br>
+                    <input type="text" id="tags" name="tags" placeholder="Enter tags" autocomplete="off"><br>
                 </div>
             </section>
 
             <section>
-                <h2>Filter by Category</h2>
+                <h2>People</h2>
                 <div class="search-form-container">
-                    <input type="text" id="category" name="category" placeholder="Enter tags" autocomplete="off"><br>
+                    <input type="text" id="Email" name="Email" placeholder="Email Address" autocomplete="off"><br>
+                    <input type="text" id="username" name="username" placeholder="Username:" autocomplete="off"><br>
                 </div>
             </section>
 
             <section>
-                <h2>Filter by Store</h2>
+                <h2>Date Range:</h2>
                 <div class="search-form-container">
-                    <input type="text" id="store-name" name="store-name" placeholder="Enter store name"
-                        autocomplete="off"><br>
+                    <label for="category">Start</label><br>
+                    <input type="date" id="start" name="start" placeholder="Start:" autocomplete="off"><br>
+                    <label for="category">End</label><br>
+                    <input type="date" id="end" name="end" placeholder="End:" autocomplete="off"><br>
+                    <br>
                     <button id="search-button" type="submit">Search</button>
                 </div>
             </section>

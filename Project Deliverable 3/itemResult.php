@@ -31,7 +31,7 @@
             </div>
             <div class="col">
                 <div class="header2">
-                    <a href="login.html" class="btn btn-link" style="font-size: 2em;">Login</a>
+                    <a href="login.php" class="btn btn-link" style="font-size: 2em;">Login</a>
                     <a href="adminLogin.html" class="btn btn-link" style="font-size: 2em;">Admin Login</a>
                 </div>
             </div>

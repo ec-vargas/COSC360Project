@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 
@@ -29,17 +32,17 @@
             <div class="col">
                 <h1><a href="home.html">GroceryPricer.ca</a></h1>
             </div>
-            <div class="col">
-                <div class="header2">
-                    <a href="login.html" class="btn btn-link" style="font-size: 2em;">Login</a>
-                    <a href="adminLogin.html" class="btn btn-link" style="font-size: 2em;">Admin Login</a>
-                </div>
+            <div class="col text-end">
+                <button style="margin-right: 2%;"><?php echo $_SESSION['AdminUsername'];?></button>
+                <button id="home" class="adminButton" onclick="location.href='adminOptions.php'">
+                    <span>Admin Home</span>
+                </button>
             </div>
         </div>
         <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="adminOptions.html">Home</a></li>
-            <li class="breadcrumb-item"><a href="adminFindItems.html">Find Items</a></li>
+            <li class="breadcrumb-item"><a href="adminOptions.php">Home</a></li>
+            <li class="breadcrumb-item"><a href="adminFindItems.php">Find Items</a></li>
             <li class="breadcrumb-item active" aria-current="page">Item Results</li>
         </ol>
         </nav>
@@ -106,5 +109,3 @@
 </body>
 
 </html>
-
-<!-- echo "<div><a href='adminChangePriceData.php?ProductID=" . $row['ProductID'] . "'><img src='" . $row['Photo'] . "' width = 200px height = 200px></a><br>" . $row['ProductName'] . "</div>"; -->

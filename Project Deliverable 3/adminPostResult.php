@@ -1,4 +1,5 @@
-<?php require_once "php/dbconnection.php";?>
+<?php require_once "php/dbconnection.php";
+session_start();?>
 
 <!DOCTYPE html>
 <html>
@@ -48,15 +49,16 @@
                 <h1><a href="home.html">GroceryPricer.ca</a></h1>
             </div>
             <div class="col text-end">
-                <button id="home" class="adminButton" onclick="location.href='adminOptions.html'">
+            <button style="margin-right: 2%;"><?php if (isset($_SESSION['AdminUsername'])) {echo $_SESSION['AdminUsername'];}?></button>
+                <button id="home" class="adminButton" onclick="location.href='adminOptions.php'">
                     <span>Admin Home</span>
                 </button>
             </div>
         </div>
         <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="adminOptions.html">Home</a></li>
-            <li class="breadcrumb-item"><a href="adminFindPost.html">Find Post</a></li>
+            <li class="breadcrumb-item"><a href="adminOptions.php">Home</a></li>
+            <li class="breadcrumb-item"><a href="adminFindPost.php">Find Post</a></li>
             <li class="breadcrumb-item active" aria-current="page">Post Results</li>
         </ol>
         </nav>
@@ -81,7 +83,7 @@
             echo "<h2>Results for Advanced Search '" . $contains . "'</h2>";
         }
 
-        echo "<Button id ='button' onclick=\"location.href='adminFindPost.html'\">Back to Search</Button>";
+        echo "<Button id ='button' onclick=\"location.href='adminFindPost.php'\">Back to Search</Button>";
         if (isset ($_POST["does-not-contain"])) {
             $doesnotcontain = $_POST["does-not-contain"];
         }

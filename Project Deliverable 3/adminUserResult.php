@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 
@@ -48,15 +51,16 @@
                 <h1><a href="home.html">GroceryPricer.ca</a></h1>
             </div>
             <div class="col text-end">
-                <button id="home" class="adminButton" onclick="location.href='adminOptions.html'">
+            <button style="margin-right: 2%;"><?php if (isset($_SESSION['AdminUsername'])) {echo $_SESSION['AdminUsername'];}?></button>
+                <button id="home" class="adminButton" onclick="location.href='adminOptions.php'">
                     <span>Admin Home</span>
                 </button>
             </div>
         </div>
         <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="adminOptions.html">Home</a></li>
-            <li class="breadcrumb-item"><a href="adminFindUser.html">Find User</a></li>
+            <li class="breadcrumb-item"><a href="adminOptions.php">Home</a></li>
+            <li class="breadcrumb-item"><a href="adminFindUser.php">Find User</a></li>
             <li class="breadcrumb-item active" aria-current="page">User Results</li>
         </ol>
         </nav>
@@ -64,7 +68,7 @@
     </div>
     <div class="col-8 mx-auto">
         <h2>Results for Advanced Search</h2>
-        <Button id="button" onclick="location.href='adminFindUser.html'">Back to Search</Button>
+        <Button id="button" onclick="location.href='adminFindUser.php'">Back to Search</Button>
 
         <?php
         require_once "php/dbconnection.php";
