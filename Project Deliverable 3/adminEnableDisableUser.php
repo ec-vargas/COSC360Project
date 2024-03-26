@@ -41,7 +41,7 @@
             border-radius: 10px;
             background-color: rgb(255, 246, 246);
         }
-
+/* 
         #BacktoSearch {
             display: block;
             margin-left: 15px;
@@ -49,22 +49,12 @@
             margin-bottom: 20px;
             border: 0;
             line-height: 1.65;
-        }
-
-        div {
-            padding: 10px;
-            margin-left: 10px;
-            margin-bottom: 10px;
-            background-color: rgb(171, 223, 117);
-            width: 50%;
-            display: block;
-            height: 160px;
-        }
+        } */
 
         img {
             display: inline;
-            float: left;
-            margin-right: 10px;
+            width: 30px;
+            height: 30px;
         }
 
     </style>
@@ -99,7 +89,7 @@
             $results = mysqli_query($connection, $sql);
             while ($row = mysqli_fetch_assoc($results)) {
                 if ($row['Email'] === $email) {
-                    echo "<div><img src='".$row['ProfilePicture']."' width = 150px height = 150px/><p id='user'>".$row['Username']."</p><br>";
+                    echo "<div><img class='img-thumbnail' src='".$row['ProfilePicture']."' width = 150px height = 150px/><p id='user'>".$row['Username']."</p><br>";
                     echo "Email: ".$row['Email']."<br><br>";
                     echo "Date joined: ".$row['RegistrationDate']."</div>";
                     echo "<script>var userId = " . json_encode($row['UserID']) . ";</script>";
@@ -115,42 +105,25 @@
         $("#DeleteUser").click(function() {
             var userToDelete = userId;
             
-            $.post("php/deleteUser.php", { userId: userToDelete }, function() {
+            $.post("php/deleteUser.php", { UserID: userToDelete }, function() {
                 alert("User has been deleted.");
             });
         });
-
         $("#EditUsername").click(function() {
-            var textContent = $("#user").text(); 
-            var textBox = $("<input type='text' placeholder='Enter new username'>").val(textContent);
-            $("#user").replaceWith(textBox);
-
-            $(this).text("Save");
-
-            var editingMode = true;
+            var input = "<input id='text' type='text' placeholder='Enter new username'><button id='save'>Save</button>";
+            var editUser = userId;
+            var newUsername;
+            $("#user").after(input);
+            $("#save").click(function() {
+                newUsername = $("#text").val();
+                $.post("php/editUsername.php", { UserID: editUser, newUsername: newUsername }, function(response) {
+                $("#EditUsername").text("Save");
+                $("#text").remove();
+                $("#save").remove();
+            });
+            });
             
-            // Define the saveUsername function to handle saving the changes
-            var saveUsername = function() {
-                if (editingMode) {
-                    var newUsername = textBox.val();
-                    var userToEdit = userId;
-
-                    $.post("php/editUser.php", { userId: userToEdit, newUsername: newUsername }, function(response) {
-                        textBox.replaceWith("<p id='user'>" + newUsername + "</p>");
-                        $("#EditUsername").text("Edit Username");
-                        editingMode = false;
-                    });
-                } else {
-                    textBox.replaceWith($("<input type='text' placeholder='Enter new username'>").val(textContent));
-                    $("#EditUsername").text("Save");
-                    editingMode = true;
-                }
-            };
-
-            // Bind the saveUsername function to the click event of the button
-            $(this).off("click").click(saveUsername);
         });
-
     });
     </script>
     <button id="EditUsername" class="UserActions">Edit Username</button>

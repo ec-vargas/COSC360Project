@@ -1,6 +1,7 @@
 <?php include 'dbconnection.php'; ?>
 
 <?php
+$storesData = [];
 if (isset($_POST['search'])) {
     $searchKeyword = $_POST['searchKeyword'];
     $startDate = $_POST['startDate'];
@@ -19,7 +20,7 @@ if (isset($_POST['search'])) {
     $result = mysqli_stmt_get_result($statement);
     $prices = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-    $storesData = [];
+    
     foreach ($prices as $price) {
         $storeID = $price['StoreID'];
         $storeName = $price['StoreName'];

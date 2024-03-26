@@ -46,7 +46,7 @@
             <input type="text" id="searchStore" name="searchStore" placeholder="Enter store name...">
             <button type="submit">Search</button>
         </form>
-        <?php include 'dbconnection.php'; ?>
+        <?php include 'php/dbconnection.php'; ?>
         <?php
        
         if(isset($_POST['searchStore'])) {
@@ -62,7 +62,7 @@
                     echo "<h3>Store Name: " . $row["StoreName"] . "</h3>";
                     echo "<img src='" . $row["StorePhoto"] . "' alt='Store Photo'>";
                     echo "<p><strong>Location:</strong> " . $row["Location"] . "</p>";
-                    echo "<form method='post' action='price_data_page.php'>";
+                    echo "<form method='post' action='php/price_data_page.php'>";
                     echo "<input type='hidden' name='storeName' value='" . $row["StoreName"] . "'>";
                     echo "<button type='submit'>View Prices</button>";
                     echo "</form>";

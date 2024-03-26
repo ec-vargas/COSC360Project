@@ -37,8 +37,8 @@ session_start();
 
         img {
             display: inline;
-            float: left;
-            margin-right: 10px;
+            width: 30px;
+            height: 30px;
         }
     </style>
 </head>
@@ -114,8 +114,8 @@ session_start();
                         continue;
                     }
                 }
-                echo "<div><img src='" . $row['ProfilePicture'] . "' width = 150px height = 150px/><p><a href='adminEnableDisableUser.php?email=" . $row['Email'] . "'>" . $row['Username'] . "</a></p><br>";
-                echo "Email: " . $row['Email'] . "<br><br>";
+                echo "<div><img class='img-thumbnail' src='" . $row['ProfilePicture'] . "' /><p><a href='adminEnableDisableUser.php?email=" . $row['Email'] . "'>" . $row['Username'] . "</a></p><br>";
+                echo "Email: " . $row['Email'] . "<br>";
                 echo "Date joined: " . $row['RegistrationDate'] . "</div>";
             }
             mysqli_free_result($results);

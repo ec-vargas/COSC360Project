@@ -19,7 +19,7 @@
             if ($password === $row['AdminPassword']) {
                 // Password is correct, set up session
                 $_SESSION['AdminUsername'] = $username;
-                header("Location: ../adminOptions.html"); // Redirect to welcome page after successful login
+                header("Location: ../adminOptions.php"); // Redirect to welcome page after successful login
                 exit();
             } else {
                 header("Location: ../adminLogin.html?error=Invalid password");
