@@ -69,22 +69,10 @@ if (isset ($_GET['ProductID'])) {
         </section>
 
         <div id="commentbox">
-            <h2 id="comments">Tell us what you think?</h2>
-            <textarea id="usercomment" rows="8" cols="40" placeholder="Add a comment!"></textarea>
-            <Button id="post">Post</Button>
+            
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
             <script>
                 $(document).ready(function () {
-
-                    $("#post").click(function () {
-                        var newcomment = $("#usercomment").val();
-                        var ProductId = "<?php echo $ProductID; ?>";
-                        var UserId = "<?php echo $_SESSION['AdminUsername']; ?>";
-                        $.post("php/createpost.php", { Comment: newcomment, ProductId: ProductId }, function (response) {
-                            if (response.length == 0) {alert("Post Created.");}
-                            else {alert("Error creating post.");}
-                        });
-                    });
 
                     $("#button").click(function () {
                         var newprice = $(".inline").val();
