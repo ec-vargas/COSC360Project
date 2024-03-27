@@ -367,7 +367,7 @@ CREATE TABLE `Products` (
   `ProductName` varchar(100) NOT NULL,
   `CategoryID` int(11) DEFAULT NULL,
   `Photo` varchar(255) DEFAULT NULL
-  `Price` decimal(9.2) DEFAULT NULL
+  `Price` decimal(9,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -473,7 +473,7 @@ CREATE TABLE `Stores` (
 INSERT INTO `Stores` (`StoreID`, `StoreName`, `Location`, `StorePhoto`) VALUES
 (1, 'Fresh Mart', '123 Main Street, Kelowna', 'img/31.jpg'),
 (2, 'Green Basket', '456 Elm Avenue, Vernon', 'img/32.jpg'),
-(3, 'Nature\'s Harvest', '789 Oak Road, Richmond', 'img/33.jpg');
+(3, 'Natures Harvest', '789 Oak Road, Richmond', 'img/33.jpg');
 
 -- --------------------------------------------------------
 
