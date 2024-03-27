@@ -503,7 +503,7 @@ CREATE TABLE `Stores` (
 INSERT INTO `Stores` (`StoreID`, `StoreName`, `Location`, `StorePhoto`) VALUES
 (1, 'Fresh Mart', '123 Main Street, Kelowna', 'img/31.jpg'),
 (2, 'Green Basket', '456 Elm Avenue, Vernon', 'img/32.jpg'),
-(3, 'Nature\'s Harvest', '789 Oak Road, Richmond', 'img/33.jpg');
+(3, 'Natures Harvest', '789 Oak Road, Richmond', 'img/33.jpg');
 
 -- --------------------------------------------------------
 
