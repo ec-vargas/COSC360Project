@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     // SQL query to fetch user from database
-    $sql = "SELECT * FROM Users WHERE username='$username'";
+    $sql = "SELECT * FROM users WHERE username='$username'";
     $result = $connection->query($sql);
 
     if ($result->num_rows > 0) {

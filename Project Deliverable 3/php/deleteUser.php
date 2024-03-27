@@ -1,8 +1,11 @@
 <?php
 // Connect to the database
 require_once "dbconnection.php";
+$UserID;
 
-$UserID = $_POST['UserID'];
+if (isset($_POST['UserID'])) {
+    $UserID = $_POST['UserID'];
+}
 
 // Delete the record from the database
 $sql = "DELETE FROM users WHERE UserID = '$UserID'";

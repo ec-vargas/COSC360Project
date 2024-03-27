@@ -19,8 +19,8 @@
         <div class="d-flex justify-content-between align-items-center">
             <h1><a href="home.html">GroceryPricer.ca</a></h1>
             <div class="header2">
-                <a href="login.html" style="font-size: 2em;">Login&nbsp;</a>
-                <a href="adminLogin.html" style="font-size: 2em;">&nbsp;Admin Login</a>
+                <a href="login.php" style="font-size: 2em;">Login&nbsp;</a>
+                <a href="adminLogin.php" style="font-size: 2em;">&nbsp;Admin Login</a>
             </div>
         </div>
         <nav aria-label="breadcrumb">
@@ -40,7 +40,7 @@
                         <input type="text" class="search" id="contains" name="contains"
                             placeholder="Enter keyword to search" autocomplete="off"
                             style="margin-top: 20px; padding: 5px 20px;">
-                        <input type="submit">
+                        <input type="submit" value="Search">
                     </div>
                 </div>
             </div>

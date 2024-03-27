@@ -25,7 +25,10 @@ if (isset ($_GET['ProductID'])) {
     <div class="container-fluid-2">
         <div class="row align-items-center">
             <div class="col">
-                <h1><a href="home.html">GroceryPricer.ca</a></h1>
+                <?php
+                    if (isset($_SESSION['AdminUsername'])) {echo "<h1>GroceryPricer.ca</h1>";}
+                    else {echo "<h1><a href='home.html'>GroceryPricer.ca</a></h1>";}
+                ?>
             </div>
             <div class="col text-end">
             <button style="margin-right: 2%;"><?php if (isset($_SESSION['AdminUsername'])) {echo $_SESSION['AdminUsername'];}?></button>
@@ -47,18 +50,17 @@ if (isset ($_GET['ProductID'])) {
             $sql = "SELECT * FROM products 
             JOIN productstores on products.productID = productStores.productID 
             JOIN stores on productstores.StoreID = stores.StoreID
-            JOIN prices on products.productID = prices.productID";
+            JOIN prices on products.productID = prices.productID
+            WHERE (prices.ProductID, prices.PriceDate) IN (SELECT products.ProductID, MAX(PriceDate) FROM products JOIN prices on products.ProductID = prices.ProductID GROUP BY products.ProductID)";
 
-            $previousrow;
             $results = mysqli_query($connection, $sql);
             while ($row = mysqli_fetch_assoc($results)) {
-                if ($row['ProductID'] === $ProductID && strtotime($row['PriceDate']) > strtotime(date("Y/m/d"))) {
+                if ($row['ProductID'] === $ProductID) {
                     echo "<h2>Name: " . $row['ProductName'] . "</h2>";
                     echo "<h2 id='location'>Store Location: " . $row['Location'] . "</h2>";
-                    echo "<h2>Current Price: " . $previousrow['Price'] . "</h2>";
+                    echo "<h2>Current Price: " . $row['Price'] . "</h2>";
                     break;
                 }
-                $previousrow = $row;
             }
             ?>
             <h2 class="sheaders">Update Price: </h2>
@@ -77,8 +79,10 @@ if (isset ($_GET['ProductID'])) {
                     $("#post").click(function () {
                         var newcomment = $("#usercomment").val();
                         var ProductId = "<?php echo $ProductID; ?>";
-                        $.post("php/createpost.php", { Comment: newcomment, UserId: UserId, ProductId: ProductId }, function (response) {
-                            alert(response);
+                        var UserId = "<?php echo $_SESSION['AdminUsername']; ?>";
+                        $.post("php/createpost.php", { Comment: newcomment, ProductId: ProductId }, function (response) {
+                            if (response.length == 0) {alert("Post Created.");}
+                            else {alert("Error creating post.");}
                         });
                     });
 
@@ -86,7 +90,8 @@ if (isset ($_GET['ProductID'])) {
                         var newprice = $(".inline").val();
                         var ProductId = "<?php echo $ProductID; ?>";
                         $.post("php/changeprice.php", { ProductId: ProductId, Price: newprice }, function (response) {
-                            alert(response);
+                            if (response.length == 0) {alert("Price Updated");}
+                            else {alert("Error changing price.");}
                         });
                     });
 

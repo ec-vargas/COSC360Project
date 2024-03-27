@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html>
 
@@ -42,13 +43,19 @@
 <body>
     <div class="container-fluid-2">
         <div class="d-flex justify-content-between align-items-center">
-            <h1><a href="home.html">GroceryPricer.ca</a></h1>
+                <?php
+                    if (isset($_SESSION['username'])) {echo "<h1>GroceryPricer.ca</h1>";}
+                    else {echo "<h1><a href='home.html'>GroceryPricer.ca</a></h1>";}
+                ?>
             <div class="header2">
                 <?php if (isset ($_SESSION['profile_photo'])): ?>
                     <img src="<?php echo $_SESSION['profile_photo']; ?>" alt="User Profile Photo" class="img-thumbnail">
                 <?php endif; ?>
+                <?php
+                    if (isset($_SESSION['username'])) {echo "<button style='margin-right: 2%;'>".$_SESSION['username']."</button>";}
+                    ?>
                 <a href="php/logout.php" style="font-size: 2em;">LogOut&nbsp;</a>
-                <a href="adminLogin.html" style="font-size: 2em;">&nbsp;Admin Login</a>
+                <a href="adminLogin.php" style="font-size: 2em;">&nbsp;Admin Login</a>
             </div>
         </div>
         <nav aria-label="breadcrumb">
@@ -80,7 +87,6 @@
             <div class="col">
                 <div class="scroll-container">
                     <?php
-                    session_start();
                     // Connect to your database
                     require_once "php/dbconnection.php";
                     // Fetch lowest prices for products with photos

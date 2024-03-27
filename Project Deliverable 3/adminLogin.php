@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html>
 
@@ -17,16 +18,34 @@
     <div class="container-fluid-2">
         <div class="row align-items-center">
             <div class="col">
-                <h1><a href="home.html">GroceryPricer.ca</a></h1>
+                <?php
+                    if (isset($_SESSION['username'])) {echo "<h1>GroceryPricer.ca</h1>";}
+                    else {echo "<h1><a href='home.html'>GroceryPricer.ca</a></h1>";}
+                ?>
+            </div>
+            <div class="col text-end">
+                <?php
+                    if (isset($_SESSION['username'])) {echo "<button style='margin-right: 2%;'>".$_SESSION['username']."</button>";}
+                    ?>
             </div>
         </div>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <?php
+                    if (isset($_SESSION['username'])) {echo "<li class='breadcrumb-item'><a href='main.php'>Home</a></li>";}
+                    else {echo "<li class='breadcrumb-item'><a href='home.html'>Home</a></li>";}
+                    ?>
+                
+                <li class="breadcrumb-item active" aria-current="page">Admin Login</li>
+            </ol>
+        </nav>
         <hr>
     </div>
     <div class="col-6 mx-auto">
         <h2 id="secondarytitle">Welcome Back, Admin</h2>
         <div class="search-form-container">
             <p style="font-size: 24px; margin-top: 5px;">Login: </p>
-            <form action="php/adminlogin.php" method="post">
+            <form action="php/adminloginbackend.php" method="post">
                 <div class="form-group">
                     <label for="AdminUsername">Username:</label>
                     <input type="AdminUsername" id="AdminUsername" name="AdminUsername" required>
@@ -40,7 +59,12 @@
             </form>
         </div>
     </div>
-
+    <?php
+        if (isset($_GET['error'])) {
+            $error = $_GET['error'];
+            echo "<script>alert('$error')</script>";
+        }
+        ?>
 
     <hr>
     <footer>

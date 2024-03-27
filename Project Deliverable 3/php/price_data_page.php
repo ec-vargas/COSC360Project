@@ -1,5 +1,5 @@
-<?php include 'dbconnection.php'; ?>
-
+<?php include 'dbconnection.php';
+session_start();?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +18,6 @@
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 20px;
         }
 
         h2 {
@@ -36,21 +35,21 @@
 
         input[type="text"],
         input[type="date"],
-        button {
+        #buttonactions {
             padding: 8px;
             margin-bottom: 10px;
             width: 100%;
             box-sizing: border-box;
         }
 
-        button {
+        #buttonactions {
             background-color: #007bff;
             color: white;
             border: none;
             cursor: pointer;
         }
 
-        button:hover {
+        #buttonactions:hover {
             background-color: #0056b3;
         }
 
@@ -63,15 +62,19 @@
 <body>
 <div class="container-fluid-2">
         <div class="d-flex justify-content-between align-items-center">
-            <h1><a href="../home.html">GroceryPricer.ca</a></h1>
+            <?php
+                if (isset($_SESSION['username'])) {echo "<h1>GroceryPricer.ca</h1>";}
+                else {echo "<h1><a href='../home.html'>GroceryPricer.ca</a></h1>";}
+            ?>
             <div class="header2">
+                <button style="margin-right: 2%;"><?php echo $_SESSION['username'];?></button>
                 <a href="logout.php" class="btn btn-link" style="font-size: 2em;">LogOut</a>
                 <a href="../adminLogin.html" class="btn btn-link" style="font-size: 2em;">Admin Login</a>
             </div>
         </div>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="../home.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="../main.php">Home</a></li>
                 <li class="breadcrumb-item"><a href="../searchStores.php">Search for Prices</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Price Data</li>
             </ol>
@@ -91,7 +94,7 @@
         <label for="endDate">End Date:</label>
         <input type="date" name="endDate" id="endDate" value="2024-03-20" required>
         <input type="hidden" name="storeName" value="<?php echo $storeName; ?>">
-        <button type="submit" name="search">Search</button>
+        <button type="submit" name="search" id="buttonactions">Search</button>
     </form>
     <?php
     } else {
@@ -156,7 +159,7 @@
             echo "<input type='hidden' name='productName' value='{$_POST['productName']}'>";
             echo "<input type='hidden' name='startDate' value='{$_POST['startDate']}'>";
             echo "<input type='hidden' name='endDate' value='{$_POST['endDate']}'>";
-            echo "<button type='submit' name='compare'>Compare prices at other stores</button>";
+            echo "<button type='submit' name='compare' id='buttonactions'>Compare prices at other stores</button>";
             echo "</form>";
         } else {
             echo "No price data found for Product '{$_POST['productName']}' at $storeName within the specified date range.";

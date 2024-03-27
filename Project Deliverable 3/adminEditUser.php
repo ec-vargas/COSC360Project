@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html>
 
@@ -12,9 +13,6 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css" />
     <style>
-        button:hover {
-            background-color: #1fe600;
-        }
 
         section {
             height: 200px;
@@ -32,24 +30,6 @@
             line-height: 1.65;
         }
 
-        button {
-            padding: 0 20px;
-            font-size: 1rem;
-            text-align: center;
-            text-decoration: none;
-            color: #090909;
-            border-radius: 10px;
-            background-color: rgb(255, 246, 246);
-        }
-/* 
-        #BacktoSearch {
-            display: block;
-            margin-left: 15px;
-            margin-top: 100px;
-            margin-bottom: 20px;
-            border: 0;
-            line-height: 1.65;
-        } */
 
         img {
             display: inline;
@@ -64,10 +44,14 @@
     <div class="container-fluid-2">
         <div class="row align-items-center">
             <div class="col">
-                <h1><a href="home.html">GroceryPricer.ca</a></h1>
+                <?php
+                    if (isset($_SESSION['AdminUsername'])) {echo "<h1>GroceryPricer.ca</h1>";}
+                    else {echo "<h1><a href='home.html'>GroceryPricer.ca</a></h1>";}
+                ?>
             </div>
             <div class="col text-end">
-                <button id="home" class="adminButton" onclick="location.href='adminOptions.html'">
+            <button style="margin-right: 2%;"><?php if (isset($_SESSION['AdminUsername'])) {echo $_SESSION['AdminUsername'];}?></button>
+                <button id="home" class="adminButton" onclick="location.href='adminOptions.php'">
                     <span>Admin Home</span>
                 </button>
             </div>
@@ -105,21 +89,25 @@
         $("#DeleteUser").click(function() {
             var userToDelete = userId;
             
-            $.post("php/deleteUser.php", { UserID: userToDelete }, function() {
-                alert("User has been deleted.");
+            $.post("php/deleteUser.php", { UserID: userToDelete }, function(response) {
+                if (response.length == 0) {alert("User deleted.");}
+                else {alert("Error deleting user.");}
             });
         });
         $("#EditUsername").click(function() {
             var input = "<input id='text' type='text' placeholder='Enter new username'><button id='save'>Save</button>";
             var editUser = userId;
             var newUsername;
-            $("#user").after(input);
+            if ($("#text").length==0) {
+                $("#user").after(input);
+            }
             $("#save").click(function() {
                 newUsername = $("#text").val();
                 $.post("php/editUsername.php", { UserID: editUser, newUsername: newUsername }, function(response) {
-                $("#EditUsername").text("Save");
                 $("#text").remove();
                 $("#save").remove();
+                if (response.length == 0) {alert("Username saved.");}
+                else {alert("Error saving username.");}
             });
             });
             

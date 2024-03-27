@@ -46,7 +46,10 @@ session_start();?>
     <div class="container-fluid-2">
         <div class="row align-items-center">
             <div class="col">
-                <h1><a href="home.html">GroceryPricer.ca</a></h1>
+                <?php
+                    if (isset($_SESSION['AdminUsername'])) {echo "<h1>GroceryPricer.ca</h1>";}
+                    else {echo "<h1><a href='home.html'>GroceryPricer.ca</a></h1>";}
+                ?>
             </div>
             <div class="col text-end">
             <button style="margin-right: 2%;"><?php if (isset($_SESSION['AdminUsername'])) {echo $_SESSION['AdminUsername'];}?></button>
@@ -66,10 +69,10 @@ session_start();?>
     </div>
 
     <div class="col-8 mx-auto">
+        <h2>Results for Advanced Search</h2>
         <?php
         $contains;
         $doesnotcontain;
-        $category;
         $email;
         $username;
         $start;
@@ -77,24 +80,16 @@ session_start();?>
         if (isset ($_POST["contains"])) {
             $contains = $_POST["contains"];
         }
-        if (empty ($_POST["contains"])) {
-            echo "<h2>Results for Advanced Search ''</h2>";
-        } else {
-            echo "<h2>Results for Advanced Search '" . $contains . "'</h2>";
-        }
 
         echo "<Button id ='button' onclick=\"location.href='adminFindPost.php'\">Back to Search</Button>";
         if (isset ($_POST["does-not-contain"])) {
             $doesnotcontain = $_POST["does-not-contain"];
         }
-        if (isset ($_POST["tags"])) {
-            $category = $_POST["tags"];
-        }
         if (isset ($_POST["Email"])) {
             $email = $_POST["Email"];
         }
         if (isset ($_POST["username"])) {
-            $lastname = $_POST["username"];
+            $username = $_POST["username"];
         }
         if (isset ($_POST["start"])) {
             $start = $_POST["start"];
@@ -111,33 +106,29 @@ session_start();?>
                 if (!(strpos(strtoupper($row['Comment']), strtoupper($contains)) !== false)) {
                     continue;
                 }
-                if (!empty ($_POST["doesnotcontain"])) {
+            }
+                if (!empty ($_POST["does-not-contain"])) {
                     if (strpos(strtoupper($row['Comment']), strtoupper($doesnotcontain)) !== false) {
                         continue;
                     }
                 }
                 if (!empty ($_POST["username"])) {
-                    if (!(strpos(strtoupper($row['Username']), strtoupper($lastname)) !== false)) {
+                    if (!(strpos(strtoupper($row['Username']), strtoupper($username)) !== false)) {
                         continue;
                     }
                 }
                 if (!empty ($_POST["Email"])) {
-                    if (!(strpos(strtoupper($row['email']), strtoupper($email)) !== false)) {
-                        continue;
-                    }
-                }
-                if (!empty ($_POST["tags"])) {
-                    if (!(strpos(strtoupper($row['tags']), strtoupper($category)) !== false)) {
+                    if (!(strpos(strtoupper($row['Email']), strtoupper($email)) !== false)) {
                         continue;
                     }
                 }
                 if (!empty ($_POST["start"])) {
-                    if (strtotime($row['commentDate']) < strtotime($start)) {
+                    if (strtotime($row['CommentDate']) < strtotime($start)) {
                         continue;
                     }
                 }
                 if (!empty ($_POST["end"])) {
-                    if (strtotime($row['commentDate']) > strtotime($end)) {
+                    if (strtotime($row['CommentDate']) > strtotime($end)) {
                         continue;
                     }
                 }
@@ -145,45 +136,6 @@ session_start();?>
                 echo "Comment: " . $row['Comment'] . "<br>";
                 echo "Comment Date: " . $row['CommentDate'] . "</div><br>";
             }
-            if (!empty ($_POST["doesnotcontain"])) {
-                if (strpos(strtoupper($row['Comment']), strtoupper($doesnotcontain)) !== false) {
-                    continue;
-                }
-            }
-            if (!empty ($_POST["firstname"])) {
-                if (!(strpos(strtoupper($row['FirstName']), strtoupper($firstname)) !== false)) {
-                    continue;
-                }
-            }
-            if (!empty ($_POST["lastname"])) {
-                if (!(strpos(strtoupper($row['LastName']), strtoupper($lastname)) !== false)) {
-                    continue;
-                }
-            }
-            if (!empty ($_POST["Email"])) {
-                if (!(strpos(strtoupper($row['email']), strtoupper($email)) !== false)) {
-                    continue;
-                }
-            }
-            if (!empty ($_POST["tags"])) {
-                if (!(strpos(strtoupper($row['tags']), strtoupper($category)) !== false)) {
-                    continue;
-                }
-            }
-            if (!empty ($_POST["start"])) {
-                if (strtotime($row['commentDate']) < strtotime($start)) {
-                    continue;
-                }
-            }
-            if (!empty ($_POST["end"])) {
-                if (strtotime($row['commentDate']) > strtotime($end)) {
-                    continue;
-                }
-            }
-            echo "<div>Username: <a href='adminEditRemovePost.php?Comment=" . $row['Comment'] . "&CommentID=" . $row['CommentID'] . "'>" . $row['Username'] . "</a><br>ProductId: " . $row['ProductID'] . "<br>";
-            echo "Comment: " . $row['Comment'] . "<br>";
-            echo "Comment Date: " . $row['CommentDate'] . "</div><br>";
-        }
 
         mysqli_free_result($results);
         mysqli_close($connection);

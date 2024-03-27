@@ -56,13 +56,13 @@
         echo "<h2>Results for Keyword Search '" . $contains . "'</h2>";
         echo "<Button id='button' onclick=\"location.href='../guest.php'\">Back to Search</Button>";
 
-        $sql = "SELECT p.*, pr.Price, s.StoreName
+        $sql = "SELECT p.*, c.CategoryName, pr.Price, s.StoreName
                 FROM products p 
                 JOIN categories c ON p.categoryID = c.categoryID 
                 JOIN productstores ps ON p.productID = ps.productID 
                 JOIN stores s ON ps.StoreID = s.StoreID
                 LEFT JOIN prices pr ON p.ProductID = pr.ProductID
-                WHERE p.ProductName LIKE CONCAT('%', ?, '%') AND PriceDate IN (SELECT MAX(PriceDate) FROM products JOIN prices on products.ProductID = prices.ProductID)";
+                WHERE p.ProductName LIKE CONCAT('%', ?, '%') AND (pr.ProductID, pr.PriceDate) IN (SELECT products.ProductID, MAX(PriceDate) FROM products JOIN prices on products.ProductID = prices.ProductID GROUP BY products.ProductID)";
 
         if ($statement = mysqli_prepare($connection, $sql)) {
             mysqli_stmt_bind_param($statement, "s", $contains);

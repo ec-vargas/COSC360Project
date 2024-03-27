@@ -1,5 +1,6 @@
 <?php
 require_once "php/dbconnection.php";
+session_start();
 $ProductID;
 if (isset ($_GET['ProductID'])) {
     $ProductID = $_GET['ProductID'];
@@ -10,7 +11,7 @@ if (isset ($_GET['ProductID'])) {
 
 <head lang="en">
     <meta charset="utf-8">
-    <title>Change Price - Admin Panel</title>
+    <title>Product - User Panel</title>
     <link rel="stylesheet" href="css/reset.css" />
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
@@ -24,12 +25,17 @@ if (isset ($_GET['ProductID'])) {
     <div class="container-fluid-2">
         <div class="row align-items-center">
             <div class="col">
-                <h1><a href="home.html">GroceryPricer.ca</a></h1>
+                <?php
+                    if (isset($_SESSION['username'])) {echo "<h1>GroceryPricer.ca</h1>";}
+                    else {echo "<h1><a href='home.html'>GroceryPricer.ca</a></h1>";}
+                ?>
             </div>
-            <div class="col text-end">
-                <button id="home" class="adminButton" onclick="location.href='adminOptions.html'">
-                    <span>Admin Home</span>
-                </button>
+            <div class="col">
+                <div class="header2">
+                    <button style="margin-right: 2%;"><?php echo $_SESSION['username'];?></button>
+                    <a href="php/logout.php" style="font-size: 2em;">LogOut&nbsp;</a>
+                    <a href="adminLogin.php" style="font-size: 2em;">&nbsp;Admin Login</a>
+                </div>
             </div>
         </div>
         <hr>
@@ -72,16 +78,10 @@ if (isset ($_GET['ProductID'])) {
                     $("#post").click(function () {
                         var newcomment = $("#usercomment").val();
                         var ProductId = "<?php echo $ProductID; ?>";
-                        $.post("php/createpost.php", { Comment: newcomment, UserId: UserId, ProductId: ProductId }, function (response) {
-                            alert(response);
-                        });
-                    });
-
-                    $("#button").click(function () {
-                        var newprice = $(".inline").val();
-                        var ProductId = "<?php echo $ProductID; ?>";
-                        $.post("php/changeprice.php", { ProductId: ProductId, Price: newprice }, function (response) {
-                            alert(response);
+                        var Username = "<?php echo $_SESSION['username']; ?>";
+                        $.post("php/createpost.php", { Comment: newcomment, Username: Username, ProductId: ProductId }, function (response) {
+                            if (response.length == 0) {alert("Post Created.");}
+                            else {alert("Error creating post.");}
                         });
                     });
 
@@ -97,9 +97,9 @@ if (isset ($_GET['ProductID'])) {
         mysqli_free_result($results);
         mysqli_close($connection);
         ?>
-        <form id="find-items-form" method="POST" action="adminItemResult.php">
+        <form id="find-items-form" method="POST" action="itemResult.php">
             <input type="hidden" name="contains" value="<?php echo $contains; ?>">
-            <button id="BacktoSearch" type="submit onclick="location.href='adminItemResult.php'">Back to Results</button>
+            <button id="BacktoSearch" type="submit onclick="location.href='itemResult.php'">Back to Results</button>
         </form>
         <hr>
     </div>

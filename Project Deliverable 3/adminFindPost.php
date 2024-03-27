@@ -1,6 +1,4 @@
-<?php
-session_start();
-?>
+<?php session_start();?>
 <!DOCTYPE html>
 <html>
 
@@ -20,7 +18,10 @@ session_start();
     <div class="container-fluid-2">
         <div class="row align-items-center">
             <div class="col">
-                <h1><a href="home.html">GroceryPricer.ca</a></h1>
+                <?php
+                    if (isset($_SESSION['AdminUsername'])) {echo "<h1>GroceryPricer.ca</h1>";}
+                    else {echo "<h1><a href='home.html'>GroceryPricer.ca</a></h1>";}
+                ?>
             </div>
             <div class="col text-end">
                 <button style="margin-right: 2%;"><?php if (isset($_SESSION['AdminUsername'])) {echo $_SESSION['AdminUsername'];}?></button>
@@ -48,7 +49,6 @@ session_start();
                     <input type="text" id="contains" name="contains" placeholder="Contains:" autocomplete="off"><br>
                     <input type="text" id="does-not-contain" name="does-not-contain" placeholder="Does Not Contain:"
                         autocomplete="off"><br>
-                    <input type="text" id="tags" name="tags" placeholder="Enter tags" autocomplete="off"><br>
                 </div>
             </section>
 

@@ -1,6 +1,4 @@
-<?php
-session_start();
-?>
+<?php session_start();?>
 <!DOCTYPE html>
 <html>
 
@@ -15,26 +13,6 @@ session_start();
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css" />
     <style>
-        #button {
-            border: 0;
-            line-height: 1.65;
-            padding: 0 20px;
-            font-size: 1rem;
-            text-align: center;
-            text-decoration: none;
-            color: #090909;
-            border-radius: 10px;
-            background-color: rgb(255, 246, 246);
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-
-        #button:hover {
-            background-color: #1fe600;
-        }
-
         img {
             display: inline;
             width: 30px;
@@ -48,7 +26,10 @@ session_start();
     <div class="container-fluid-2">
         <div class="row align-items-center">
             <div class="col">
-                <h1><a href="home.html">GroceryPricer.ca</a></h1>
+                <?php
+                    if (isset($_SESSION['AdminUsername'])) {echo "<h1>GroceryPricer.ca</h1>";}
+                    else {echo "<h1><a href='home.html'>GroceryPricer.ca</a></h1>";}
+                ?>
             </div>
             <div class="col text-end">
             <button style="margin-right: 2%;"><?php if (isset($_SESSION['AdminUsername'])) {echo $_SESSION['AdminUsername'];}?></button>
@@ -67,7 +48,7 @@ session_start();
         <hr>
     </div>
     <div class="col-8 mx-auto">
-        <h2>Results for Advanced Search</h2>
+        <h2>Results for User Search</h2>
         <Button id="button" onclick="location.href='adminFindUser.php'">Back to Search</Button>
 
         <?php
@@ -114,7 +95,7 @@ session_start();
                         continue;
                     }
                 }
-                echo "<div><img class='img-thumbnail' src='" . $row['ProfilePicture'] . "' /><p><a href='adminEnableDisableUser.php?email=" . $row['Email'] . "'>" . $row['Username'] . "</a></p><br>";
+                echo "<div><img class='img-thumbnail' src='" . $row['ProfilePicture'] . "' /><p><a href='adminEditUser.php?email=" . $row['Email'] . "'>" . $row['Username'] . "</a></p><br>";
                 echo "Email: " . $row['Email'] . "<br>";
                 echo "Date joined: " . $row['RegistrationDate'] . "</div>";
             }

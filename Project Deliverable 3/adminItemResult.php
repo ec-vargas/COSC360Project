@@ -1,6 +1,4 @@
-<?php
-session_start();
-?>
+<?php session_start();?>
 <!DOCTYPE html>
 <html>
 
@@ -30,7 +28,10 @@ session_start();
     <div class="container-fluid-2">
         <div class="row">
             <div class="col">
-                <h1><a href="home.html">GroceryPricer.ca</a></h1>
+                <?php
+                    if (isset($_SESSION['AdminUsername'])) {echo "<h1>GroceryPricer.ca</h1>";}
+                    else {echo "<h1><a href='home.html'>GroceryPricer.ca</a></h1>";}
+                ?>
             </div>
             <div class="col text-end">
                 <button style="margin-right: 2%;">
@@ -55,19 +56,31 @@ session_start();
         <?php
         require_once "php/dbconnection.php";
         $contains;
+        $doesnotcontain;
+        $category;
+        $storename;
         if (isset ($_POST["contains"])) {
             $contains = $_POST["contains"];
         }
+        if (isset ($_POST["does-not-contain"])) {
+            $doesnotcontain = $_POST["does-not-contain"];
+        }
+        if (isset ($_POST["category"])) {
+            $category = $_POST["category"];
+        }
+        if (isset ($_POST["store-name"])) {
+            $storename = $_POST["store-name"];
+        }
         echo "<h2>Results for Keyword Search '" . $contains . "'</h2>";
-        echo "<Button id='button' onclick=\"location.href='main.php'\">Back to Search</Button>";
+        echo "<Button id='button' onclick=\"location.href='adminFindItems.php'\">Back to Search</Button>";
 
-        $sql = "SELECT p.*, pr.Price, s.StoreName
+        $sql = "SELECT p.*, c.CategoryName, pr.Price, s.StoreName
                 FROM products p 
-                JOIN categories c ON p.categoryID = c.categoryID 
-                JOIN productstores ps ON p.productID = ps.productID 
+                JOIN categories c ON p.CategoryID = c.CategoryID 
+                JOIN productstores ps ON p.ProductID = ps.ProductID 
                 JOIN stores s ON ps.StoreID = s.StoreID
                 LEFT JOIN prices pr ON p.ProductID = pr.ProductID
-                WHERE p.ProductName LIKE CONCAT('%', ?, '%') AND PriceDate IN (SELECT MAX(PriceDate) FROM products JOIN prices on products.ProductID = prices.ProductID)";
+                WHERE p.ProductName LIKE CONCAT('%', ?, '%') AND (pr.ProductID, pr.PriceDate) IN (SELECT products.ProductID, MAX(PriceDate) FROM products JOIN prices on products.ProductID = prices.ProductID GROUP BY products.ProductID)";
 
         if ($statement = mysqli_prepare($connection, $sql)) {
             mysqli_stmt_bind_param($statement, "s", $contains);
@@ -77,18 +90,23 @@ session_start();
             $resultsperrow = 0;
             echo "<div class='row align-items-start'>";
             while ($row = mysqli_fetch_assoc($results)) {
+                if (!empty ($_POST["does-not-contain"])) {
+                    if (strpos(strtoupper($row['ProductName']), strtoupper($doesnotcontain)) !== false) {
+                        continue;
+                    }
+                }
                 if (!empty ($_POST["category"])) {
                     if (!(strpos(strtoupper($row['CategoryName']), strtoupper($category)) !== false)) {
                         continue;
                     }
                 }
                 if (!empty ($_POST["store-name"])) {
-                    if (!(strpos(strtoupper($row['StoreName']), strtoupper($store)) !== false)) {
+                    if (!(strpos(strtoupper($row['StoreName']), strtoupper($storename)) !== false)) {
                         continue;
                     }
                 }
+
                 // Output product details inline with the image, name, price, and store name
-        
                 if ($resultsperrow == 4) {
                     echo "</div><div class='row row-cols-2 row-cols-lg-4 g-2 g-lg-3'>";
                     echo "<div class='col'><a href='adminChangePriceData.php?ProductID=" . $row['ProductID'] . "&Contains=" . $contains . "'><img src='" . $row['Photo'] . "' width='200px' height='200px'></a><br>" . $row['ProductName'] . " - $" . $row['Price'] . " at " . $row['StoreName'] . "</div>";

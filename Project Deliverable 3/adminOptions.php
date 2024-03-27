@@ -1,6 +1,4 @@
-<?php
-session_start();
-?>
+<?php session_start();?>
 <!DOCTYPE html>
 <html>
 
@@ -20,7 +18,10 @@ session_start();
     <div class="container-fluid-2">
         <div class="row align-items-center">
             <div class="col">
-                <h1><a href="home.html">GroceryPricer.ca</a></h1>
+                <?php
+                    if (isset($_SESSION['AdminUsername'])) {echo "<h1>GroceryPricer.ca</h1>";}
+                    else {echo "<h1><a href='home.html'>GroceryPricer.ca</a></h1>";}
+                ?>
             </div>
             <div class="col text-end">
                 <button style="margin-right: 2%;"><?php echo $_SESSION['AdminUsername'];?></button>
@@ -48,7 +49,7 @@ session_start();
         <button id="findpost" class="homebutton" style="margin: 5px 0;"
             onclick="location.href='adminFindPost.php'">Find a
             Post</button>
-        <button id="adminLogout" class="signout" style="margin: 5px 0;" onclick="location.href='adminLogin.html'">Logout
+        <button id="adminLogout" class="signout" style="margin: 5px 0;" onclick="location.href='adminLogin.php'">Logout
             as
             Admin</button>
     </div>

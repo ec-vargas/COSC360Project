@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -43,9 +44,13 @@
 <body>
     <div class="container-fluid-2">
         <div class="d-flex justify-content-between align-items-center">
-            <h1><a href="home.html">GroceryPricer.ca</a></h1>
+            <?php
+                if (isset($_SESSION['username'])) {echo "<h1>GroceryPricer.ca</h1>";}
+                else {echo "<h1><a href='home.html'>GroceryPricer.ca</a></h1>";}
+            ?>
             <div class="header2">
-                <a href="login.html" style="font-size: 2em;">Login&nbsp;</a>
+                <button style="margin-right: 2%;"><?php echo $_SESSION['username'];?></button>
+                <a href="php/logout.html" style="font-size: 2em;">LogOut&nbsp;</a>
                 <a href="adminLogin.html" style="font-size: 2em;">&nbsp;Admin Login</a>
             </div>
         </div>
@@ -70,7 +75,7 @@
         if (isset ($_POST['searchStore'])) {
             $searchStore = $_POST['searchStore'];
 
-            $sql = "SELECT * FROM Stores WHERE StoreName LIKE '%$searchStore%'";
+            $sql = "SELECT * FROM stores WHERE StoreName LIKE '%$searchStore%'";
 
             $results = mysqli_query($connection, $sql);
 

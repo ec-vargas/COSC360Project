@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html>
 
@@ -47,7 +48,6 @@
             border-radius: 10px;
             background-color: rgb(255, 246, 246);
             ;
-            /* display each button on a new line */
         }
 
         .post:hover {
@@ -76,10 +76,14 @@
     <div class="container-fluid-2">
         <div class="row align-items-center">
             <div class="col">
-                <h1><a href="home.html">GroceryPricer.ca</a></h1>
+                <?php
+                    if (isset($_SESSION['AdminUsername'])) {echo "<h1>GroceryPricer.ca</h1>";}
+                    else {echo "<h1><a href='home.html'>GroceryPricer.ca</a></h1>";}
+                ?>
             </div>
             <div class="col text-end">
-                <button id="home" class="adminButton" onclick="location.href='adminOptions.html'">
+            <button style="margin-right: 2%;"><?php if (isset($_SESSION['AdminUsername'])) {echo $_SESSION['AdminUsername'];}?></button>
+                <button id="home" class="adminButton" onclick="location.href='adminOptions.php'">
                     <span>Admin Home</span>
                 </button>
             </div>
@@ -109,14 +113,16 @@
 
                 $("#savechanges").click(function () {
                     var newcomment = $("#comments").val();
-                    $.post("php/changePost.php", { Comment: newcomment, CommentID: CommentID }, function () {
-                        alert("Comment changed.");
+                    $.post("php/changePost.php", { Comment: newcomment, CommentID: CommentID }, function (response) {
+                        if (response.length == 0) {alert("Post Changed.");}
+                        else {alert("Error saving post.");}
                     });
                 });
 
                 $("#removepost").click(function () {
-                    $.post("php/removePost.php", { CommentID: CommentID }, function () {
-                        alert("Comment removed.");
+                    $.post("php/removePost.php", { CommentID: CommentID }, function (response) {
+                        if (response.length == 0) {alert("Post Removed.");}
+                        else {alert("Error removing post.");}
                     });
                 });
             });
