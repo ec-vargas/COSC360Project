@@ -1,17 +1,6 @@
 <?php
 // Connect to your MySQL database
-// Example:
-$servername = "localhost";
-$username = "root";
-$password = "66060229";
-$dbname = "GPT";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die ("Connection failed: " . $conn->connect_error);
-}
+ require_once "dbconnection.php";
 
 // Fetch user data from the database
 $sql = "SELECT * FROM Users";
