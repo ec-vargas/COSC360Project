@@ -12,13 +12,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     // SQL query to fetch user from database
-    $sql = "SELECT * FROM users WHERE username='$username'";
+    $sql = "SELECT * FROM users WHERE Username='$username'";
     $result = $connection->query($sql);
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
 
-        if (password_verify($password, $row['Password'])) {
+        if ($password === $row['Password']) {
             // Password is correct, set up session
             $_SESSION['username'] = $username;
 
@@ -36,9 +36,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $connection->close();
             exit();
         } else {
-            // Redirect to login page with error message
+            // Redirect to login page with error message "Invalid password."
             header("Location: ../login.php?error=Invalid password");
-            echo "Invalid password.";
+            echo $row['Password'];
             $connection->close();
             exit();
         }

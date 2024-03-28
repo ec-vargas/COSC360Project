@@ -50,7 +50,7 @@
             ?>
             <div class="header2">
                 <button style="margin-right: 2%;"><?php echo $_SESSION['username'];?></button>
-                <a href="php/logout.html" style="font-size: 2em;">LogOut&nbsp;</a>
+                <a href="php/logout.php" style="font-size: 2em;">LogOut&nbsp;</a>
                 <a href="adminLogin.html" style="font-size: 2em;">&nbsp;Admin Login</a>
             </div>
         </div>
