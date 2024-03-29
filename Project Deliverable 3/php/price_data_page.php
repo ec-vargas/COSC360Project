@@ -69,7 +69,7 @@ session_start();?>
             <div class="header2">
                 <button style="margin-right: 2%;"><?php echo $_SESSION['username'];?></button>
                 <a href="logout.php" class="btn btn-link" style="font-size: 2em;">LogOut</a>
-                <a href="../adminLogin.html" class="btn btn-link" style="font-size: 2em;">Admin Login</a>
+                <a href="../adminLogin.php" class="btn btn-link" style="font-size: 2em;">Admin Login</a>
             </div>
         </div>
         <nav aria-label="breadcrumb">

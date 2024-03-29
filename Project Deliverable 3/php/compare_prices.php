@@ -78,7 +78,7 @@ session_start();?>
             <div class="header2">
                 <button style="margin-right: 2%;"><?php echo $_SESSION['username'];?></button>
                 <a href="logout.php" style="font-size: 2em;">LogOut&nbsp;</a>
-                <a href="adminLogin.html" style="font-size: 2em;">&nbsp;Admin Login</a>
+                <a href="adminLogin.php" style="font-size: 2em;">&nbsp;Admin Login</a>
             </div>
         </div>
         <nav aria-label="breadcrumb">
