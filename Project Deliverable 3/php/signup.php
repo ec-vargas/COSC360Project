@@ -17,7 +17,7 @@
         // Check if passwords match
         if ($_POST['password'] !== $_POST['confirm_password']) {
             // Passwords don't match
-            header("Location: signup.html?error=Passwords do not match");
+            header("Location: ../signup.html?error=Passwords do not match");
             exit();
         }
 
@@ -50,7 +50,7 @@
             exit();
         } else {
             // Registration failed
-            header("Location: signup.html?error=Registration failed. Please try again later.");
+            header("Location: ../signup.html?error=Registration failed. Please try again later.");
             exit();
         }
 
