@@ -10,7 +10,7 @@
         $password = $_POST['AdminPassword'];
 
         // SQL query to fetch user from database
-        $sql = "SELECT * FROM Admin WHERE AdminUsername='$username'";
+        $sql = "SELECT * FROM admin WHERE AdminUsername='$username'";
         $result = $connection->query($sql);
 
         if ($result->num_rows > 0) {
@@ -21,7 +21,7 @@
                 $_SESSION['AdminUsername'] = $username;
 
                 // Fetch profile photo for the signed-in user
-                $profile_sql = "SELECT ProfilePicture FROM Users WHERE Username = '$username'";
+                $profile_sql = "SELECT ProfilePicture FROM users WHERE Username = '$username'";
                 $profile_result = $connection->query($profile_sql);
 
                 if ($profile_result->num_rows > 0) {

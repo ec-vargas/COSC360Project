@@ -41,7 +41,7 @@
         // $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
         // SQL query to insert user into database
-        $sql = "INSERT INTO Users (email, username, password, ProfilePicture) VALUES ('$email', '$username', '$password', '$profile_picture')";
+        $sql = "INSERT INTO users (Email, Username, Password, ProfilePicture) VALUES ('$email', '$username', '$password', '$profile_picture')";
 
         if ($connection->query($sql) === TRUE) {
             // Registration successful

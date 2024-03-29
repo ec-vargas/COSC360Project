@@ -105,9 +105,9 @@ session_start();?>
     <?php
     if(isset($_POST['search'])) {
         $query = "SELECT P.ProductID, Pr.PriceID, Pr.StoreID, Pr.Price, Pr.PriceDate, S.StoreName
-                FROM Prices Pr
-                INNER JOIN Products P ON Pr.ProductID = P.ProductID
-                INNER JOIN Stores S ON Pr.StoreID = S.StoreID
+                FROM prices Pr
+                INNER JOIN products P ON Pr.ProductID = P.ProductID
+                INNER JOIN stores S ON Pr.StoreID = S.StoreID
                 WHERE P.ProductName = ?
                 AND Pr.PriceDate BETWEEN ? AND ?
                 AND S.StoreName = ?";

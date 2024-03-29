@@ -32,7 +32,7 @@
             <div class="col">
                 <div class="header2">
                     <a href="loginbackend.php" style="font-size: 2em;">Login&nbsp;</a>
-                    <a href="adminLogin.html" style="font-size: 2em;">&nbsp;Admin Login</a>
+                    <a href="adminLogin.php" style="font-size: 2em;">&nbsp;Admin Login</a>
                 </div>
             </div>
         </div>
@@ -48,7 +48,7 @@
 
     <div class="container text-center">
         <?php
-        require_once "dbconnection.php";
+        require_once "php/dbconnection.php";
         $contains;
         if (isset ($_POST["contains"])) {
             $contains = $_POST["contains"];

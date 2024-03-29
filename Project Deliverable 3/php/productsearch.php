@@ -8,7 +8,7 @@ require_once "php/dbconnection.php";
 $searchTerm = $_GET['search'];
 
 // SQL query to search for products
-$sql = "SELECT * FROM Products WHERE ProductName LIKE '%$searchTerm%'";
+$sql = "SELECT * FROM products WHERE ProductName LIKE '%$searchTerm%'";
 
 $result = $connection->query($sql);
 

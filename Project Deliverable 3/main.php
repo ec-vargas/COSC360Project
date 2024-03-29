@@ -93,7 +93,7 @@
                     $sql = "SELECT p.ProductName, pr.Price, p.Photo
                     FROM products p
                     INNER JOIN prices pr ON p.ProductID = pr.ProductID
-                    ORDER BY pr.Price 
+                    ORDER BY pr.Price
                     LIMIT 10";
                     $result = mysqli_query($connection, $sql);
 
