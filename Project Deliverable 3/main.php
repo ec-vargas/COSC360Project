@@ -91,8 +91,8 @@
                     require_once "php/dbconnection.php";
                     // Fetch lowest prices for products with photos
                     $sql = "SELECT p.ProductName, pr.Price, p.Photo
-                    FROM Products p
-                    INNER JOIN Prices pr ON p.ProductID = pr.ProductID
+                    FROM products p
+                    INNER JOIN prices pr ON p.ProductID = pr.ProductID
                     ORDER BY pr.Price 
                     LIMIT 10";
                     $result = mysqli_query($connection, $sql);
