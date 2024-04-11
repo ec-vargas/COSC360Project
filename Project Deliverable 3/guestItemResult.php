@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html>
 
@@ -5,9 +6,6 @@
     <meta charset="utf-8">
     <title>Items Result - Guest Panel</title>
     <link rel="stylesheet" href="css/reset.css" />
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css" />
@@ -47,51 +45,49 @@
     </div>
 
     <div class="container text-center">
-        <?php
-        require_once "php/dbconnection.php";
-        $contains;
-        if (isset ($_POST["contains"])) {
-            $contains = $_POST["contains"];
-        }
-        echo "<h2>Results for Keyword Search '" . $contains . "'</h2>";
-        echo "<Button id='button' onclick=\"location.href='guest.php'\">Back to Search</Button>";
+        <!-- Button to toggle collapsible section -->
+        <button class="btn btn-primary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+            aria-expanded="false" aria-controls="collapseExample">
+            Toggle Results
+        </button>
 
-        $sql = "SELECT p.*, c.CategoryName, pr.Price, s.StoreName
-                FROM products p 
-                JOIN categories c ON p.categoryID = c.categoryID 
-                JOIN productstores ps ON p.productID = ps.productID 
-                JOIN stores s ON ps.StoreID = s.StoreID
-                LEFT JOIN prices pr ON p.ProductID = pr.ProductID
-                WHERE p.ProductName LIKE CONCAT('%', ?, '%') AND (pr.ProductID, pr.PriceDate) IN (SELECT products.ProductID, MAX(PriceDate) FROM products JOIN prices on products.ProductID = prices.ProductID GROUP BY products.ProductID)";
+        <!-- Collapsible section -->
+        <div class="collapse" id="collapseExample">
+            <?php
+            require_once "php/dbconnection.php";
 
-        if ($statement = mysqli_prepare($connection, $sql)) {
-            mysqli_stmt_bind_param($statement, "s", $contains);
-            mysqli_stmt_execute($statement);
-
-            $results = mysqli_stmt_get_result($statement);
-            $resultsperrow = 0;
-            echo "<div class='row align-items-start'>";
-            while ($row = mysqli_fetch_assoc($results)) {
-                // Output product details inline with the image, name, price, and store name
-        
-                if ($resultsperrow == 4) {
-                    echo "</div><div class='row row-cols-2 row-cols-lg-4 g-2 g-lg-3'>";
-                    echo "<div class='col'><a href='signup.html'><img src='" . $row['Photo'] . "' width='200px' height='200px'></a><br>" . $row['ProductName'] . " - $" . $row['Price'] . " at " . $row['StoreName'] . "</div>";
-                    $resultsperrow = 1;
-                } else {
-                    echo "<div class='col'><a href='signup.html'><img src='" . $row['Photo'] . "' width='200px' height='200px'></a><br>" . $row['ProductName'] . " - $" . $row['Price'] . " at " . $row['StoreName'] . "</div>";
-                    $resultsperrow++;
-                }
-                $SearchTime = date("Y/m/d");
-                $ProductID = $row['ProductID'];
-                $sql = "INSERT INTO search (ProductID, SearchCount, LastSearchDate) VALUES ('$ProductID', 1, '$SearchTime') 
-                        ON DUPLICATE KEY UPDATE SearchCount = SearchCount + 1, LastSearchDate = VALUES(LastSearchDate);";
-                mysqli_query($connection, $sql);
+            $contains;
+            if (isset($_POST["contains"])) {
+                $contains = $_POST["contains"];
             }
-        }
-        mysqli_free_result($results);
-        mysqli_close($connection);
-        ?>
+            echo "<h2>Results for Keyword Search '" . $contains . "'</h2>";
+            echo "<Button id='button' onclick=\"location.href='../guest.php'\">Back to Search</Button>";
+
+            // Updated SQL query
+            $sql = "SELECT p.*, c.CategoryName, pr.Price, s.StoreName
+                        FROM products p 
+                        JOIN categories c ON p.categoryID = c.categoryID 
+                        JOIN productstores ps ON p.productID = ps.productID 
+                        JOIN stores s ON ps.StoreID = s.StoreID
+                        LEFT JOIN prices pr ON p.ProductID = pr.ProductID
+                        WHERE p.ProductName LIKE CONCAT('%', ?, '%')";
+
+            if ($statement = mysqli_prepare($connection, $sql)) {
+                mysqli_stmt_bind_param($statement, "s", $contains);
+                mysqli_stmt_execute($statement);
+
+                $results = mysqli_stmt_get_result($statement);
+                $resultsperrow = 0;
+                echo "<div class='row row-cols-2 row-cols-lg-4 g-2 g-lg-3'>";
+                while ($row = mysqli_fetch_assoc($results)) {
+                    echo "<div class='col'><a href='../signup.html'><img src='../" . $row['Photo'] . "' width='200px' height='200px'></a><br>" . $row['ProductName'] . " - $" . $row['Price'] . " at " . $row['StoreName'] . "</div>";
+                }
+                echo "</div>"; // Close the row after all results are displayed
+                mysqli_free_result($results);
+                mysqli_close($connection);
+            }
+            ?>
+        </div>
     </div>
     <hr>
     <footer>

@@ -1,7 +1,8 @@
 <?php include 'dbconnection.php';
-session_start();?>
+session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -59,20 +60,23 @@ session_start();?>
         }
     </style>
 </head>
+
 <body>
-<div class="container-fluid-2">
+    <div class="container-fluid-2">
         <div class="d-flex justify-content-between align-items-center">
             <?php
-                if (isset($_SESSION['username'])) {echo "<h1>GroceryPricer.ca</h1>";}
-                else {echo "<h1><a href='../home.html'>GroceryPricer.ca</a></h1>";}
+            if (isset($_SESSION['username'])) {
+                echo "<h1>GroceryPricer.ca</h1>";
+            } else {
+                echo "<h1><a href='../home.html'>GroceryPricer.ca</a></h1>";
+            }
             ?>
-            <div class="header2">
-                <?php if (isset ($_SESSION['profile_photo'])): ?>
-                    <img src="../<?php echo $_SESSION['profile_photo']; ?>" alt="User Profile Photo" class="img-thumbnail">
-                <?php endif; ?>
-                <button style="margin-right: 2%;" onclick="location.href='../UserAccount.php'"><?php echo $_SESSION['username'];?></button>
-                <a href="logout.php" class="btn btn-link" style="font-size: 2em;">LogOut</a>
-                <a href="../adminLogin.php" class="btn btn-link" style="font-size: 2em;">Admin Login</a>
+            <div class="col">
+                <div class="header2">
+                    <button style="margin-right: 2%;"><?php echo $_SESSION['username']; ?></button>
+                    <a href="php/logout.php" style="font-size: 2em;">LogOut&nbsp;</a>
+                    <a href="adminLogin.php" style="font-size: 2em;">&nbsp;Admin Login</a>
+                </div>
             </div>
         </div>
         <nav aria-label="breadcrumb">
@@ -85,28 +89,28 @@ session_start();?>
         <hr>
     </div>
     <?php
-    if(isset($_POST['storeName'])) {
+    if (isset($_POST['storeName'])) {
         $storeName = $_POST['storeName'];
-    ?>
-    <h2>Search for Product:</h2>
-    <form method="post" action="price_data_page.php"> 
-        <label for="productName">Product Name:</label>
-        <input type="text" id="productName" name="productName" placeholder="Enter product name...">
-        <label for="startDate">Start Date:</label>
-        <input type="date" name="startDate" id="startDate" value="2024-01-01" required>
-        <label for="endDate">End Date:</label>
-        <input type="date" name="endDate" id="endDate" value="2024-03-20" required>
-        <input type="hidden" name="storeName" value="<?php echo $storeName; ?>">
-        <button type="submit" name="search" id="buttonactions">Search</button>
-    </form>
-    <?php
+        ?>
+        <h2>Search for Product:</h2>
+        <form method="post" action="price_data_page.php">
+            <label for="productName">Product Name:</label>
+            <input type="text" id="productName" name="productName" placeholder="Enter product name...">
+            <label for="startDate">Start Date:</label>
+            <input type="date" name="startDate" id="startDate" value="2024-01-01" required>
+            <label for="endDate">End Date:</label>
+            <input type="date" name="endDate" id="endDate" value="2024-03-20" required>
+            <input type="hidden" name="storeName" value="<?php echo $storeName; ?>">
+            <button type="submit" name="search" id="buttonactions">Search</button>
+        </form>
+        <?php
     } else {
         echo "No store name provided.";
     }
     ?>
 
     <?php
-    if(isset($_POST['search'])) {
+    if (isset($_POST['search'])) {
         $query = "SELECT P.ProductID, Pr.PriceID, Pr.StoreID, Pr.Price, Pr.PriceDate, S.StoreName
                 FROM prices Pr
                 INNER JOIN products P ON Pr.ProductID = P.ProductID
@@ -130,7 +134,7 @@ session_start();?>
 
         if (count($prices) > 0) {
             echo "<h2>Price Data for Product '{$_POST['productName']}' at $storeName from {$_POST['startDate']} to {$_POST['endDate']}</h2>";
-            echo "<canvas id='priceChart'></canvas>"; 
+            echo "<canvas id='priceChart'></canvas>";
 
             echo "<script>
                     var ctx = document.getElementById('priceChart').getContext('2d');
@@ -158,7 +162,7 @@ session_start();?>
                     });
                   </script>";
 
-            echo "<form method='post' action='compare_prices.php'>"; 
+            echo "<form method='post' action='compare_prices.php'>";
             echo "<input type='hidden' name='productName' value='{$_POST['productName']}'>";
             echo "<input type='hidden' name='startDate' value='{$_POST['startDate']}'>";
             echo "<input type='hidden' name='endDate' value='{$_POST['endDate']}'>";
@@ -174,4 +178,5 @@ session_start();?>
         <p><i>Copyright &#169; 2024 Sandhu, Ruan and Vargas </i></p>
     </footer>
 </body>
+
 </html>

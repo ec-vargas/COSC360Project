@@ -1,7 +1,7 @@
 body {
     font-family: Tahoma, Helvetica, sans-serif;
     font-size: 0.9em;
-    background-color: #FEF9FF;
+    background-color: white;
 }
 
 h1,
@@ -31,7 +31,7 @@ p {
     font-size: 1.5rem;
     color: #090909;
     border-radius: 5px;
-    background-color: #6E9075;
+    background-color: #83ac8b;
     display: flex;
     margin: 1em;
     justify-content: center;
@@ -39,7 +39,7 @@ p {
 }
 
 .homebutton:hover {
-    background-color: #204ae2;
+    background-color: #1cb638;
 }
 
 .form-group {
@@ -110,9 +110,18 @@ p {
 }
 
 .container-fluid-2 {
-    background-color: #6874E8;
+    background-color: #bdedad !important;
     padding: 30px;
 }
+
+.d-flex.flex-column.align-items-center {
+    background-color: #bdedad !important;
+}
+
+.container-fluid-2.d-flex.flex-column.align-items-center {
+    background-color: #bdedad !important;
+}
+
 
 a {
     color: #21284c;
@@ -141,7 +150,7 @@ hr {
 .col-5 {
     float: left;
     margin-top: 30px;
-    background-color: rgba(245, 245, 220, 0.5);
+    background-color: rgba(236, 245, 220, 0.569);
     text-align: center;
     padding-top: 30px;
     align-items: center;
@@ -150,15 +159,15 @@ hr {
 .col-6,
 .col-8 {
     margin-top: 30px;
-    background-color: rgba(245, 245, 220, 0.5);
+    background-color: rgba(236, 245, 220, 0.569);
     text-align: center;
-    padding-top: 20px;
+    padding-top: 30px;
     align-items: center;
 }
 
 .col-10 {
     margin-top: 30px;
-    background-color: rgba(245, 245, 220, 0.5);
+    background-color: rgba(236, 245, 220, 0.569);
     text-align: center;
     padding-top: 20px;
     align-items: center;

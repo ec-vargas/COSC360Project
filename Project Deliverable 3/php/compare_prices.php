@@ -1,8 +1,9 @@
-<?php include 'dbconnection.php'; 
-session_start();?>
+<?php include 'dbconnection.php';
+session_start(); ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -68,25 +69,28 @@ session_start();?>
         }
     </style>
 </head>
+
 <body>
-<div class="container-fluid-2">
+    <div class="container-fluid-2">
         <div class="d-flex justify-content-between align-items-center">
             <?php
-                if (isset($_SESSION['username'])) {echo "<h1>GroceryPricer.ca</h1>";}
-                else {echo "<h1><a href='../home.html'>GroceryPricer.ca</a></h1>";}
+            if (isset($_SESSION['username'])) {
+                echo "<h1>GroceryPricer.ca</h1>";
+            } else {
+                echo "<h1><a href='../home.html'>GroceryPricer.ca</a></h1>";
+            }
             ?>
-            <div class="header2">
-                <?php if (isset ($_SESSION['profile_photo'])): ?>
-                    <img src="../<?php echo $_SESSION['profile_photo']; ?>" alt="User Profile Photo" class="img-thumbnail">
-                <?php endif; ?>
-                <button style="margin-right: 2%;" onclick="location.href='../UserAccount.php'"><?php echo $_SESSION['username'];?></button>
-                <a href="logout.php" style="font-size: 2em;">LogOut&nbsp;</a>
-                <a href="adminLogin.php" style="font-size: 2em;">&nbsp;Admin Login</a>
+            <div class="col">
+                <div class="header2">
+                    <button style="margin-right: 2%;"><?php echo $_SESSION['username']; ?></button>
+                    <a href="logout.php" style="font-size: 2em;">LogOut&nbsp;</a>
+                    <a href="adminLogin.php" style="font-size: 2em;">&nbsp;Admin Login</a>
+                </div>
             </div>
         </div>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="../main.php">Home</a></li>
+                <li class="breadcrumb-item"><a href="../main.php">Home</a></li>
                 <li class="breadcrumb-item"><a href="../searchStores.php">Search for Prices</a></li>
                 <li class="breadcrumb-item"><a href="price_data_page.php">Price Data</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Compare Prices</li>
@@ -94,61 +98,64 @@ session_start();?>
         </nav>
         <hr>
     </div>
-<form method="post" action="">
-    <label for="searchKeyword">Search for item:</label>
-    <input type="text" name="searchKeyword" id="searchKeyword" required>
-    <label for="startDate">Start Date:</label>
-    <input type="date" name="startDate" id="startDate" value="2024-01-01" required>
-    <label for="endDate">End Date:</label>
-    <input type="date" name="endDate" id="endDate" value="2024-03-20" required>
-    <button type="submit" name="search" id="buttonactions">Search</button>
-</form>
-<?php
-$storesData = [];
-if (isset($_POST['search'])) {
-    $searchKeyword = $_POST['searchKeyword'];
-    $startDate = $_POST['startDate'];
-    $endDate = $_POST['endDate'];
 
-    $query = "SELECT P.ProductID, Pr.PriceID, Pr.StoreID, Pr.Price, Pr.PriceDate, S.StoreName
+    <div class="col-8 justify-content-center">
+        <form method="post" action="">
+            <label for="searchKeyword">Search for item:</label>
+            <input type="text" name="searchKeyword" id="searchKeyword" required>
+            <label for="startDate">Start Date:</label>
+            <input type="date" name="startDate" id="startDate" value="2024-01-01" required>
+            <label for="endDate">End Date:</label>
+            <input type="date" name="endDate" id="endDate" value="2024-03-20" required>
+            <button type="submit" name="search" id="buttonactions">Search</button>
+        </form>
+    </div>
+    <?php
+    $storesData = [];
+    if (isset($_POST['search'])) {
+        $searchKeyword = $_POST['searchKeyword'];
+        $startDate = $_POST['startDate'];
+        $endDate = $_POST['endDate'];
+
+        $query = "SELECT P.ProductID, Pr.PriceID, Pr.StoreID, Pr.Price, Pr.PriceDate, S.StoreName
             FROM prices Pr
             INNER JOIN products P ON Pr.ProductID = P.ProductID
             INNER JOIN stores S ON Pr.StoreID = S.StoreID
             WHERE P.ProductName = ?
             AND Pr.PriceDate BETWEEN ? AND ?";
 
-    $statement = mysqli_prepare($connection, $query);
-    mysqli_stmt_bind_param($statement, "sss", $searchKeyword, $startDate, $endDate);
-    mysqli_stmt_execute($statement);
-    $result = mysqli_stmt_get_result($statement);
-    $prices = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        $statement = mysqli_prepare($connection, $query);
+        mysqli_stmt_bind_param($statement, "sss", $searchKeyword, $startDate, $endDate);
+        mysqli_stmt_execute($statement);
+        $result = mysqli_stmt_get_result($statement);
+        $prices = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-    
-    foreach ($prices as $price) {
-        $storeID = $price['StoreID'];
-        $storeName = $price['StoreName'];
-        $storesData[$storeID]['labels'][] = $price['PriceDate'];
-        $storesData[$storeID]['data'][] = $price['Price'];
-        $storesData[$storeID]['name'] = $storeName;
-    }
 
-    if (count($prices) > 0) {
-        echo "<h2>Price Data for Product '$searchKeyword' from $startDate to $endDate</h2>";
-
-        foreach ($storesData as $storeID => $storeData) {
-            echo "<div class='store-price-info'>";
-            echo "<h3>Store Name: {$storeData['name']}</h3>";
-            echo "<canvas id='priceChart$storeID'></canvas>";
-            echo "</div>";
+        foreach ($prices as $price) {
+            $storeID = $price['StoreID'];
+            $storeName = $price['StoreName'];
+            $storesData[$storeID]['labels'][] = $price['PriceDate'];
+            $storesData[$storeID]['data'][] = $price['Price'];
+            $storesData[$storeID]['name'] = $storeName;
         }
-    } else {
-        echo "No price data found for Product '$searchKeyword' within the specified date range.";
+
+        if (count($prices) > 0) {
+            echo "<h2>Price Data for Product '$searchKeyword' from $startDate to $endDate</h2>";
+
+            foreach ($storesData as $storeID => $storeData) {
+                echo "<div class='store-price-info'>";
+                echo "<h3>Store Name: {$storeData['name']}</h3>";
+                echo "<canvas id='priceChart$storeID'></canvas>";
+                echo "</div>";
+            }
+        } else {
+            echo "No price data found for Product '$searchKeyword' within the specified date range.";
+        }
     }
-}
-?>
-<?php
-foreach ($storesData as $storeID => $storeData) {
-    echo "<script>
+    ?>
+    <?php
+    foreach ($storesData as $storeID => $storeData) {
+        echo "<script>
         var ctx$storeID = document.getElementById('priceChart$storeID').getContext('2d');
         var priceChart$storeID = new Chart(ctx$storeID, {
             type: 'line',
@@ -173,11 +180,12 @@ foreach ($storesData as $storeID => $storeData) {
             }
         });
     </script>";
-}
-?>
+    }
+    ?>
     <hr>
     <footer>
         <p><i>Copyright &#169; 2024 Sandhu, Ruan and Vargas </i></p>
     </footer>
 </body>
+
 </html>

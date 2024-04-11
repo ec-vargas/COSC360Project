@@ -1,20 +1,4 @@
-<?php session_start();
-
-require_once "php/dbconnection.php";
-
-$sql = "SELECT ProductID, SearchCount, LastSearchDate FROM search";
-$results = mysqli_query($connection, $sql);
-$currentDate=date("Y-m-d");
-while($row = mysqli_fetch_assoc($results)) {
-    $ProductID = $row['ProductID'];
-    $lastSearchDate = $row['LastSearchDate'];
-    if($lastSearchDate < $currentDate) {
-    // Reset search counts if it's a new day
-        $sql = "UPDATE search SET SearchCount = 0 WHERE ProductID = $ProductID";
-        mysqli_query($connection, $sql);
-    }
-}
-?>
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html>
 
@@ -45,7 +29,7 @@ while($row = mysqli_fetch_assoc($results)) {
             text-align: center;
             background-color: #fff;
             padding: 10px;
-            
+
         }
 
         .product-card img {
@@ -67,8 +51,8 @@ while($row = mysqli_fetch_assoc($results)) {
                 var newprice = $(".inline").val();
                 var ProductId = "<?php echo $ProductID; ?>";
                 $.post("php/changeprice.php", { ProductId: ProductId, Price: newprice }, function (response) {
-                    if (response.length == 0) {alert("Price Updated");}
-                    else {alert("Error changing price.");}
+                    if (response.length == 0) { alert("Price Updated"); }
+                    else { alert("Error changing price."); }
                 });
             });
 
@@ -79,17 +63,23 @@ while($row = mysqli_fetch_assoc($results)) {
 <body>
     <div class="container-fluid-2">
         <div class="d-flex justify-content-between align-items-center">
-                <?php
-                    if (isset($_SESSION['username'])) {echo "<h1>GroceryPricer.ca</h1>";}
-                    else {echo "<h1><a href='home.html'>GroceryPricer.ca</a></h1>";}
-                ?>
+            <?php
+            if (isset($_SESSION['username'])) {
+                echo "<h1>GroceryPricer.ca</h1>";
+            } else {
+                echo "<h1><a href='home.html'>GroceryPricer.ca</a></h1>";
+            }
+            ?>
             <div class="header2">
-                <?php if (isset ($_SESSION['profile_photo'])): ?>
-                    <img src="<?php echo $_SESSION['profile_photo']; ?>" alt="User Profile Photo" class="img-thumbnail">
-                <?php endif; ?>
                 <?php
-                    if (isset($_SESSION['username'])) {echo "<button style='margin-right: 2%;' onclick=\"location.href='UserAccount.php'\">".$_SESSION['username']."</button>";}
-                    ?>
+                if (isset($_SESSION['profile_photo'])) {
+                    echo "<img src='../uploads/" . $_SESSION['profile_photo'] . "' alt='User Profile Photo' class='img-thumbnail'>";
+                }
+                if (isset($_SESSION['username'])) {
+                    echo "<button style='margin-right: 2%;'>" . $_SESSION['username'] . "</button>";
+                }
+                ?>
+
                 <a href="php/logout.php" style="font-size: 2em;">LogOut&nbsp;</a>
                 <a href="adminLogin.php" style="font-size: 2em;">&nbsp;Admin Login</a>
             </div>
