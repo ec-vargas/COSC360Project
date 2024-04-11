@@ -1,4 +1,37 @@
-<?php session_start();?>
+<?php
+// Database connection
+require_once "php/dbconnection.php";
+session_start();
+
+// Function to count admin users
+function countAdmins($connection) {
+    $sql = "SELECT COUNT(*) AS adminCount FROM admin";
+    $result = mysqli_query($connection, $sql);
+    $row = mysqli_fetch_assoc($result);
+    return $row['adminCount'];
+}
+
+// Function to count comments
+function countComments($connection) {
+    $sql = "SELECT COUNT(*) AS commentCount FROM comments";
+    $result = mysqli_query($connection, $sql);
+    $row = mysqli_fetch_assoc($result);
+    return $row['commentCount'];
+}
+
+// Function to count users
+function countUsers($connection) {
+    $sql = "SELECT COUNT(*) AS userCount FROM users";
+    $result = mysqli_query($connection, $sql);
+    $row = mysqli_fetch_assoc($result);
+    return $row['userCount'];
+}
+
+// Fetching counts
+$adminCount = countAdmins($connection);
+$userCount = countUsers($connection);
+$commentCount = countComments($connection);
+?>
 <!DOCTYPE html>
 <html>
 
@@ -53,12 +86,50 @@
             as
             Admin</button>
     </div>
-
+    <!-- Chart container -->
+    <div class="col-6 mx-auto" style="margin-top: 50px;">
+        <h2>Admin Statistics</h2>
+        <canvas id="adminChart" width="400" height="200"></canvas>
+    </div>
 
     <hr>
     <footer>
         <p><i>Copyright &#169; 2024 Sandhu, Ruan and Vargas </i></p>
     </footer>
+
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Data for admin, user, and comment counts
+        var adminCount = <?php echo $adminCount; ?>;
+        var userCount = <?php echo $userCount; ?>;
+        var commentCount = <?php echo $commentCount; ?>;
+
+        // Chart.js configuration
+        var ctx = document.getElementById('adminChart').getContext('2d');
+        var adminChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Admins', 'Users', 'Comments'],
+                datasets: [{
+                    label: 'Count',
+                    data: [adminCount, userCount, commentCount],
+                    backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(255, 99, 132, 0.2)', 'rgba(75, 192, 192, 0.2)'],
+                    borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>
+
+    
