@@ -1,4 +1,7 @@
-<?php session_start();?>
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -12,6 +15,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css" />
+    <!-- Add Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Add jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -19,12 +26,19 @@
         <div class="row align-items-center">
             <div class="col">
                 <?php
-                    if (isset($_SESSION['AdminUsername'])) {echo "<h1>GroceryPricer.ca</h1>";}
-                    else {echo "<h1><a href='home.html'>GroceryPricer.ca</a></h1>";}
+                    if (isset($_SESSION['AdminUsername'])) {
+                        echo "<h1>GroceryPricer.ca</h1>";
+                    } else {
+                        echo "<h1><a href='home.html'>GroceryPricer.ca</a></h1>";
+                    }
                 ?>
             </div>
             <div class="col text-end">
-            <button style="margin-right: 2%;"><?php if (isset($_SESSION['AdminUsername'])) {echo $_SESSION['AdminUsername'];}?></button>
+                <button style="margin-right: 2%;">
+                    <?php if (isset($_SESSION['AdminUsername'])) {
+                        echo $_SESSION['AdminUsername'];
+                    }?>
+                </button>
                 <button id="home" class="adminButton" onclick="location.href='adminOptions.php'">
                     <span>Admin Home</span>
                 </button>
@@ -70,10 +84,76 @@
             </section>
         </form>
     </div>
+    <div class="container">
+        <canvas id="userChart"></canvas>
+    </div>
+
     <hr>
     <footer>
         <p><i>Copyright &#169; 2024 Sandhu, Ruan and Vargas </i></p>
     </footer>
+
+ 
+   
+<!-- Chart.js script -->
+<script>
+    $(document).ready(function () {
+        // Function to fetch and display users
+        function fetchUsers() {
+            $.ajax({
+                url: 'php/fetchusers.php',
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    // Generate data for Chart.js
+                    var userCounts = {};
+                    data.forEach(function(user) {
+                        var registrationDate = user.RegistrationDate;
+                        if (userCounts[registrationDate]) {
+                            userCounts[registrationDate]++;
+                        } else {
+                            userCounts[registrationDate] = 1;
+                        }
+                    });
+
+                    var dates = Object.keys(userCounts);
+                    var counts = Object.values(userCounts);
+
+                    // Create a bar chart
+                    var ctx = document.getElementById('userChart').getContext('2d');
+                    var userChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: dates,
+                            datasets: [{
+                                label: 'Number of Users Registered',
+                                data: counts,
+                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    precision: 0 // Display whole numbers only
+                                }
+                            }
+                        }
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        }
+
+        // Call the fetchUsers function initially
+        fetchUsers();
+    });
+</script>
+
 </body>
 
 </html>
