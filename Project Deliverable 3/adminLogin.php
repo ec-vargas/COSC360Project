@@ -24,9 +24,11 @@
                 ?>
             </div>
             <div class="col text-end">
-                <?php
-                    if (isset($_SESSION['username'])) {echo "<button style='margin-right: 2%;'>".$_SESSION['username']."</button>";}
-                    ?>
+                <?php if (isset ($_SESSION['profile_photo'])): ?>
+                    <img src="<?php echo $_SESSION['profile_photo']; ?>" alt="User Profile Photo" class="img-thumbnail">
+                <?php endif; 
+                    if (isset($_SESSION['username'])) {echo "<button style='margin-right: 2%;' onclick=\"location.href='UserAccount.php'\">".$_SESSION['username']."</button>";}
+                ?>
             </div>
         </div>
         <nav aria-label="breadcrumb">

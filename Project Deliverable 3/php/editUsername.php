@@ -1,4 +1,7 @@
 <?php
+    
+    session_start();
+    
     require_once "dbconnection.php";
     $UserID;
     $newUsername;
@@ -10,6 +13,8 @@
         $newUsername = $_POST['newUsername'];
     }
     
+    $_SESSION['username'] = $newUsername;
+
     $sql = "UPDATE users SET Username = '$newUsername' WHERE UserID = '".$UserID."';";
 
     mysqli_query($connection, $sql);

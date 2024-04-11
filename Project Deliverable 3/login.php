@@ -17,6 +17,12 @@
 <body>
     <div class="container-fluid-2">
         <h1><a href="home.html">GroceryPricer.ca</a></h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="home.html">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Login</li>
+            </ol>
+        </nav>
         <hr>
     </div>
 

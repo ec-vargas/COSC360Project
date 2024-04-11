@@ -10,7 +10,7 @@
         crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="css/style.css" />
     <style>
         h2 {
             margin-left: 2%;
@@ -27,19 +27,19 @@
     <div class="container-fluid-2">
         <div class="row">
             <div class="col">
-                <h1><a href=" ../home.html">GroceryPricer.ca</a></h1>
+                <h1><a href=" home.html">GroceryPricer.ca</a></h1>
             </div>
             <div class="col">
                 <div class="header2">
-                    <a href="loginbackend.php" style="font-size: 2em;">Login&nbsp;</a>
+                    <a href="login.php" style="font-size: 2em;">Login&nbsp;</a>
                     <a href="adminLogin.php" style="font-size: 2em;">&nbsp;Admin Login</a>
                 </div>
             </div>
         </div>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="../home.html">Home</a></li>
-                <li class="breadcrumb-item"><a href="../guest.php">Main</a></li>
+                <li class="breadcrumb-item"><a href="home.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="guest.php">Search</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Product Results</li>
             </ol>
         </nav>
@@ -54,7 +54,7 @@
             $contains = $_POST["contains"];
         }
         echo "<h2>Results for Keyword Search '" . $contains . "'</h2>";
-        echo "<Button id='button' onclick=\"location.href='../guest.php'\">Back to Search</Button>";
+        echo "<Button id='button' onclick=\"location.href='guest.php'\">Back to Search</Button>";
 
         $sql = "SELECT p.*, c.CategoryName, pr.Price, s.StoreName
                 FROM products p 
@@ -72,26 +72,21 @@
             $resultsperrow = 0;
             echo "<div class='row align-items-start'>";
             while ($row = mysqli_fetch_assoc($results)) {
-                if (!empty ($_POST["category"])) {
-                    if (!(strpos(strtoupper($row['CategoryName']), strtoupper($category)) !== false)) {
-                        continue;
-                    }
-                }
-                if (!empty ($_POST["store-name"])) {
-                    if (!(strpos(strtoupper($row['StoreName']), strtoupper($store)) !== false)) {
-                        continue;
-                    }
-                }
                 // Output product details inline with the image, name, price, and store name
         
                 if ($resultsperrow == 4) {
                     echo "</div><div class='row row-cols-2 row-cols-lg-4 g-2 g-lg-3'>";
-                    echo "<div class='col'><a href='../signup.html'><img src='../" . $row['Photo'] . "' width='200px' height='200px'></a><br>" . $row['ProductName'] . " - $" . $row['Price'] . " at " . $row['StoreName'] . "</div>";
+                    echo "<div class='col'><a href='signup.html'><img src='" . $row['Photo'] . "' width='200px' height='200px'></a><br>" . $row['ProductName'] . " - $" . $row['Price'] . " at " . $row['StoreName'] . "</div>";
                     $resultsperrow = 1;
                 } else {
-                    echo "<div class='col'><a href='../signup.html'><img src='../" . $row['Photo'] . "' width='200px' height='200px'></a><br>" . $row['ProductName'] . " - $" . $row['Price'] . " at " . $row['StoreName'] . "</div>";
+                    echo "<div class='col'><a href='signup.html'><img src='" . $row['Photo'] . "' width='200px' height='200px'></a><br>" . $row['ProductName'] . " - $" . $row['Price'] . " at " . $row['StoreName'] . "</div>";
                     $resultsperrow++;
                 }
+                $SearchTime = date("Y/m/d");
+                $ProductID = $row['ProductID'];
+                $sql = "INSERT INTO search (ProductID, SearchCount, LastSearchDate) VALUES ('$ProductID', 1, '$SearchTime') 
+                        ON DUPLICATE KEY UPDATE SearchCount = SearchCount + 1, LastSearchDate = VALUES(LastSearchDate);";
+                mysqli_query($connection, $sql);
             }
         }
         mysqli_free_result($results);

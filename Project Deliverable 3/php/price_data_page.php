@@ -67,7 +67,10 @@ session_start();?>
                 else {echo "<h1><a href='../home.html'>GroceryPricer.ca</a></h1>";}
             ?>
             <div class="header2">
-                <button style="margin-right: 2%;"><?php echo $_SESSION['username'];?></button>
+                <?php if (isset ($_SESSION['profile_photo'])): ?>
+                    <img src="../<?php echo $_SESSION['profile_photo']; ?>" alt="User Profile Photo" class="img-thumbnail">
+                <?php endif; ?>
+                <button style="margin-right: 2%;" onclick="location.href='../UserAccount.php'"><?php echo $_SESSION['username'];?></button>
                 <a href="logout.php" class="btn btn-link" style="font-size: 2em;">LogOut</a>
                 <a href="../adminLogin.php" class="btn btn-link" style="font-size: 2em;">Admin Login</a>
             </div>

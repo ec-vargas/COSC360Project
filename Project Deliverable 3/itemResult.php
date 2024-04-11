@@ -35,7 +35,10 @@
             </div>
             <div class="col">
                 <div class="header2">
-                    <button style="margin-right: 2%;"><?php echo $_SESSION['username'];?></button>
+                    <?php if (isset ($_SESSION['profile_photo'])): ?>
+                        <img src="<?php echo $_SESSION['profile_photo']; ?>" alt="User Profile Photo" class="img-thumbnail">
+                    <?php endif; ?>
+                    <button style="margin-right: 2%;" onclick="location.href='UserAccount.php'"><?php echo $_SESSION['username'];?></button>
                     <a href="php/logout.php" style="font-size: 2em;">LogOut&nbsp;</a>
                     <a href="adminLogin.php" style="font-size: 2em;">&nbsp;Admin Login</a>
                 </div>
@@ -76,16 +79,6 @@
                     $resultsperrow = 0;
                     echo "<div class='row align-items-start'>";
                     while ($row = mysqli_fetch_assoc($results)) {
-                        if (!empty ($_POST["category"])) {
-                            if (!(strpos(strtoupper($row['CategoryName']), strtoupper($category)) !== false)) {
-                                continue;
-                            }
-                        }
-                        if (!empty ($_POST["store-name"])) {
-                            if (!(strpos(strtoupper($row['StoreName']), strtoupper($store)) !== false)) {
-                                continue;
-                            }
-                        }
                         // Output product details inline with the image, name, price, and store name
                         
                         if ($resultsperrow == 4) {
@@ -96,11 +89,13 @@
                             echo "<div class='col'><a href='UserItem.php?ProductID=" . $row['ProductID'] . "&Contains=".$contains."'><img src='" . $row['Photo'] . "' width='200px' height='200px'></a><br>" . $row['ProductName'] . " - $" . $row['Price'] . " at " . $row['StoreName'] . "</div>";
                             $resultsperrow++;
                         }
-                if (!empty ($_POST["store-name"])) {
-                    if (!(strpos(strtoupper($row['StoreName']), strtoupper($store)) !== false)) {
-                        continue;
-                    }
-                }
+                        
+                        //echo "</div>";
+                        $SearchTime = date("Y/m/d");
+                        $ProductID = $row['ProductID'];
+                        $sql = "INSERT INTO search (ProductID, SearchCount, LastSearchDate) VALUES ('$ProductID', 1, '$SearchTime') 
+                                ON DUPLICATE KEY UPDATE SearchCount = SearchCount + 1, LastSearchDate = VALUES(LastSearchDate);";
+                        mysqli_query($connection, $sql);
                 // Output product details inline with the image, name, price, and store name
             }
         }

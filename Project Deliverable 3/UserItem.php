@@ -18,7 +18,7 @@ if (isset ($_GET['ProductID'])) {
         crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href=" css/style.css" />
+    <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
@@ -32,7 +32,10 @@ if (isset ($_GET['ProductID'])) {
             </div>
             <div class="col">
                 <div class="header2">
-                    <button style="margin-right: 2%;"><?php echo $_SESSION['username'];?></button>
+                    <?php if (isset ($_SESSION['profile_photo'])): ?>
+                        <img src="<?php echo $_SESSION['profile_photo']; ?>" alt="User Profile Photo" class="img-thumbnail">
+                    <?php endif; ?>
+                    <button style="margin-right: 2%;" onclick="location.href='UserAccount.php'"><?php echo $_SESSION['username'];?></button>
                     <a href="php/logout.php" style="font-size: 2em;">LogOut&nbsp;</a>
                     <a href="adminLogin.php" style="font-size: 2em;">&nbsp;Admin Login</a>
                 </div>

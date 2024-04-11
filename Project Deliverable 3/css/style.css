@@ -204,3 +204,8 @@ hr {
 .breadcrumb-item {
     margin-left: 1%;
 }
+
+.img-thumbnail {
+    width: 30px;
+    height: 30px;
+}

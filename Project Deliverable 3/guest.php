@@ -1,3 +1,19 @@
+<?php
+    require_once "php/dbconnection.php";
+
+    $sql = "SELECT ProductID, SearchCount, LastSearchDate FROM search";
+    $results = mysqli_query($connection, $sql);
+    $currentDate=date("Y-m-d");
+    while($row = mysqli_fetch_assoc($results)) {
+        $ProductID = $row['ProductID'];
+        $lastSearchDate = $row['LastSearchDate'];
+        if($lastSearchDate < $currentDate) {
+        // Reset search counts if it's a new day
+            $sql = "UPDATE search SET SearchCount = 0 WHERE ProductID = $ProductID";
+            mysqli_query($connection, $sql);
+        }
+    }
+    ?>
 <!DOCTYPE html>
 <html>
 
@@ -26,7 +42,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="home.html">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Main</li>
+                <li class="breadcrumb-item active" aria-current="page">Search</li>
             </ol>
         </nav>
         <hr>
@@ -55,11 +71,12 @@
     <div class="container">
         <div class="row">
             <?php
-            require_once "php/dbconnection.php";
+            
             // Fetch lowest prices for products with photos
-            $sql = "SELECT p.ProductName, pr.Price, p.Photo
+            $sql = "SELECT p.ProductName, pr.Price, p.Photo, s.SearchCount
         FROM products p
         INNER JOIN prices pr ON p.ProductID = pr.ProductID
+        LEFT JOIN search s ON p.ProductID = s.ProductID
         ORDER BY pr.Price ASC
         LIMIT 5";
             $result = mysqli_query($connection, $sql);
@@ -69,7 +86,11 @@
             echo "<div class='row'>";
             while ($row = mysqli_fetch_assoc($result)) {
                 echo "<div class='col'>";
-                echo "<img src='" . $row['Photo'] . "' alt='" . $row['ProductName'] . "' style='width: 200px; height: 200px;'>";
+                if ($row['SearchCount'] > 3) {
+                    echo "<img style='box-shadow: 3px 3px 20px yellow, 3px 3px 20px orange, 3px 3px 20px orangered; height: 200px; width: 200px' src='" . $row['Photo'] . "' alt='" . $row['ProductName'] . "'>";
+                } else {
+                    echo "<img style='height: 200px; width: 200px' src='" . $row['Photo'] . "' alt='" . $row['ProductName'] . "'>";
+                }
                 echo "<h4>" . $row['ProductName'] . "</h4>";
                 echo "<p>Price: $" . $row['Price'] . "</p>";
                 echo "</div>";

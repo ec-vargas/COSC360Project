@@ -1,4 +1,20 @@
-<?php session_start();?>
+<?php session_start();
+
+require_once "php/dbconnection.php";
+
+$sql = "SELECT ProductID, SearchCount, LastSearchDate FROM search";
+$results = mysqli_query($connection, $sql);
+$currentDate=date("Y-m-d");
+while($row = mysqli_fetch_assoc($results)) {
+    $ProductID = $row['ProductID'];
+    $lastSearchDate = $row['LastSearchDate'];
+    if($lastSearchDate < $currentDate) {
+    // Reset search counts if it's a new day
+        $sql = "UPDATE search SET SearchCount = 0 WHERE ProductID = $ProductID";
+        mysqli_query($connection, $sql);
+    }
+}
+?>
 <!DOCTYPE html>
 <html>
 
@@ -29,6 +45,7 @@
             text-align: center;
             background-color: #fff;
             padding: 10px;
+            
         }
 
         .product-card img {
@@ -37,7 +54,26 @@
             object-fit: cover;
             margin-bottom: 10px;
         }
+
+        .img-thumbnail {
+            width: 30px;
+            height: 30px;
+        }
     </style>
+    <script>
+        $(document).ready(function () {
+
+            $("#contains").click(function () {
+                var newprice = $(".inline").val();
+                var ProductId = "<?php echo $ProductID; ?>";
+                $.post("php/changeprice.php", { ProductId: ProductId, Price: newprice }, function (response) {
+                    if (response.length == 0) {alert("Price Updated");}
+                    else {alert("Error changing price.");}
+                });
+            });
+
+        });
+    </script>
 </head>
 
 <body>
@@ -52,7 +88,7 @@
                     <img src="<?php echo $_SESSION['profile_photo']; ?>" alt="User Profile Photo" class="img-thumbnail">
                 <?php endif; ?>
                 <?php
-                    if (isset($_SESSION['username'])) {echo "<button style='margin-right: 2%;'>".$_SESSION['username']."</button>";}
+                    if (isset($_SESSION['username'])) {echo "<button style='margin-right: 2%;' onclick=\"location.href='UserAccount.php'\">".$_SESSION['username']."</button>";}
                     ?>
                 <a href="php/logout.php" style="font-size: 2em;">LogOut&nbsp;</a>
                 <a href="adminLogin.php" style="font-size: 2em;">&nbsp;Admin Login</a>
@@ -90,9 +126,10 @@
                     // Connect to your database
                     require_once "php/dbconnection.php";
                     // Fetch lowest prices for products with photos
-                    $sql = "SELECT p.ProductName, pr.Price, p.Photo
+                    $sql = "SELECT p.ProductID, p.ProductName, pr.Price, p.Photo, s.SearchCount
                     FROM products p
                     INNER JOIN prices pr ON p.ProductID = pr.ProductID
+                    LEFT JOIN search s ON p.ProductID = s.ProductID
                     ORDER BY pr.Price
                     LIMIT 10";
                     $result = mysqli_query($connection, $sql);
@@ -100,7 +137,11 @@
                     // Display products with lowest prices and photos
                     while ($row = mysqli_fetch_assoc($result)) {
                         echo "<div class='product-card'>";
-                        echo "<img src='" . $row['Photo'] . "' alt='" . $row['ProductName'] . "'>";
+                        if ($row['SearchCount'] > 3) {
+                            echo "<img style='box-shadow: 3px 3px 20px yellow, 3px 3px 20px orange, 3px 3px 20px orangered;' src='" . $row['Photo'] . "' alt='" . $row['ProductName'] . "'>";
+                        } else {
+                            echo "<img src='" . $row['Photo'] . "' alt='" . $row['ProductName'] . "'>";
+                        }
                         echo "<h4>" . $row['ProductName'] . "</h4>";
                         echo "<p>Price: $" . $row['Price'] . "</p>";
                         echo "</div>";
@@ -119,7 +160,6 @@
 
     <h3 class="btn-link" style=" margin-left: 4%; margin-bottom: 5px;"><a href="searchStores.php">Search For
             Stores</a></h3>
-
 
     <hr>
     <footer>
