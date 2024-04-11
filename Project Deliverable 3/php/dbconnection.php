@@ -1,9 +1,9 @@
 <?php
 
 $host = "localhost";
-$database = "GPT";
-$user = "root";
-$password = "66060229";
+$database = "db_83066985";
+$user = "83066985";
+$password = "83066985";
 
 $connection = mysqli_connect($host, $user, $password, $database);
 

@@ -73,7 +73,10 @@ session_start(); ?>
             ?>
             <div class="col">
                 <div class="header2">
-                    <button style="margin-right: 2%;"><?php echo $_SESSION['username']; ?></button>
+                    <?php if (isset ($_SESSION['profile_photo'])): ?>
+                        <img src="../<?php echo $_SESSION['profile_photo']; ?>" alt="User Profile Photo" class="img-thumbnail">
+                    <?php endif; ?>
+                    <button style="margin-right: 2%;" onclick="location.href='../UserAccount.php'"><?php echo $_SESSION['username'];?></button>
                     <a href="php/logout.php" style="font-size: 2em;">LogOut&nbsp;</a>
                     <a href="adminLogin.php" style="font-size: 2em;">&nbsp;Admin Login</a>
                 </div>

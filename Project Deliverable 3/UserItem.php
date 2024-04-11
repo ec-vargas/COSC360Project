@@ -1,3 +1,11 @@
+<?php
+require_once "php/dbconnection.php";
+session_start();
+$ProductID;
+if (isset ($_GET['ProductID'])) {
+    $ProductID = $_GET['ProductID'];
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +13,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product - User Panel</title>
     <link rel="stylesheet" href="css/reset.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
@@ -24,22 +37,22 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container-fluid-2">
         <div class="row align-items-center">
             <div class="col">
                 <?php
-                    session_start();
-                    if (isset($_SESSION['username'])) {
-                        echo "<h1>GroceryPricer.ca</h1>";
-                    } else {
-                        echo "<h1><a href='home.html'>GroceryPricer.ca</a></h1>";
-                    }
+                    if (isset($_SESSION['username'])) {echo "<h1>GroceryPricer.ca</h1>";}
+                    else {echo "<h1><a href='home.html'>GroceryPricer.ca</a></h1>";}
                 ?>
             </div>
             <div class="col">
                 <div class="header2">
-                    <button style="margin-right: 2%;"><?php echo $_SESSION['username'];?></button>
+                    <?php if (isset ($_SESSION['profile_photo'])): ?>
+                        <img src="<?php echo $_SESSION['profile_photo']; ?>" alt="User Profile Photo" class="img-thumbnail">
+                    <?php endif; ?>
+                    <button style="margin-right: 2%;" onclick="location.href='UserAccount.php'"><?php echo $_SESSION['username'];?></button>
                     <a href="php/logout.php" style="font-size: 2em;">LogOut&nbsp;</a>
                     <a href="adminLogin.php" style="font-size: 2em;">&nbsp;Admin Login</a>
                 </div>
@@ -49,11 +62,9 @@
     </div>
 
     <div class="col-6 mx-auto">
- 
+        <h2 class="sheaders">Item Details</h2>
         <section>
             <?php
-            require_once "php/dbconnection.php";
-
             $ProductID = $_GET['ProductID'];
             $contains = $_GET['Contains'];
 
@@ -83,11 +94,35 @@
             <div id="commentsContainer">
                 <!-- Comments will be displayed here -->
             </div>
-        </div>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script>
+                $(document).ready(function () {
 
+                    $("#post").click(function () {
+                        var newcomment = $("#usercomment").val();
+                        var ProductId = "<?php echo $ProductID; ?>";
+                        var Username = "<?php echo $_SESSION['username']; ?>";
+                        $.post("php/createpost.php", { Comment: newcomment, Username: Username, ProductId: ProductId }, function (response) {
+                            if (response.length == 0) {alert("Post Created.");}
+                            else {alert("Error creating post.");}
+                        });
+                    });
+
+                });
+            </script>
+        </div>
+        <?php
+        $sql = "SELECT * FROM comments JOIN users on comments.UserID = users.UserID WHERE ProductId = '$ProductID'";
+        $results = mysqli_query($connection, $sql);
+        while ($row = mysqli_fetch_assoc($results)) {
+            echo "<div id='productcomments'>" . $row['Comment'] . "<br> - " . $row['Username'] . "</div>";
+        }
+        mysqli_free_result($results);
+        mysqli_close($connection);
+        ?>
         <form id="find-items-form" method="POST" action="itemResult.php">
             <input type="hidden" name="contains" value="<?php echo $contains; ?>">
-            <button id="BacktoSearch" type="submit">Back to Results</button>
+            <button id="BacktoSearch" type="submit onclick="location.href='itemResult.php'">Back to Results</button>
         </form>
         <hr>
     </div>
@@ -95,6 +130,7 @@
     <footer>
         <p><i>Copyright &#169; 2024 Sandhu, Ruan and Vargas </i></p>
     </footer>
+
 
     <!-- JavaScript section -->
     <script>
@@ -145,4 +181,5 @@
 </script>
 
 </body>
+
 </html>

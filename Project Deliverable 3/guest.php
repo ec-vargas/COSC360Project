@@ -48,7 +48,7 @@
         <hr>
     </div>
 
-    <form method="POST" action="php/guestItemResult.php">
+    <form method="POST" action="guestItemResult.php">
         <section>
             <div class="container">
                 <div class="row">
