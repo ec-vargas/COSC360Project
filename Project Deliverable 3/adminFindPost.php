@@ -1,4 +1,3 @@
-<?php session_start();?>
 <!DOCTYPE html>
 <html>
 
@@ -6,9 +5,6 @@
     <meta charset="utf-8">
     <title>Find Post - Admin Panel</title>
     <link rel="stylesheet" href="css/reset.css" />
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css" />
@@ -19,12 +15,20 @@
         <div class="row align-items-center">
             <div class="col">
                 <?php
-                    if (isset($_SESSION['AdminUsername'])) {echo "<h1>GroceryPricer.ca</h1>";}
-                    else {echo "<h1><a href='home.html'>GroceryPricer.ca</a></h1>";}
+                    session_start();
+                    if (isset($_SESSION['AdminUsername'])) {
+                        echo "<h1>GroceryPricer.ca</h1>";
+                    } else {
+                        echo "<h1><a href='home.html'>GroceryPricer.ca</a></h1>";
+                    }
                 ?>
             </div>
             <div class="col text-end">
-                <button style="margin-right: 2%;"><?php if (isset($_SESSION['AdminUsername'])) {echo $_SESSION['AdminUsername'];}?></button>
+                <button style="margin-right: 2%;">
+                    <?php if (isset($_SESSION['AdminUsername'])) {
+                        echo $_SESSION['AdminUsername'];
+                    }?>
+                </button>
                 <button id="home" class="adminButton" onclick="location.href='adminOptions.php'">
                     <span>Admin Home</span>
                 </button>
@@ -73,11 +77,63 @@
             </section>
         </form>
     </div>
-
+    <!-- Display comments count per day here -->
+    <div id="comments-container" class="container">
+        <canvas id="commentsChart"></canvas>
+    </div>
     <hr>
     <footer>
         <p><i>Copyright &#169; 2024 Sandhu, Ruan and Vargas </i></p>
     </footer>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Function to fetch and display comments count per day
+            function fetchComments() {
+                $.ajax({
+                    url: 'php/fetchallcomments.php', // Update the URL
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        // Prepare data for Chart.js
+                        var labels = Object.keys(data);
+                        var counts = Object.values(data);
+
+                        // Generate line chart
+                        var ctx = document.getElementById('commentsChart').getContext('2d');
+                        var commentsChart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: labels,
+                                datasets: [{
+                                    label: 'Comments per Day',
+                                    data: counts,
+                                    fill: false,
+                                    borderColor: 'rgb(75, 192, 192)',
+                                    tension: 0.1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+
+            // Call the fetchComments function initially
+            fetchComments();
+        });
+    </script>
 </body>
 
 </html>
