@@ -95,23 +95,8 @@ if (isset ($_GET['ProductID'])) {
                 <!-- Comments will be displayed here -->
             </div>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-            <script>
-                $(document).ready(function () {
-
-                    $("#post").click(function () {
-                        var newcomment = $("#usercomment").val();
-                        var ProductId = "<?php echo $ProductID; ?>";
-                        var Username = "<?php echo $_SESSION['username']; ?>";
-                        $.post("php/createpost.php", { Comment: newcomment, Username: Username, ProductId: ProductId }, function (response) {
-                            if (response.length == 0) {alert("Post Created.");}
-                            else {alert("Error creating post.");}
-                        });
-                    });
-
-                });
-            </script>
         </div>
-        <?php
+        <!-- <?php
         $sql = "SELECT * FROM comments JOIN users on comments.UserID = users.UserID WHERE ProductId = '$ProductID'";
         $results = mysqli_query($connection, $sql);
         while ($row = mysqli_fetch_assoc($results)) {
@@ -119,7 +104,7 @@ if (isset ($_GET['ProductID'])) {
         }
         mysqli_free_result($results);
         mysqli_close($connection);
-        ?>
+        ?> -->
         <form id="find-items-form" method="POST" action="itemResult.php">
             <input type="hidden" name="contains" value="<?php echo $contains; ?>">
             <button id="BacktoSearch" type="submit onclick="location.href='itemResult.php'">Back to Results</button>
@@ -167,8 +152,8 @@ if (isset ($_GET['ProductID'])) {
                     });
                     // Construct HTML for comment
                     html += '<div class="comment">';
-                    html += '<p>' + comment['Comment'] + '</p>';
-                    html += '<p>Posted by: ' + comment['Username'] + '</p>';
+                    html += '<p>' + comment['Comment'] + '   </p>';
+                    html += '<p>Posted by: ' + comment['Username'] + '</p><br>';
                     html += '<p class="date">Date: ' + formattedDate + '</p>';
                     html += '</div>';
                 });

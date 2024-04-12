@@ -488,7 +488,7 @@ CREATE TABLE `Users` (
   `Password` varchar(100) NOT NULL,
   `Email` varchar(100) NOT NULL,
   `RegistrationDate` timestamp NOT NULL DEFAULT current_timestamp(),
-  `ProfilePicture` varchar(255) DEFAULT NULL
+  `ProfilePicture` blob DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --Default Admin: ID - 1, Username - Admin, Password - Admin, Email - Admin@ubc.ca 

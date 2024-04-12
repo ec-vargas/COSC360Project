@@ -68,11 +68,22 @@
             }
             }
 
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             
-        $sql = "INSERT INTO users (Email, Username, Password, ProfilePicture) VALUES('$email', '$username', '$password','$target_file');";
+            $imagedata = file_get_contents($target_file);
 
-        if ($connection->query($sql) === TRUE) {
-            // Registration successful
+        $sql = "INSERT INTO users (Email, Username, Password, ProfilePicture) VALUES(?,?,?,?);";
+        // '$email', '$username', '$hashed_password','$target_file'
+        if ($stmt = mysqli_stmt_init($connection)) { //init prepared statement object 
+        mysqli_stmt_prepare($stmt, $sql);
+        $null = NULL;
+            mysqli_stmt_bind_param($stmt, "sssb", $email, $username, $hashed_password, $null);
+
+            mysqli_stmt_send_long_data($stmt, 3, $imagedata);
+
+            $result = mysqli_stmt_execute($stmt) or die(mysqli_stmt_error($stmt));
+                // run the statement
+                mysqli_stmt_close($stmt);
             $_SESSION['username'] = $username;
             $_SESSION['profile_photo'] = $target_file;
             header("Location: main.php");
