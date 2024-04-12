@@ -95,7 +95,7 @@
                         continue;
                     }
                 }
-                echo "<div><img class='img-thumbnail' src='" . $row['ProfilePicture'] . "' /><p><a href='adminEditUser.php?email=" . $row['Email'] . "'>" . $row['Username'] . "</a></p><br>";
+                echo "<div><img src=\"data:image/jpeg;base64,".base64_encode($row['ProfilePicture'])."\"class='img-thumbnail' /><p><a href='adminEditUser.php?email=" . $row['Email'] . "'>" . $row['Username'] . "</a></p><br>";
                 echo "Email: " . $row['Email'] . "<br>";
                 echo "Date joined: " . $row['RegistrationDate'] . "</div>";
             }
