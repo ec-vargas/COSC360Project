@@ -67,13 +67,11 @@
         if (isset ($_GET["email"])) {
             $email = $_GET["email"];
         }
-
             $sql = "SELECT * FROM users;";
-
             $results = mysqli_query($connection, $sql);
             while ($row = mysqli_fetch_assoc($results)) {
                 if ($row['Email'] === $email) {
-                    echo "<div><img class='img-thumbnail' src='".$row['ProfilePicture']."' width = 150px height = 150px/><p id='user'>".$row['Username']."</p><br>";
+                    echo "<div><img src=\"data:image/jpeg;base64,".base64_encode($row['ProfilePicture'])."\"class='img-thumbnail' /><p><a href='adminEditUser.php?email=" . $row['Email'] . "'>" . $row['Username'] . "</a></p><br>";
                     echo "Email: ".$row['Email']."<br><br>";
                     echo "Date joined: ".$row['RegistrationDate']."</div>";
                     echo "<script>var userId = " . json_encode($row['UserID']) . ";</script>";
