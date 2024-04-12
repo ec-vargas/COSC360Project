@@ -50,11 +50,6 @@
         $uploadOk = 0;
         }
 
-        // Allow certain file formats
-        if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "gif" ) {
-            echo "Sorry, only JPG, PNG & GIF files are allowed.";
-            $uploadOk = 0;
-            }
 
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             
