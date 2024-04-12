@@ -84,10 +84,10 @@ while($row = mysqli_fetch_assoc($results)) {
                     else {echo "<h1><a href='home.html'>GroceryPricer.ca</a></h1>";}
                 ?>
             <div class="header2">
-                <?php if (isset ($_SESSION['profile_photo'])): ?>
-                    <img src="<?php echo $_SESSION['profile_photo']; ?>" alt="User Profile Photo" class="img-thumbnail">
-                <?php endif; ?>
-                <?php
+                <?php if(isset($_SESSION['profile_photo'])) {?>
+                    <img src="data:image/jpeg;base64,<?php echo $_SESSION['profile_photo']?>" alt="User Profile Photo" class="img-thumbnail">
+                <?php }?>
+                    <?php
                     if (isset($_SESSION['username'])) {echo "<button style='margin-right: 2%;' onclick=\"location.href='UserAccount.php'\">".$_SESSION['username']."</button>";}
                     ?>
                 <a href="php/logout.php" style="font-size: 2em;">LogOut&nbsp;</a>

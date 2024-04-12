@@ -68,9 +68,7 @@
                 ?>
             </div>
             <div class="col text-end">
-                <?php if (isset ($_SESSION['profile_photo'])): ?>
-                    <img src="<?php echo $_SESSION['profile_photo']; ?>" alt="User Profile Photo" class="img-thumbnail">
-                <?php endif; ?>
+            <img src="data:image/jpeg;base64,<?php echo $_SESSION['profile_photo']?>" alt="User Profile Photo" class="img-thumbnail">
                 <button style="margin-right: 2%;"><?php echo $_SESSION['username'];?></button>
                 <a href="php/logout.php" style="font-size: 2em;">LogOut&nbsp;</a>
                 <a href="adminLogin.php" style="font-size: 2em;">&nbsp;Admin Login</a>
@@ -97,7 +95,7 @@
             $results = mysqli_query($connection, $sql);
             while ($row = mysqli_fetch_assoc($results)) {
                 if ($row['Username'] === $username) {
-                    echo "<div><img class='img-thumbnail' src='".$row['ProfilePicture']."' width = 150px height = 150px/><p id='user'><strong> Username: </strong>".$row['Username']."</p><br>";
+                    echo "<div><img src=\"data:image/jpeg;base64,".$_SESSION['profile_photo']."\" alt=\"User Profile Photo\" class=\"img-thumbnail\" width = 150px height = 150px/><p id='user'><strong> Username: </strong>".$row['Username']."</p><br>";
                     echo "<strong>Email: </strong>".$row['Email']."<br><br>";
                     echo "<strong>Date joined: </strong>".$row['RegistrationDate']."</div>";
                     echo "<script>var userId = " . json_encode($row['UserID']) . ";</script>";

@@ -18,17 +18,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
 
-        if ($password === $row['Password']) {
+        if (password_verify($password, $row['Password'])) {
             // Password is correct, set up session
             $_SESSION['username'] = $username;
 
             // Fetch profile photo for the signed-in user
-            $profile_sql = "SELECT ProfilePicture FROM Users WHERE Username = '$username'";
+            $profile_sql = "SELECT ProfilePicture FROM users WHERE Username = '$username'";
             $profile_result = $connection->query($profile_sql);
 
             if ($profile_result->num_rows > 0) {
                 $profile_row = $profile_result->fetch_assoc();
-                $_SESSION['profile_photo'] = $profile_row['ProfilePicture'];
+                $profile_photo_data = $profile_row['ProfilePicture'];
+                $_SESSION['profile_photo'] = base64_encode($profile_photo_data);
             }
 
             // Redirect to main page
@@ -38,7 +39,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             // Redirect to login page with error message "Invalid password."
             header("Location: ../login.php?error=Invalid password");
-            echo $row['Password'];
             $connection->close();
             exit();
         }
